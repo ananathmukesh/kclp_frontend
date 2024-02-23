@@ -1,0 +1,105 @@
+.App {
+  background-color: white;
+}
+
+.Auth-form-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+}
+
+.Auth-form {
+  width: 40%;
+  box-shadow: rgb(145 145 145 / 16%) 1px 1px 10px;
+  border-radius: 8px;
+  background-color: white;
+}
+.Auth-forms {
+  width: 45%;
+  box-shadow: rgb(145 145 145 / 16%) 1px 1px 10px;
+  border-radius: 8px;
+  background-color: white;
+}
+
+.Auth-form-content .head {
+  padding: 20px;
+  border-bottom: 2px solid #e6e6e6;
+}
+.Auth-form-content .content {
+  padding: 40px 100px;
+}
+.Auth-form-content .continue {
+  display: block;
+  width: 100%;
+  background-color: #2196f3;
+  padding: 10px 10px;
+}
+.Auth-form-content p {
+  color: #4a4a4a;
+}
+.Auth-form-content .input-group-text {
+  border-top-right-radius: 0px;
+  background: #fff;
+  color: #bbb9b9;
+  border-bottom-right-radius: 0px;
+  border-color: #bbb9b9;
+  border-top: 2px solid #bbb9b9;
+  border-left: 2px solid #bbb9b9;
+  border-bottom: 2px solid #bbb9b9;
+}
+.Auth-form-content .form-control {
+  border-left: 0px;
+  border-color: #bbb9b9;
+  border-top: 2px solid #bbb9b9;
+  border-right: 2px solid #bbb9b9;
+  border-bottom: 2px solid #bbb9b9;
+}
+.Auth-form-content .form-control::placeholder {
+  color: #bbb9b9;
+  font-weight: 500;
+}
+
+.btn-prime {
+  border: 1px solid #68bcff;
+  color: #2196f3;
+}
+
+.btn-verify {
+  color: #fff;
+  background-color: #2196f3;
+}
+.btn-prime:hover {
+  border: 1px solid #68bcff;
+  color: #2196f3;
+}
+
+.btn-verify:hover {
+  color: #fff;
+  background-color: #2196f3;
+}
+/* For WebKit browsers (e.g. Chrome, Safari) */
+.content::-webkit-scrollbar {
+  width: 4px; /* width of the scrollbar */
+  background: #fff;
+}
+
+.content::-webkit-scrollbar-track {
+  background: #f1f1f1; /* color of the track */
+}
+
+.content::-webkit-scrollbar-thumb {
+  background: #dddddd; /* color of the thumb */
+  border-radius: 6px; /* roundness of the thumb */
+}
+
+.content::-webkit-scrollbar-thumb:hover {
+  background: #555; /* color of the thumb on hover */
+}
+
+.Auth-forms .content h4 {
+  color: #2196f3;
+  font-size: 18px;
+  margin-bottom: 20px;
+}
