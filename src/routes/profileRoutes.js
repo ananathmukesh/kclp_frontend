@@ -10,7 +10,7 @@ export const FetchDetails = async (id, table) => {
 
     if (res.data) {
       if (res.data.code == 200) {
-        return res.data.data.response;
+        return  table == 'JobDetails' ? [res.data.data.response,res.data.data.jobSkills] : res.data.data.response;
       } else {
         return null;
       }
@@ -75,10 +75,11 @@ export const AddDetails = async (ContactForm) => {
       if (res.data.code == 200) {
         return res;
       } else {
-        return "Error Inserting Data";
+        return res;
       }
     }
   } catch (error) {
+    
     return "Error Inserting Data";
   }
 };

@@ -53,12 +53,50 @@ const Jobusestates = () => {
   });
 
 
+
+
+  const [JobDetailsForm, setJobDetailsForm] = useState({
+    userid: "",
+    user_role:"",
+    work_experiance: "",
+    current_role: "",
+   
+    current_job: "",
+    current_company: "",
+    previous_company: "",
+    industry: "",
+    
+    currently_located:"",
+    open_to_work:"",
+    salary_expectation:"",
+    notice_period:"",
+
+    prefered_job:"",
+    prefered_role:"",
+
+    start_career_month:"",
+    start_career_year:"",
+    reason_career_break:"",
+
+   
+  });
+
+
   const [personaldetails, setPersonaldetails] = useState("");
+  const [Jobdetails, setJobdetails] = useState("");
   const [EducationalDetails, setEducationalDetails] = useState("");
   const [personalformGender, setPersonalformGender] = useState("");
   const [ErrorValidYear, setValidYear] = useState('');
+  const [PreferedRole, setPreferedRole] = useState('');
+  const [UserRole, setUserrole] = useState('');
+  const [FormType, setFormType] = useState('save');
+  const [resumedata, setResumedata] = useState('');
 
-
+  const [DBskills, setDBskills] = useState({
+    yearsOfExperience: "",
+    currentRole: "",
+    skills: Array(1).fill({ name: "", level: "" }),
+  });
   return {
     ContactForm,
     setContactForm,
@@ -73,7 +111,13 @@ const Jobusestates = () => {
     EducationalDetailsForm,
      setEducationalDetailsForm,
      ErrorValidYear,
-     setValidYear
+     setValidYear,
+     JobDetailsForm, setJobDetailsForm,
+     Jobdetails, setJobdetails,
+     PreferedRole, setPreferedRole,
+     UserRole, setUserrole,
+     DBskills, setDBskills,
+     resumedata, setResumedata
   };
 };
 

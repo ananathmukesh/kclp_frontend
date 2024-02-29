@@ -199,6 +199,12 @@ function Job() {
      PersonalDetailsForm, setPersonalDetailsForm,
      EducationalDetails, setEducationalDetails,
      EducationalDetailsForm, setEducationalDetailsForm,
+     JobDetailsForm, setJobDetailsForm,
+     Jobdetails, setJobdetails,
+     PreferedRole, setPreferedRole,
+     UserRole, setUserrole,
+     DBskills, setDBskills,
+     resumedata, setResumedata
   } = Jobusestates();
 
 const [personalformGender,setPersonalformGender] = useState("");
@@ -208,9 +214,56 @@ const [validStartYear, setValidStartYear] = useState('');
 const [validEndYear, setValidEndYear] = useState('');
 const [validSclStart, setValidSclStart] = useState('');
 const [validSclEnd, setValidSclEnd] = useState('');
+const [inputValues, setInputValues] = useState(['']);
+const [Jobskills,setJobskills] = useState('');
+const [JobskillsLevel,setJobskillsLevel] = useState('');
+
+const fileInputRef = useRef(null);
+
+console.log(`job skills`,Jobskills);
+
+const [commonFields, setCommonFields] = useState({
+  yearsOfExperience: "",
+  currentRole: "",
+  skills: Array(1).fill({ name: "", level: "" }),
+});
+
+console.log('job details role',JobDetailsForm);
 
 
-console.log('Educational details data',EducationalDetails);
+const handlemultipleskillChange = (index, value) => {
+  const updatedValues = [...inputValues];
+  updatedValues[index] = value;
+  setInputValues(updatedValues);
+};
+
+const handleAddSkill = () => {
+  setCommonFields((prev) => {
+    const updatedSkills = [...prev.skills, { name: "", level: "" }];
+    return { ...prev, skills: updatedSkills };
+  });
+};
+
+const handleRemoveInput = (index) => {
+  const updatedValues = [...inputValues];
+  updatedValues.splice(index, 1);
+  setInputValues(updatedValues);
+};
+
+
+ const handleJobDetails = (e) => {
+  const { name, value } = e.target;
+  setJobDetailsForm({
+    ...JobDetailsForm,
+    [name]: value,
+    userid: userState.id,
+    user_role: UserRole ? UserRole : JobDetailsForm.user_role,
+
+     // Directly use the value from the radio button
+  });
+};
+
+
 
   const handlePersonalDetails = (e) => {
     const { name, value } = e.target;
@@ -223,9 +276,16 @@ console.log('Educational details data',EducationalDetails);
     });
   };
 
+  const handleFileChange = (e) => {
+    // Handle the selected file
+    const selectedFile = e.target.files[0];
+    
+    fileInputRef.current.value = null;
+  };
+
+
    const handleEducationalDetails = (e) => {
     const { name, value } = e.target;
-    console.log(`${name}:${value}`);
     setEducationalDetailsForm({
       ...EducationalDetailsForm,
       [name]: value,
@@ -249,7 +309,8 @@ console.log('Educational details data',EducationalDetails);
   };
 
 
-   console.log('educationsl details',EducationalDetailsForm);
+   console.log(JobDetailsForm);
+
   const toast = useRef(null);
   const [contactinf,setContactInformation] = useState('');
   
@@ -709,6 +770,10 @@ console.log('Educational details data',EducationalDetails);
   ]);
 
 
+  const scroolcss = {
+    overflowY:"scroll",
+    height:"90vh"
+  }
 
   const formik = useFormik({
     initialValues: {
@@ -727,7 +792,7 @@ console.log('Educational details data',EducationalDetails);
     validationSchema,
     onSubmit: (values) => {
     
-      console.log(values);
+    
     },
   });
 
@@ -747,7 +812,6 @@ const [userState,setUsersate] = useState();
  
 
   
-   console.log('education details',EducationalDetailsForm);
 
   const areAllFieldsEmpty = (formData) => {
     if (!formData || typeof formData !== 'object') {
@@ -760,6 +824,7 @@ const [userState,setUsersate] = useState();
   const isFormDataEmpty = areAllFieldsEmpty(ContactForm);
   
   useEffect(() => {
+    
     const authData = JSON.parse(localStorage.getItem("auth1"));
     if(authData){
       setUsersate(authData);
@@ -776,10 +841,10 @@ const [userState,setUsersate] = useState();
       }
 
       const fetchEducationalDetails = await FetchDetails(authData.id,'EducationalDetails');
-      if(fetchEducationalDetails){
-        setEducationalDetails(fetchPersonalDetails);
-      }
-
+      setEducationalDetails(fetchEducationalDetails);
+     
+      const fetchJobDetails = await FetchDetails(authData.id,'JobDetails');
+      setJobdetails(fetchJobDetails);
       
     } 
     fetchContactInformation();
@@ -819,6 +884,58 @@ const [userState,setUsersate] = useState();
     
   }
   
+
+
+
+console.log('job details',Jobdetails);
+
+  const HandleAddJobDetails = async (e) => {
+    e.preventDefault();
+
+    const action = e.nativeEvent.submitter.value; 
+
+    if(action.trim() == 'update'){
+      const educationalUpdatedetails = {
+        insertdata : JobDetailsForm,
+        "table":"JobDetails",
+        "insertMessage":"Job Details Updated Successfully"
+      }
+      const JobDetails = await UpdateDetails(educationalUpdatedetails);
+      if(JobDetails){
+        setJob(false);
+        setEducation(false);
+        const fetchDetails = await FetchDetails(userState.id,'JobDetails');
+        if(fetchDetails){
+          setJobdetails(fetchDetails);
+         }
+        toast.current.show({severity:'success', summary: 'Success', detail:JobDetails.data.data.message, life: 3000});
+        
+      }else{
+        toast.current.show({severity:'success', summary: 'Success', detail:JobDetails.data.data.message, life: 3000});
+    }
+    }else{
+      const jobdetails = {
+        insertdata : JobDetailsForm,
+        "table":"JobDetails",
+        "insertMessage":"Job Details Inserted Successfully",
+        "skills":Jobskills
+      }
+      const addjobdetailsdata = await AddDetails(jobdetails);
+      if(addjobdetailsdata){
+        setJob(false);
+        const fetchDetails = await FetchDetails(userState.id,'JobDetails');
+        if(fetchDetails){
+          setJobdetails(fetchDetails);
+        }
+        toast.current.show({severity:'success', summary: 'Success', detail:addjobdetailsdata.data.data.message, life: 3000});
+      }else{
+       console.log(addjobdetailsdata);
+    }
+    }
+    
+  }
+
+
 
 
 
@@ -929,7 +1046,7 @@ const [userState,setUsersate] = useState();
       e.preventDefault();
       const fetchPersonalDetails = await FetchDetails(userState.id,table);
         if(fetchPersonalDetails){
-          console.log(fetchPersonalDetails);
+         
           setPersonalDetailsForm(fetchPersonalDetails);
         }else{
           setPersonalDetailsForm(null);
@@ -940,13 +1057,34 @@ const [userState,setUsersate] = useState();
     const educational_edutvalue = async (e,table) => {
       e.preventDefault();
       const fetchDetails = await FetchDetails(userState.id,table);
-      console.log('fetch the log details',fetchDetails);
+   
         if(fetchDetails){  
           setEducationalDetailsForm(fetchDetails);
         }else{
           setEducationalDetailsForm(null);
         }
     }
+
+ const edit_jobdetails = async (e, table) => {
+
+
+
+  e.preventDefault();
+
+
+
+  const fetchDetails = await FetchDetails(userState.id, table);
+  
+
+  if (fetchDetails && fetchDetails.length >= 2) {
+    setJobDetailsForm(fetchDetails[0]);
+    setDBskills(fetchDetails[1]);
+  } else {
+    setJobDetailsForm(null);
+    setDBskills(null);
+  }
+};
+
 
   return (
    <>
@@ -1592,11 +1730,11 @@ const [userState,setUsersate] = useState();
                               onChange={handleEducationalDetails}
                               name="clg_course"
                               id="clg_course"
-                              value={EducationalDetailsForm.clg_course} // Make sure to use the value attribute here
+                              value={EducationalDetailsForm ? EducationalDetailsForm.clg_course : ''} // Make sure to use the value attribute here
                               >
                               <option value="">Select Degree</option>
                               {allDegrees.map((degree, index) => (
-                                <option selected={EducationalDetailsForm.clg_course == degree} key={index} value={degree}>
+                                <option  selected={EducationalDetailsForm?.clg_course === degree}   key={index} value={degree}>
                                   {degree}
                                 </option>
                               ))}
@@ -1612,12 +1750,12 @@ const [userState,setUsersate] = useState();
                                 onChange={handleEducationalDetails}
                                 name="clg_specialization"
                                 id="clg_specialization"
-                                value={EducationalDetailsForm.clg_specialization}
+                                value={EducationalDetailsForm?.clg_specialization}
                               >
                                 <option value="">Select Specialization</option>
                                 {Specializations.map((course, index) => (
                                   <option
-                                  selected={EducationalDetailsForm.clg_specialization == course}
+                                  selected={EducationalDetailsForm?.clg_specialization == course}
                                    key={index} value={course}>
                                     {course}
                                   </option>
@@ -1632,7 +1770,7 @@ const [userState,setUsersate] = useState();
                               placeholder="start year"
                               name="start_year"
                               id="start_year"
-                              value={EducationalDetailsForm.start_year}
+                              value={EducationalDetailsForm?.start_year}
                               onChange={handleEducationalDetails}
                             />
                             {/** Conditionally render the error message */}
@@ -1651,7 +1789,7 @@ const [userState,setUsersate] = useState();
                                 placeholder="end year"
                                 name="end_year"
                                 id="end_year" 
-                                value={EducationalDetailsForm.end_year}
+                                value={EducationalDetailsForm?.end_year}
                                 onChange={handleEducationalDetails}
                               />
                                       
@@ -1671,12 +1809,12 @@ const [userState,setUsersate] = useState();
                                 onChange={handleEducationalDetails}
                                 name="university"
                                 id="university"
-                                value={EducationalDetailsForm.university}
+                                value={EducationalDetailsForm?.university}
                               >
                                 <option value="">Select University</option>
                                 {allUniversities.map((university, index) => (
                                   <option
-                                   selected={EducationalDetailsForm.university == university}
+                                   selected={EducationalDetailsForm?.university == university}
                                    key={index} value={university}>
                                     {university}
                                   </option>
@@ -1692,7 +1830,7 @@ const [userState,setUsersate] = useState();
                                 className="form-control"
                                 name="collage"
                                 id="collage"
-                                value={EducationalDetailsForm.collage}
+                                value={EducationalDetailsForm?.collage}
                                 onChange={handleEducationalDetails}
                               />
                             </div>
@@ -1705,7 +1843,7 @@ const [userState,setUsersate] = useState();
                                 className="form-control"
                                 name="scl_percentage"
                                 id="scl_percentage"
-                                value={EducationalDetailsForm.scl_percentage}
+                                value={EducationalDetailsForm?.scl_percentage}
                                 onChange={handleEducationalDetails}
                               />
                             </div>
@@ -1721,7 +1859,7 @@ const [userState,setUsersate] = useState();
                               name="scl_qualification"
                               id="scl_qualification"
                               onChange={handleEducationalDetails}
-                              value={EducationalDetailsForm.scl_qualification}
+                              value={EducationalDetailsForm?.scl_qualification}
                               >
                                 <option value="">
                                   Select School Qualification
@@ -1729,7 +1867,7 @@ const [userState,setUsersate] = useState();
                                 {schoolQualificationList.map(
                                   (qualification, index) => (
                                     <option 
-                                      selected={EducationalDetailsForm.scl_qualification == qualification}
+                                      selected={EducationalDetailsForm?.scl_qualification == qualification}
                                     key={index} value={qualification}>
                                       {qualification}
                                     </option>
@@ -1747,13 +1885,13 @@ const [userState,setUsersate] = useState();
                               name="scl_specialization"
                               id="scl_specialization"
                               onChange={handleEducationalDetails}
-                              value={EducationalDetailsForm.scl_specialization}
+                              value={EducationalDetailsForm?.scl_specialization}
                               >
                                 <option value="">Select Specialization</option>
                                 {academicDisciplines.map(
                                   (discipline, index) => (
                                     <option 
-                                    selected={EducationalDetailsForm.scl_specialization == discipline}
+                                    selected={EducationalDetailsForm?.scl_specialization == discipline}
                                     key={index} value={discipline}>
                                       {discipline}
                                     </option>
@@ -1769,7 +1907,7 @@ const [userState,setUsersate] = useState();
                                 placeholder="Enter Start Year"
                                 name="scl_start"
                                 id="scl_start"
-                                value={EducationalDetailsForm.scl_start}
+                                value={EducationalDetailsForm?.scl_start}
                                 onChange={handleEducationalDetails}
                               />
                               {validSclStart && (
@@ -1786,7 +1924,7 @@ const [userState,setUsersate] = useState();
                                 placeholder="Enter End Year"
                                 name="scl_end"
                                 id="scl_end"
-                                value={EducationalDetailsForm.scl_end}
+                                value={EducationalDetailsForm?.scl_end}
                                 onChange={handleEducationalDetails}
                               />
                                 {validSclEnd && (
@@ -1804,7 +1942,7 @@ const [userState,setUsersate] = useState();
                                 className="form-control"
                                 name="scl_name"
                                 id="scl_name"
-                                value={EducationalDetailsForm.scl_name}
+                                value={EducationalDetailsForm?.scl_name}
                                 onChange={handleEducationalDetails}
                               />
                             </div>
@@ -1818,7 +1956,7 @@ const [userState,setUsersate] = useState();
                                 className="form-control"
                                 name="scl_percentage"
                                 id="scl_percentage"
-                                value={EducationalDetailsForm.scl_percentage}
+                                value={EducationalDetailsForm?.scl_percentage}
                                 onChange={handleEducationalDetails}
                               />
                             </div>
@@ -1848,44 +1986,58 @@ const [userState,setUsersate] = useState();
           </p>
         </div>
         <div className="row">
-          <div className="col-md-6">
+        {
+          EducationalDetails && (
+            <div className="col-md-6">
             <p>
               School -
               <span>
-                Lorem ipsum dolor sit amet consectetur. Lorem ipsum dolor sit
-                amet.
+                {
+                  EducationalDetails ? EducationalDetails.scl_name : ''
+                }
               </span>
             </p>
             <p>
-              B.com Accounts - <span> 98%</span>
+              { EducationalDetails ? EducationalDetails.scl_qualification : '' } - <span> {EducationalDetails ? `${EducationalDetails.scl_percentage}` : ''}</span>
             </p>
             <p>
-              <span>2018 - 2021</span>
+              <span>{ EducationalDetails ? `${EducationalDetails.scl_start} - ${EducationalDetails.scl_end}` : '' }</span>
             </p>
           </div>
-          <div className="col-md-6">
+          )
+        }
+         
+          {
+            EducationalDetails && (
+              <div className="col-md-6">
             <p>
               Collage -
               <span>
-                Lorem ipsum dolor sit amet consectetur. Lorem ipsum dolor sit
-                amet.
+                {EducationalDetails.collage}
               </span>
             </p>
             <p>
-              B.com Accounts - <span> 98%</span>
+              { EducationalDetails.clg_specialization } - <span> {EducationalDetails.clg_percentage}</span>
             </p>
             <p>
-              <span>2018 - 2021</span>
+              <span>{ `${EducationalDetails.start_year} - ${EducationalDetails.end_year}`}</span>
             </p>
           </div>
+            )
+          }
+         
         </div>
       </div>
       <div className="card mt-4">
         <div className="d-flex justify-content-between align-items-center">
           <h5>Job Details</h5>
           <p>
-            <Button onClick={handleJobOpen}>
-              <i class="fi fi-rr-file-edit ms-2"></i>
+            <Button onClick={(e)=>{handleJobOpen();edit_jobdetails(e,'JobDetails')}}>
+            {Jobdetails ? (
+           <i className="fi fi-rr-file-edit ms-2"></i>
+          ) : (
+           <i className="fi fi-rr-layer-plus"></i>
+           )}
             </Button>
             <Modal
               open={Job}
@@ -1893,9 +2045,30 @@ const [userState,setUsersate] = useState();
               aria-labelledby="modal-modal-title"
               aria-describedby="modal-modal-description"
             >
-              <Box sx={modaljob}>
+              <Box sx={modaljob}
+              style={scroolcss}
+              >
+             
+                <form onSubmit={HandleAddJobDetails}>
                 <div className="">
-                  <Work></Work>
+                  <Work 
+                  handleJobDetails={handleJobDetails}
+                  handlemultipleskillChange={handlemultipleskillChange}
+                  handleAddSkill={handleAddSkill}
+                  handleRemoveInput={handleRemoveInput}
+                  setJobskills={setJobskills}
+                  setJobskillsLevel={setJobskillsLevel}
+                  setPreferedRole={setPreferedRole}
+                  setJobDetailsForm={setJobDetailsForm}
+                  JobDetailsForm={JobDetailsForm}
+                  setUserrole={setUserrole}
+                  UserRole={UserRole}
+                  Jobdetails={Jobdetails}
+                  DBskills={DBskills}
+                  handleFileChange={handleFileChange}
+                  fileInputRef={fileInputRef}
+                
+                   />
                   <div className="text-center mt-2">
                     <button
                       className="btn btn-danger me-2"
@@ -1903,9 +2076,19 @@ const [userState,setUsersate] = useState();
                     >
                       Cancel
                     </button>
-                    <button className="btn btn-primary">Submit</button>
+
+                    {
+                      Jobdetails ? (
+                  <button type="submit" value='update' className="btn btn-primary">Update</button>
+                ) : (
+                  <button type="submit" value='add'  className="btn btn-primary">Submit</button>
+                )
+              }
+                  
                   </div>
                 </div>
+                </form>
+               
               </Box>
             </Modal>
           </p>
@@ -1950,7 +2133,9 @@ const [userState,setUsersate] = useState();
               aria-labelledby="modal-modal-title"
               aria-describedby="modal-modal-description"
             >
-              <Box sx={style}>
+              <Box sx={style}
+              
+              >
                 <div className="row">
                   <div className="col-6 my-2 my-2">
                     <label htmlFor="applianceType" className="pb-2">

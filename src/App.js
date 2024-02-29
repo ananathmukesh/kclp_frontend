@@ -16,6 +16,8 @@ import { useRef } from "react";
 import 'primeflex/primeflex.css';  
 import 'primereact/resources/primereact.css';
 import 'primereact/resources/themes/lara-light-indigo/theme.css';
+import DynamicInputFields from "./utils/appenform"; 
+
 
 function App() {
   const toast = useRef(null);
@@ -27,6 +29,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Navigate to="/login" />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/ap" element={<DynamicInputFields />} />
           <Route path="/register" element={<Register />} />
           <Route path="/main" element={<Main />}>
             <Route path="/main/jobs" element={<Job />} />

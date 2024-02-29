@@ -3,7 +3,21 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
 import "./demo.css";
 
-const Work = () => {
+const Work = ({handleJobDetails,
+  setJobskills
+  ,setJobskillsLevel
+  ,HandleAddJobDetails
+  ,setPreferedRole
+  ,setJobDetailsForm,
+  JobDetailsForm,
+  setUserrole,
+  UserRole,
+  Jobdetails,
+  DBskills,
+  handleFileChange,
+  fileInputRef
+
+}) => {
   const [selectedCurrentDistrict, setSelectedCurrentDistrict] = useState("");
   const [selectedSpecializations, setSelectedSpecializations] = useState("");
   const [selectedOpenToWorkDistrict, setSelectedOpenToWorkDistrict] =
@@ -239,6 +253,12 @@ const Work = () => {
   ];
   const [selectedUniversity, setSelectedUniversity] = useState("");
 
+
+
+  console.log('props UserRole',UserRole);
+
+
+
   const allUniversities = [
     "Research University",
     "Liberal Arts University",
@@ -336,24 +356,58 @@ const Work = () => {
     setCommonFields((prev) => ({ ...prev, [field]: value }));
   };
 
+
+
+ 
+  
   const handleSkillChange = (index, field, value) => {
     setCommonFields((prev) => {
-      const updatedSkills = [...prev.skills];
-      updatedSkills[index][field] = value;
+      const updatedSkills = Array.isArray(prev.skills) ? [...prev.skills] : [];
+      if (updatedSkills[index]) {
+        updatedSkills[index][field] = value;
+      }
+      setJobskills(updatedSkills);
+      setJobskillsLevel(updatedSkills);
       return { ...prev, skills: updatedSkills };
     });
+  
+   
   };
+  
+  
 
   const handleStudentFieldChange = (field, value) => {
     setStudentFields((prev) => ({ ...prev, [field]: value }));
+    setPreferedRole((prev) => ({ ...prev, [field]: value }));
   };
 
   const handleEmploymentStatusChange = (index, status) => {
+    
+    setUserrole(status);
     setWorkExperience((prev) => [
       ...prev.slice(0, index),
       { ...prev[index], employmentStatus: status },
       ...prev.slice(index + 1),
     ]);
+
+    // setJobDetailsForm({
+    //   userid: "",
+    //   work_experiance: "",
+    //   current_role: "",
+    //   current_job: "",
+    //   current_company: "",
+    //   previous_company: "",
+    //   industry: "",
+    //   currently_located: "",
+    //   open_to_work: "",
+    //   salary_expectation: "",
+    //   notice_period: "",
+    //   prefered_job: "",
+    //   prefered_role: "",
+    //   start_career_month: "",
+    //   start_career_year: "",
+    //   reason_career_break: ""
+    // });
   };
 
   const handleCareerBreakFieldsChange = (index, field, value) => {
@@ -413,6 +467,11 @@ const Work = () => {
     updatedWorkExperience[index].previousCompanies = value;
     setWorkExperience(updatedWorkExperience);
   };
+
+
+
+   console.log('work form',JobDetailsForm);
+
 
   const handleSelectedIndustriesChange = (index, value) => {
     const updatedWorkExperience = [...workExperience];
@@ -784,45 +843,56 @@ const Work = () => {
     updatedWorkExperience[index].currentCompany = value;
     setWorkExperience(updatedWorkExperience);
   };
+
+
+
+
   return (
+    <>
     <div>
       <h6 className="labels">Select</h6>
       <div>
-        {workExperience.map((experience, index) => (
-          <div key={index} className="row mb-3">
-            <div className="col-12 col-md-4">
-              <input
-                type="radio"
-                name={`employmentStatus${index}`}
-                checked={experience.employmentStatus === "workingProfessional"}
-                onChange={() =>
-                  handleEmploymentStatusChange(index, "workingProfessional")
-                }
-              />
-              <label className="px-2">I am a working Professional</label>
-            </div>
-            <div className="col-12 col-md-4">
-              <input
-                type="radio"
-                name={`employmentStatus${index}`}
-                checked={experience.employmentStatus === "student"}
-                onChange={() => handleEmploymentStatusChange(index, "student")}
-              />
-              <label className="px-2">I am a student or fresher</label>
-            </div>
-            <div className="col-12 col-md-4">
-              <input
-                type="radio"
-                name={`employmentStatus${index}`}
-                checked={experience.employmentStatus === "careerBreak"}
-                onChange={() =>
-                  handleEmploymentStatusChange(index, "careerBreak")
-                }
-              />
-              <label className="px-2">I am on a Career break</label>
-            </div>
-          </div>
-        ))}
+      {workExperience.map((experience, index) => (
+  <div key={index} className="row mb-3">
+  <div className="flexbox" style={{ display: 'flex', width: '41%' }}>
+  <div className="col-12 col-md-4">
+  <input
+  type="radio"
+  name={`employmentStatus${index}`}
+  checked={JobDetailsForm ? JobDetailsForm?.user_role === "workingProfessional" : false}
+  disabled={JobDetailsForm?.user_role === "workingProfessional" && JobDetailsForm.length !== 0}
+  onChange={() => handleEmploymentStatusChange(index, "workingProfessional")}
+/>
+
+
+    <label className="px-2">I am a working Professional</label>
+  </div>
+  <div className="col-12 col-md-4">
+    <input
+      type="radio"
+      name={`employmentStatus${index}`}
+      checked={JobDetailsForm?.user_role == "student" ? true : false}
+      disabled={JobDetailsForm?.user_role === "student" && JobDetailsForm.length !== 0}
+     
+      onChange={() => handleEmploymentStatusChange(index, "student")}
+    />
+    <label className="px-2">I am a student or fresher</label>
+  </div>
+  <div className="col-12 col-md-4">   
+    <input
+      type="radio"
+      name={`employmentStatus${index}`}
+      checked={JobDetailsForm?.user_role == "careerBreak" ? true : false}
+      disabled={JobDetailsForm?.user_role === "careerBreak" && JobDetailsForm.length !== 0}
+      onChange={() => handleEmploymentStatusChange(index, "careerBreak")}
+    />
+    <label className="px-2">I am on a Career break</label>
+  </div>
+</div>
+
+  </div>
+))}
+
       </div>
 
       {workExperience.map((experience, index) => (
@@ -831,6 +901,7 @@ const Work = () => {
             <div>
               {experience.employmentStatus === "workingProfessional" && (
                 <div>
+                  <form onSubmit={HandleAddJobDetails}>
                   <div className="row">
                     <div className="col-md-4">
                       <div className="mb-3">
@@ -843,14 +914,9 @@ const Work = () => {
                         <input
                           type="number"
                           className="form-control"
-                          id="yearsOfExperience"
-                          value={commonFields.yearsOfExperience}
-                          onChange={(e) =>
-                            handleCommonFieldChange(
-                              "yearsOfExperience",
-                              e.target.value
-                            )
-                          }
+                          id="work_experiance"
+                          name="work_experiance"
+                          onChange={handleJobDetails}
                         />
                       </div>
                     </div>
@@ -861,14 +927,9 @@ const Work = () => {
                         </label>
                         <select
                           className="form-select"
-                          id="currentRole"
-                          value={commonFields.currentRole}
-                          onChange={(e) =>
-                            handleCommonFieldChange(
-                              "currentRole",
-                              e.target.value
-                            )
-                          }
+                          id="current_role"
+                          name="current_role"
+                          onChange={handleJobDetails}
                         >
                           <option value="">Select Current Role</option>
                           {jobRoles.map((role, index) => (
@@ -879,7 +940,7 @@ const Work = () => {
                         </select>
                       </div>
                     </div>
-                    <div className="col-md-4">
+                      <div className="col-md-4">
                       <div className="mb-3">
                         <label htmlFor="skills" className="form-label">
                           skills
@@ -942,28 +1003,7 @@ const Work = () => {
                         ))}
                       </div>
                     </div>
-                    {/* <div className="col-md-4">
-                      <div className="mb-3">
-                        <label
-                          htmlFor="yearsOfExperience"
-                          className="form-label"
-                        >
-                          How many years of work experience do you have?
-                        </label>
-                        <input
-                          type="text"
-                          className="form-control"
-                          id="yearsOfExperience"
-                          value={commonFields.yearsOfExperience}
-                          onChange={(e) =>
-                            handleCommonFieldChange(
-                              "yearsOfExperience",
-                              e.target.value
-                            )
-                          }
-                        />
-                      </div>
-                    </div> */}
+                  
                     <div className="col-md-4">
                       <div className="mb-3">
                         <label htmlFor="currentJobTitle" className="form-label">
@@ -972,22 +1012,18 @@ const Work = () => {
                         <input
                           type="text"
                           className="form-control"
-                          id="currentJobTitle"
+                          id="current_job"
+                          name="current_job"
                           placeholder="e.g. Software Engineer"
-                          value={experience.currentJobTitle}
-                          onChange={(e) =>
-                            handleJobTitleChange(index, e.target.value)
-                          }
+                          onChange={handleJobDetails}
                         />
                         <input
                           type="text"
                           className="form-control mt-2"
-                          id="currentCompany"
+                          id="current_company"
                           placeholder="e.g. Amazon"
-                          value={experience.currentCompany}
-                          onChange={(e) =>
-                            handleCurrentCompanyChange(index, e.target.value)
-                          }
+                          name="current_company"
+                          onChange={handleJobDetails}
                         />
                       </div>
                     </div>
@@ -1002,11 +1038,9 @@ const Work = () => {
                         <input
                           type="text"
                           className="form-control"
-                          id="previousCompanies"
-                          value={experience.previousCompanies}
-                          onChange={(e) =>
-                            handlePreviousCompaniesChange(index, e.target.value)
-                          }
+                          id="previous_company"
+                          name="previous_company"
+                          onChange={handleJobDetails}
                         />
                       </div>
                     </div>
@@ -1020,13 +1054,9 @@ const Work = () => {
                         </label>
                         <select
                           className="form-select"
-                          value={experience.selectedIndustries}
-                          onChange={(e) =>
-                            handleSelectedIndustriesChange(
-                              index,
-                              e.target.value
-                            )
-                          }
+                          id="industry"
+                          name="industry"
+                          onChange={handleJobDetails}
                         >
                           <option value="" disabled>
                             Select an industry
@@ -1040,8 +1070,11 @@ const Work = () => {
                       </div>
                     </div>
                   </div>
+                  </form>
                 </div>
               )}
+
+
               {experience.employmentStatus === "student" && (
                 <div>
                   {/* <h2 className='labels'>Student Fields</h2> */}
@@ -1051,72 +1084,64 @@ const Work = () => {
                         <label className="form-label">
                           What kind of jobs are you looking for?
                         </label>
-                        <div className="form-check">
-                          <input
-                            type="radio"
-                            id="preferredJobsOption1"
-                            className="form-check-input"
-                            name="preferredJobs"
-                            value="Option 1"
-                            checked={studentFields.preferredJobs === "Option 1"}
-                            onChange={() =>
-                              handleStudentFieldChange(
-                                "preferredJobs",
-                                "Option 1"
-                              )
-                            }
-                          />
-                          <label
-                            htmlFor="preferredJobsOption1"
-                            className="form-check-label"
-                          >
-                            Both internships and full-time
-                          </label>
-                        </div>
-                        <div className="form-check">
-                          <input
-                            type="radio"
-                            id="preferredJobsOption2"
-                            className="form-check-input"
-                            name="preferredJobs"
-                            value="Option 2"
-                            checked={studentFields.preferredJobs === "Option 2"}
-                            onChange={() =>
-                              handleStudentFieldChange(
-                                "preferredJobs",
-                                "Option 2"
-                              )
-                            }
-                          />
-                          <label
-                            htmlFor="preferredJobsOption2"
-                            className="form-check-label"
-                          >
-                            Full-time only
-                          </label>
-                        </div>
-                        <div className="form-check">
-                          <input
-                            type="radio"
-                            id="preferredJobsOption3"
-                            className="form-check-input"
-                            name="preferredJobs"
-                            value="Option 3"
-                            checked={studentFields.preferredJobs === "Option 3"}
-                            onChange={() =>
-                              handleStudentFieldChange(
-                                "preferredJobs",
-                                "Option 3"
-                              )
-                            }
-                          />
-                          <label
-                            htmlFor="preferredJobsOption3"
-                            className="form-check-label"
-                          >
-                            Internships only
-                          </label>
-                        </div>
+                        <div style={{
+  display: "flex",
+  width: "100%",
+  justifyContent: "space-between", // Distribute space between items
+}}>
+
+  <div className="form-check" style={{ flex: "1" }}>
+    <input
+      type="radio"
+      id="preferredJobsOption1"
+      className="form-check-input"
+      name="prefered_job"
+      value="Option 1"
+      onChange={handleJobDetails}
+    />
+    <label
+      htmlFor="preferredJobsOption1"
+      className="form-check-label"
+    >
+      Both internships and full-time
+    </label>
+  </div>
+
+  <div className="form-check" style={{ flex: "1", marginLeft: "60px" }}>
+    <input
+      type="radio"
+      id="preferredJobsOption2"
+      className="form-check-input"
+      name="prefered_job"
+      value="Option 2"
+      onChange={handleJobDetails}
+    />
+    <label
+      htmlFor="preferredJobsOption2"
+      className="form-check-label"
+    >
+      Full-time only
+    </label>
+  </div>
+
+  <div className="form-check" style={{ flex: "1", marginLeft: "60px" }}>
+    <input
+      type="radio"
+      id="preferredJobsOption3"
+      className="form-check-input"
+      name="prefered_job"
+      value="Option 3"
+      onChange={handleJobDetails}
+    />
+    <label
+      htmlFor="preferredJobsOption3"
+      className="form-check-label"
+    >
+      Internships only
+    </label>
+  </div>
+</div>
+
                       </div>
                     </div>
 
@@ -1127,14 +1152,10 @@ const Work = () => {
                         </label>
                         <select
                           className="form-select"
-                          id="preferredRole"
+                          id="prefered_role"
+                          name="prefered_role"
                           value={studentFields.preferredRole}
-                          onChange={(e) =>
-                            handleStudentFieldChange(
-                              "preferredRole",
-                              e.target.value
-                            )
-                          }
+                          onChange={handleJobDetails}
                         >
                           <option value="">Select Preferred Role</option>
                           {jobRoles.map((role, index) => (
@@ -1226,18 +1247,10 @@ const Work = () => {
                           <div className="col-6">
                             <select
                               className="form-select"
-                              id={`month${index}`}
+                              id="start_career_month"
+                              name="start_career_month"
                               value={experience.startDate.month}
-                              onChange={(e) =>
-                                handleCareerBreakFieldsChange(
-                                  index,
-                                  "startDate",
-                                  {
-                                    ...experience.startDate,
-                                    month: e.target.value,
-                                  }
-                                )
-                              }
+                              onChange={handleJobDetails}
                             >
                               <option value="">Month</option>
                               {months.map((month, i) => (
@@ -1250,18 +1263,10 @@ const Work = () => {
                           <div className="col-6">
                             <select
                               className="form-select"
-                              id={`year${index}`}
+                              id="start_career_year"
+                              name="start_career_year"
                               value={experience.startDate.year}
-                              onChange={(e) =>
-                                handleCareerBreakFieldsChange(
-                                  index,
-                                  "startDate",
-                                  {
-                                    ...experience.startDate,
-                                    year: e.target.value,
-                                  }
-                                )
-                              }
+                              onChange={handleJobDetails}
                             >
                               <option value="">Year</option>
                               {years.map((year, i) => (
@@ -1284,15 +1289,10 @@ const Work = () => {
                         </label>
                         <textarea
                           className="form-control"
-                          id={`reason${index}`}
+                          id="reason_career_break"
+                          name="reason_career_break"
                           value={experience.reasonForBreak}
-                          onChange={(e) =>
-                            handleCareerBreakFieldsChange(
-                              index,
-                              "reasonForBreak",
-                              e.target.value
-                            )
-                          }
+                          onChange={handleJobDetails}
                         />
                       </div>
                     </div>
@@ -1303,14 +1303,10 @@ const Work = () => {
                         </label>
                         <select
                           className="form-select"
-                          id="preferredRole"
+                          id="prefered_role"
+                          name="prefered_role"
                           value={studentFields.preferredRole}
-                          onChange={(e) =>
-                            handleStudentFieldChange(
-                              "preferredRole",
-                              e.target.value
-                            )
-                          }
+                          onChange={handleJobDetails}
                         >
                           <option value="">Select Preferred Role</option>
                           {jobRoles.map((role, index) => (
@@ -1334,13 +1330,9 @@ const Work = () => {
                                 className="form-control"
                                 placeholder="Enter skill"
                                 value={skill.name}
-                                onChange={(e) =>
-                                  handleSkillChange(
-                                    index,
-                                    "name",
-                                    e.target.value
-                                  )
-                                }
+                                id=""
+                                name=""
+                                onChange={handleJobDetails}
                               />
                             </div>
                             <div className="col-6">
@@ -1395,14 +1387,10 @@ const Work = () => {
                         <input
                           type="number"
                           className="form-control"
-                          id="yearsOfExperience"
-                          value={commonFields.yearsOfExperience}
-                          onChange={(e) =>
-                            handleCommonFieldChange(
-                              "yearsOfExperience",
-                              e.target.value
-                            )
-                          }
+                          id="work_experiance"
+                          name="work_experiance"
+                          
+                          onChange={handleJobDetails}
                         />
                       </div>
                     </div>
@@ -1413,6 +1401,15 @@ const Work = () => {
           )}
         </div>
       ))}
+
+
+
+
+
+
+
+
+
 
       {workExperience.map((experience, index) => (
         <div className="mb-4" key={index}>
@@ -1426,8 +1423,9 @@ const Work = () => {
                   </label>
                   <select
                     className="form-control"
-                    value={selectedCurrentDistrict}
-                    onChange={handleCurrentDistrictChange}
+                   id="currently_located"
+                   name="currently_located"
+                   onChange={handleJobDetails}
                   >
                     <option value="">Select District</option>
                     {districts.map((district, index) => (
@@ -1444,8 +1442,9 @@ const Work = () => {
                   </label>
                   <select
                     className="form-control"
-                    value={selectedOpenToWorkDistrict}
-                    onChange={handleOpenToWorkDistrictChange}
+                    id="open_to_work"
+                    name="open_to_work"
+                    onChange={handleJobDetails}
                   >
                     <option value="">Select District</option>
                     {districts.map((district, index) => (
@@ -1465,6 +1464,9 @@ const Work = () => {
                       type="number"
                       className="form-control text-center"
                       placeholder="eg.12.5"
+                      name="salary_expectation"
+                      id="salary_expectation"
+                      onChange={handleJobDetails}
                     ></input>
                     <span className="job_lpa">LPA</span>
                   </div>
@@ -1475,11 +1477,9 @@ const Work = () => {
                   </label>
                   <select
                     className="form-select"
-                    id={`noticePeriod${index}`}
-                    value={experience.noticePeriod}
-                    onChange={(e) =>
-                      handleNoticePeriodChange(index, e.target.value)
-                    }
+                    id='notice_period'
+                    name="notice_period"
+                    onChange={handleJobDetails}
                   >
                     <option value="">Select Notice Period</option>
                     <option value="immediately">Immediately</option>
@@ -1492,13 +1492,12 @@ const Work = () => {
                 <div className="col-12 col-md-3 pb-2">
                   <label className="form-label">Resume</label>
                   <div>
-                    <input
-                      type="file"
-                      className="form-control"
-                      onChange={(e) =>
-                        handleResumeChange(index, e.target.files[0])
-                      }
-                    />
+                  <input
+                    type="file"
+                    onChange={handleJobDetails}
+
+                  />
+
                   </div>
                 </div>
               </div>
@@ -1531,6 +1530,836 @@ const Work = () => {
         </div>
       )}
     </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div>
+              {JobDetailsForm?.user_role === "workingProfessional" && Jobdetails && (
+                <div>
+                  <form onSubmit={HandleAddJobDetails}>
+                  <div className="row">
+                    <div className="col-md-4">
+                      <div className="mb-3">
+                        <label
+                          htmlFor="yearsOfExperience"
+                          className="form-label"
+                        >
+                          How many years of work experience do you have?
+                        </label>
+                        <input
+                          type="number"
+                          className="form-control"
+                          id="work_experiance"
+                          name="work_experiance"
+                          onChange={handleJobDetails}
+                          value={JobDetailsForm?.work_experiance}
+                        />
+                      </div>
+                    </div>
+                    <div className="col-md-4">
+                      <div className="mb-3">
+                        <label htmlFor="currentRole" className="form-label">
+                          Select your current role
+                        </label>
+                        <select
+                          className="form-select"
+                          id="current_role"
+                          name="current_role"
+                          onChange={handleJobDetails}
+                          value={JobDetailsForm?.current_role}
+                        >
+                          <option value="">Select Current Role</option>
+                          {jobRoles.map((role, index) => (
+                            <option
+                            selected={JobDetailsForm?.current_role == role}
+                             key={index} value={role}>
+                              {role}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    </div>
+                      <div className="col-md-4">
+                      <div className="mb-3">
+                        <label htmlFor="skills" className="form-label">
+                          skills
+                        </label>
+                        {commonFields.skills.map((skill, index) => (
+                          <div key={index} className="mb-2 row">
+
+                          {
+  DBskills.map((el, index) => (
+    <div key={index} className="row">
+      <div className="col-6">
+        <input
+          type="text"
+          className="form-control"
+          placeholder="Enter skill"
+          value={el.skills}
+          onChange={(e) =>
+            handleSkillChange(
+              index,
+              "name",
+              e.target.value
+            )
+          }
+        />
+      </div>
+      <div className="col-6">
+        <select
+          className="form-select"
+          value={el.skills_level}
+          onChange={(e) =>
+            handleSkillChange(
+              index,
+              "level",
+              e.target.value
+            )
+          }
+        >
+          <option value="">Level</option>
+          <option value="beginner">Beginner</option>
+          <option value="intermediate">Intermediate</option>
+          <option value="expert">Expert</option>
+        </select>
+      </div>
+    </div>
+  ))
+}
+
+
+                           
+
+                            {index === commonFields.skills.length - 1 && (
+                              <span className="px-3 py-2 delete-icon">
+                                <FontAwesomeIcon
+                                  icon={faPlus}
+                                  onClick={handleAddSkill}
+                                  className="cursor-pointer"
+                                />
+                                {commonFields.skills.length > 1 && (
+                                  <FontAwesomeIcon
+                                    icon={faTrash}
+                                    onClick={() => handleRemoveSkill(index)}
+                                    className="cursor-pointer ml-1"
+                                  />
+                                )}
+                              </span>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  
+                    <div className="col-md-4">
+                      <div className="mb-3">
+                        <label htmlFor="currentJobTitle" className="form-label">
+                          What is your current job title and company
+                        </label>
+                        <input
+                          type="text"
+                          className="form-control"
+                          id="current_job"
+                          name="current_job"
+                          placeholder="e.g. Software Engineer"
+                          onChange={handleJobDetails}
+                          value={JobDetailsForm?.current_job}
+                        />
+                        <input
+                          type="text"
+                          className="form-control mt-2"
+                          id="current_company"
+                          placeholder="e.g. Amazon"
+                          name="current_company"
+                          onChange={handleJobDetails}
+                          value={JobDetailsForm?.current_company}
+                        />
+                      </div>
+                    </div>
+                    <div className="col-md-4">
+                      <div className="mb-3">
+                        <label
+                          htmlFor="previousCompanies"
+                          className="form-label"
+                        >
+                          Which companies have you previously worked at?
+                        </label>
+                        <input
+                          type="text"
+                          className="form-control"
+                          id="previous_company"
+                          name="previous_company"
+                          onChange={handleJobDetails}
+                          value={JobDetailsForm?.previous_company}
+                        />
+                      </div>
+                    </div>
+                    <div className="col-md-4">
+                      <div className="mb-3">
+                        <label
+                          htmlFor="selectedIndustries"
+                          className="form-label"
+                        >
+                          Select an industry your companies operate in
+                        </label>
+                        <select
+                          className="form-select"
+                          id="industry"
+                          name="industry"
+                          onChange={handleJobDetails}
+                          value={JobDetailsForm?.industry}
+                        >
+                          <option value="" disabled>
+                            Select an industry
+                          </option>
+                          {industries.map((industry, idx) => (
+                            <option
+                            selected={JobDetailsForm?.industry == industry}
+                             key={idx} value={industry}>
+                              {industry}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+
+                      
+                    </div>
+                    <div>
+              <h2 className="labels">Job Preferences:</h2>
+              <div className="row">
+                <div className="col-12 col-md-3 pb-3">
+                  <label className="form-label">
+                    Where are you currently located?
+                  </label>
+                  <select
+                    className="form-control"
+                   id="currently_located"
+                   name="currently_located"
+                   value={JobDetailsForm?.currently_located}
+                   onChange={handleJobDetails}
+                  >
+                    <option value="">Select District</option>
+                    {districts.map((district, index) => (
+                      <option 
+                      selected={JobDetailsForm?.currently_located == district}
+                      key={index} value={district}>
+                        {district}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <div className="col-12 col-md-3 pb-3">
+                  <label className="form-label">
+                    Where are you open to working?
+                  </label>
+                  <select
+                    className="form-control"
+                    id="open_to_work"
+                    name="open_to_work"
+                    onChange={handleJobDetails}
+                    value={JobDetailsForm?.open_to_work}
+                  >
+                    <option value="">Select District</option>
+                    {districts.map((district, index) => (
+                      <option
+                       selected={JobDetailsForm?.open_to_work == district}
+                       key={index} value={district}>
+                        {district}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div className="col-12 col-md-4 pb-3">
+                  <label className="form-label">
+                    What is the minimum salary you will Expectation?
+                  </label>
+                  <div className="job_salary">
+                    <span className="job_rs">RS.</span>
+                    <input
+                      type="number"
+                      className="form-control text-center"
+                      placeholder="eg.12.5"
+                      name="salary_expectation"
+                      id="salary_expectation"
+                      onChange={handleJobDetails}
+                      value={JobDetailsForm?.salary_expectation}
+                    ></input>
+                    <span className="job_lpa">LPA</span>
+                  </div>
+                </div>
+                <div className="col-12 col-md-4 pb-3">
+                  <label className="form-label">
+                    When can you join the company if selected?
+                  </label>
+                  <select
+                    className="form-select"
+                    id='notice_period'
+                    name="notice_period"
+                    onChange={handleJobDetails}
+                    value={JobDetailsForm?.notice_period}
+                  >
+                    <option value="">Select Notice Period</option>
+                    <option  selected={JobDetailsForm?.notice_period == 'immediately'} value="immediately">Immediately</option>
+                    <option  selected={JobDetailsForm?.notice_period == '15days'}  value="15days">15 Days</option>
+                    <option  selected={JobDetailsForm?.notice_period == '1month'}  value="1month">1 Month</option>
+                    <option  selected={JobDetailsForm?.notice_period == '2months'}  value="2months">2 Months</option>
+                    <option  selected={JobDetailsForm?.notice_period == '3months'}  value="3months">3+ Months</option>
+                  </select>
+                </div>
+                <div className="col-12 col-md-3 pb-2">
+                  <label className="form-label">Resume</label>
+                  <div>
+                  <iframe src="https://tourism.gov.in/sites/default/files/2019-04/dummy-pdf_2.pdf" width="100%" height="600px"></iframe>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+                  </div>
+                  </form>
+                </div>
+              )}
+
+
+              {JobDetailsForm?.user_role === "student" && Jobdetails && (
+                <div>
+                  {/* <h2 className='labels'>Student Fields</h2> */}
+                  <div className="row mb-4">
+                    <div className="col-12 col-md-4">
+                      <div className="mb-3">
+                        <label className="form-label">
+                          What kind of jobs are you looking for?
+                        </label>
+                        <div style={{
+  display: "flex",
+  width: "100%",
+  justifyContent: "space-between", // Distribute space between items
+}}>
+
+  <div className="form-check" style={{ flex: "1" }}>
+    <input
+      type="radio"
+      id="preferredJobsOption1"
+      className="form-check-input"
+      name="prefered_job"
+      value="Option 1"
+      checked={JobDetailsForm?.prefered_job == 'Option 1'}
+      onChange={handleJobDetails}
+    />
+    <label
+      htmlFor="preferredJobsOption1"
+      className="form-check-label"
+    >
+      Both internships and full-time
+    </label>
+  </div>
+
+  <div className="form-check" style={{ flex: "1", marginLeft: "60px" }}>
+    <input
+      type="radio"
+      id="preferredJobsOption2"
+      className="form-check-input"
+      name="prefered_job"
+      value="Option 2"
+      checked={JobDetailsForm?.prefered_job == 'Option 2'}
+      onChange={handleJobDetails}
+    />
+    <label
+      htmlFor="preferredJobsOption2"
+      className="form-check-label"
+    >
+      Full-time only
+    </label>
+  </div>
+
+  <div className="form-check" style={{ flex: "1", marginLeft: "60px" }}>
+    <input
+      type="radio"
+      id="preferredJobsOption3"
+      className="form-check-input"
+      name="prefered_job"
+      value="Option 3"
+      checked={JobDetailsForm?.prefered_job == 'Option 3'}
+      onChange={handleJobDetails}
+    />
+    <label
+      htmlFor="preferredJobsOption3"
+      className="form-check-label"
+    >
+      Internships only
+    </label>
+  </div>
+</div>
+
+                      </div>
+                    </div>
+
+                    <div className=" col-12 col-md-4">
+                      <div className="mb-3">
+                        <label htmlFor="preferredRole" className="form-label">
+                          Select your preferred role
+                        </label>
+                        <select
+                          className="form-select"
+                          id="prefered_role"
+                          name="prefered_role"
+                          value={JobDetailsForm?.prefered_role}
+                          onChange={handleJobDetails}
+                        >
+                          <option value="">Select Preferred Role</option>
+                          {jobRoles.map((role, index) => (
+                            <option 
+                            selected={JobDetailsForm?.prefered_role == role}
+                            key={index} value={role}>
+                              {role}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    </div>
+                    <div className=" col-12 col-md-4">
+                      <div className="mb-3">
+                        <label htmlFor="skills" className="form-label">
+                          skills
+                        </label>
+                        {commonFields.skills.map((skill, index) => (
+                          <div key={index} className="mb-2 row">
+                            <div className="col-6">
+                              <input
+                                type="text"
+                                className="form-control"
+                                placeholder="Enter skill"
+                                value={skill.name}
+                                onChange={(e) =>
+                                  handleSkillChange(
+                                    index,
+                                    "name",
+                                    e.target.value
+                                  )
+                                }
+                              />
+                            </div>
+                            <div className="col-6">
+                              <select
+                                className="form-select"
+                                value={skill.level}
+                                onChange={(e) =>
+                                  handleSkillChange(
+                                    index,
+                                    "level",
+                                    e.target.value
+                                  )
+                                }
+                              >
+                                <option value=""> Level</option>
+                                <option value="beginner">Beginner</option>
+                                <option value="intermediate">
+                                  Intermediate
+                                </option>
+                                <option value="expert">Expert</option>
+                              </select>
+                            </div>
+
+                            {index === commonFields.skills.length - 1 && (
+                              <span className="px-3 py-2 delete-icon">
+                                <FontAwesomeIcon
+                                  icon={faPlus}
+                                  onClick={handleAddSkill}
+                                  className="cursor-pointer"
+                                />
+                                {commonFields.skills.length > 1 && (
+                                  <FontAwesomeIcon
+                                    icon={faTrash}
+                                    onClick={() => handleRemoveSkill(index)}
+                                    className="cursor-pointer ml-1"
+                                  />
+                                )}
+                              </span>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+
+                      <div>
+              <h2 className="labels">Job Preferences:</h2>
+              <div className="row">
+                <div className="col-12 col-md-3 pb-3">
+                  <label className="form-label">
+                    Where are you currently located?
+                  </label>
+                  <select
+                    className="form-control"
+                   id="currently_located"
+                   name="currently_located"
+                   value={JobDetailsForm?.currently_located}
+                   onChange={handleJobDetails}
+                  >
+                    <option value="">Select District</option>
+                    {districts.map((district, index) => (
+                      <option 
+                      selected={JobDetailsForm?.currently_located == district}
+                      key={index} value={district}>
+                        {district}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <div className="col-12 col-md-3 pb-3">
+                  <label className="form-label">
+                    Where are you open to working?
+                  </label>
+                  <select
+                    className="form-control"
+                    id="open_to_work"
+                    name="open_to_work"
+                    onChange={handleJobDetails}
+                    value={JobDetailsForm?.open_to_work}
+                  >
+                    <option value="">Select District</option>
+                    {districts.map((district, index) => (
+                      <option
+                       selected={JobDetailsForm?.open_to_work == district}
+                       key={index} value={district}>
+                        {district}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div className="col-12 col-md-4 pb-3">
+                  <label className="form-label">
+                    What is the minimum salary you will Expectation?
+                  </label>
+                  <div className="job_salary">
+                    <span className="job_rs">RS.</span>
+                    <input
+                      type="number"
+                      className="form-control text-center"
+                      placeholder="eg.12.5"
+                      name="salary_expectation"
+                      id="salary_expectation"
+                      onChange={handleJobDetails}
+                      value={JobDetailsForm?.salary_expectation}
+                    ></input>
+                    <span className="job_lpa">LPA</span>
+                  </div>
+                </div>
+                <div className="col-12 col-md-4 pb-3">
+                  <label className="form-label">
+                    When can you join the company if selected?
+                  </label>
+                  <select
+                    className="form-select"
+                    id='notice_period'
+                    name="notice_period"
+                    onChange={handleJobDetails}
+                    value={JobDetailsForm?.notice_period}
+                  >
+                    <option value="">Select Notice Period</option>
+                    <option  selected={JobDetailsForm?.notice_period == 'immediately'} value="immediately">Immediately</option>
+                    <option  selected={JobDetailsForm?.notice_period == '15days'}  value="15days">15 Days</option>
+                    <option  selected={JobDetailsForm?.notice_period == '1month'}  value="1month">1 Month</option>
+                    <option  selected={JobDetailsForm?.notice_period == '2months'}  value="2months">2 Months</option>
+                    <option  selected={JobDetailsForm?.notice_period == '3months'}  value="3months">3+ Months</option>
+                  </select>
+                </div>
+                <div className="col-12 col-md-3 pb-2">
+                  <label className="form-label">Resume</label>
+                  <div>
+                  <iframe src="https://tourism.gov.in/sites/default/files/2019-04/dummy-pdf_2.pdf" width="100%" height="600px"></iframe>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+              {JobDetailsForm?.user_role === "careerBreak" && Jobdetails && (
+                <div>
+                  <div className="row">
+                    <div className="col-12 col-md-3">
+                      <div className="mb-3">
+                        <label
+                          
+                          className="form-label"
+                        >
+                          Start Date of Career Break
+                        </label>
+                        <div className="row">
+                          <div className="col-6">
+                            <select
+                              className="form-select"
+                              id="start_career_month"
+                              name="start_career_month"
+                              value={JobDetailsForm?.start_career_month}
+                              onChange={handleJobDetails}
+                            >
+                              <option value="">Month</option>
+                              {months.map((month, i) => (
+                                <option 
+                                 selected={JobDetailsForm?.start_career_month == month}
+                                key={i} value={month}>
+                                  {month}
+                                </option>
+                              ))}
+                            </select>
+                          </div>
+                          <div className="col-6">
+                            <select
+                              className="form-select"
+                              id="start_career_year"
+                              name="start_career_year"
+                              value={JobDetailsForm?.start_career_year}
+                              onChange={handleJobDetails}
+                            >
+                              <option value="">Year</option>
+                              {years.map((year, i) => (
+                                <option 
+                                selected={JobDetailsForm?.start_career_year == year}
+                                key={i} value={year}>
+                                  {year}
+                                </option>
+                              ))}
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="col-12 col-md-3">
+                      <div className="mb-3">
+                        <label
+                        
+                          className="form-label"
+                        >
+                          Reason for Career Break
+                        </label>
+                        <textarea
+                          className="form-control"
+                          id="reason_career_break"
+                          name="reason_career_break"
+                         value={JobDetailsForm?.reason_career_break}
+                          onChange={handleJobDetails}
+                        />
+                      </div>
+                    </div>
+                    <div className="col-12 col-md-3">
+                      <div className="mb-3">
+                        <label htmlFor="preferredRole" className="form-label">
+                          Select your preferred role
+                        </label>
+                        <select
+                          className="form-select"
+                          id="prefered_role"
+                          name="prefered_role"
+                          value={JobDetailsForm?.prefered_role}
+                          onChange={handleJobDetails}
+                        >
+                          <option value="">Select Preferred Role</option>
+                          {jobRoles.map((role, index) => (
+                            <option
+                            selected={JobDetailsForm?.prefered_role == role}
+                             key={index} value={role}>
+                              {role}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    </div>
+                    <div className="col-12 col-md-3">
+                      <div className="mb-3">
+                        <label htmlFor="skills" className="form-label">
+                          skills
+                        </label>
+                        {commonFields.skills.map((skill, index) => (
+                          <div key={index} className="mb-2 row">
+                            <div className="col-6">
+                              <input
+                                type="text"
+                                className="form-control"
+                                placeholder="Enter skill"
+                                value={skill.name}
+                                id=""
+                                name=""
+                                
+                                onChange={handleJobDetails}
+                              />
+                            </div>
+                            <div className="col-6">
+                              <select
+                                className="form-select"
+                                value={skill.level}
+                                onChange={(e) =>
+                                  handleSkillChange(
+                                    index,
+                                    "level",
+                                    e.target.value
+                                  )
+                                }
+                              >
+                                <option value=""> Level</option>
+                                <option value="beginner">Beginner</option>
+                                <option value="intermediate">
+                                  Intermediate
+                                </option>
+                                <option value="expert">Expert</option>
+                              </select>
+                            </div>
+
+                            {index === commonFields.skills.length - 1 && (
+                              <span className="px-3 py-2 delete-icon cursor-color">
+                                <FontAwesomeIcon
+                                  icon={faPlus}
+                                  onClick={handleAddSkill}
+                                  className="cursor-pointer"
+                                />
+                                {commonFields.skills.length > 1 && (
+                                  <FontAwesomeIcon
+                                    icon={faTrash}
+                                    onClick={() => handleRemoveSkill(index)}
+                                    className="cursor-pointer ml-1 cursor-color"
+                                  />
+                                )}
+                              </span>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                    <div className="col-12 col-md-3">
+                      <div className="mb-3">
+                        <label
+                          htmlFor="yearsOfExperience"
+                          className="form-label"
+                        >
+                          How many years of work experience do you have?
+                        </label>
+                        <input
+                          type="number"
+                          className="form-control"
+                          id="work_experiance"
+                          name="work_experiance"
+                          value={JobDetailsForm?.work_experiance}
+                          onChange={handleJobDetails}
+                        />
+                      </div>
+                    </div>
+                    <div>
+              <h2 className="labels">Job Preferences:</h2>
+              <div className="row">
+                <div className="col-12 col-md-3 pb-3">
+                  <label className="form-label">
+                    Where are you currently located?
+                  </label>
+                  <select
+                    className="form-control"
+                   id="currently_located"
+                   name="currently_located"
+                   value={JobDetailsForm?.currently_located}
+                   onChange={handleJobDetails}
+                  >
+                    <option value="">Select District</option>
+                    {districts.map((district, index) => (
+                      <option 
+                      selected={JobDetailsForm?.currently_located == district}
+                      key={index} value={district}>
+                        {district}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <div className="col-12 col-md-3 pb-3">
+                  <label className="form-label">
+                    Where are you open to working?
+                  </label>
+                  <select
+                    className="form-control"
+                    id="open_to_work"
+                    name="open_to_work"
+                    onChange={handleJobDetails}
+                    value={JobDetailsForm?.open_to_work}
+                  >
+                    <option value="">Select District</option>
+                    {districts.map((district, index) => (
+                      <option
+                       selected={JobDetailsForm?.open_to_work == district}
+                       key={index} value={district}>
+                        {district}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div className="col-12 col-md-4 pb-3">
+                  <label className="form-label">
+                    What is the minimum salary you will Expectation?
+                  </label>
+                  <div className="job_salary">
+                    <span className="job_rs">RS.</span>
+                    <input
+                      type="number"
+                      className="form-control text-center"
+                      placeholder="eg.12.5"
+                      name="salary_expectation"
+                      id="salary_expectation"
+                      onChange={handleJobDetails}
+                      value={JobDetailsForm?.salary_expectation}
+                    ></input>
+                    <span className="job_lpa">LPA</span>
+                  </div>
+                </div>
+                <div className="col-12 col-md-4 pb-3">
+                  <label className="form-label">
+                    When can you join the company if selected?
+                  </label>
+                  <select
+                    className="form-select"
+                    id='notice_period'
+                    name="notice_period"
+                    onChange={handleJobDetails}
+                    value={JobDetailsForm?.notice_period}
+                  >
+                    <option value="">Select Notice Period</option>
+                    <option  selected={JobDetailsForm?.notice_period == 'immediately'} value="immediately">Immediately</option>
+                    <option  selected={JobDetailsForm?.notice_period == '15days'}  value="15days">15 Days</option>
+                    <option  selected={JobDetailsForm?.notice_period == '1month'}  value="1month">1 Month</option>
+                    <option  selected={JobDetailsForm?.notice_period == '2months'}  value="2months">2 Months</option>
+                    <option  selected={JobDetailsForm?.notice_period == '3months'}  value="3months">3+ Months</option>
+                  </select>
+                </div>
+                <div className="col-12 col-md-3 pb-2">
+                  <label className="form-label">Resume</label>
+                  <div>
+                  <iframe src="https://tourism.gov.in/sites/default/files/2019-04/dummy-pdf_2.pdf" width="100%" height="600px"></iframe>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+                  </div>
+                </div>
+              )}
+            </div>
+
+
+
+            
+
+
+</>
   );
 };
 
