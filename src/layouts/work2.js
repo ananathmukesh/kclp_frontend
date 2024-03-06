@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
 import "./demo.css";
+import { ResumeApi } from "../config/serverUrl";
 
 const Work = ({handleJobDetails,
   setJobskills
@@ -14,10 +15,21 @@ const Work = ({handleJobDetails,
   UserRole,
   Jobdetails,
   DBskills,
-  handleFileChange,
-  fileInputRef
+  fileInputRef,
+  setSelectedFile
 
 }) => {
+
+
+
+  console.log('db skills data',DBskills);
+
+
+  const handleFileChange = (e) => {
+    setSelectedFile(e.target.files[0]);
+  };
+
+
   const [selectedCurrentDistrict, setSelectedCurrentDistrict] = useState("");
   const [selectedSpecializations, setSelectedSpecializations] = useState("");
   const [selectedOpenToWorkDistrict, setSelectedOpenToWorkDistrict] =
@@ -331,6 +343,13 @@ const Work = ({handleJobDetails,
       university: "",
     },
   ]);
+
+
+
+
+
+console.log(workExperience);
+
 
   const handleEducationDetailsChange = (index, field, value) => {
     const updatedEducationDetails = [...educationDetails];
@@ -1494,7 +1513,7 @@ const Work = ({handleJobDetails,
                   <div>
                   <input
                     type="file"
-                    onChange={handleJobDetails}
+                    onChange={handleFileChange}
 
                   />
 
@@ -1819,9 +1838,9 @@ const Work = ({handleJobDetails,
                   </select>
                 </div>
                 <div className="col-12 col-md-3 pb-2">
-                  <label className="form-label">Resume</label>
+                  <label className="form-label"><b>Resume</b> : {JobDetailsForm?.resume}</label>
                   <div>
-                  <iframe src="https://tourism.gov.in/sites/default/files/2019-04/dummy-pdf_2.pdf" width="100%" height="600px"></iframe>
+                  <iframe src={`${ResumeApi}${JobDetailsForm?.resume}`} width="100%" height="600px"></iframe>
 
                   </div>
                 </div>

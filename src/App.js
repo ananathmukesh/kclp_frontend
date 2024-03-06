@@ -16,7 +16,8 @@ import { useRef } from "react";
 import 'primeflex/primeflex.css';  
 import 'primereact/resources/primereact.css';
 import 'primereact/resources/themes/lara-light-indigo/theme.css';
-import DynamicInputFields from "./utils/appenform"; 
+import DynamicInputFields from "./utils/appenform";
+import PropertyDetailFormPage from "./Component/Profile/PropertyDetailForm";
 
 
 function App() {
@@ -36,6 +37,7 @@ function App() {
             <Route path="/main/vehicle" element={<Vehicle />} />
             <Route path="/main/demo" element={<Demo />} />
             <Route path="/main/form" element={<MyForm />} />
+            <Route path="/main/form1" element={<PropertyDetailFormPage />} />
           </Route>
         </Routes>
       </Router>

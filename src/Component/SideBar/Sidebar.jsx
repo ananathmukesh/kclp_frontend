@@ -62,7 +62,7 @@ const Sidebar = () => {
                 <TbCaretUpFilled className="open-caret" />
               )}
             </li>
-            {isDropdownOpen && (
+            {/* {isDropdownOpen && (
               <div className="d-flex align-items-center">
                 <ul className="p-0 w-100" style={{ listStyleType: "none" }}>
                   <li
@@ -103,7 +103,7 @@ const Sidebar = () => {
                   </Link>
                 </ul>
               </div>
-            )}
+            )} */}
           </ul>
         </div>
         <div

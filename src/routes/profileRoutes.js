@@ -70,7 +70,11 @@ export const UpdateContactForm = async (ContactForm) => {
 
 export const AddDetails = async (ContactForm) => {
   try {
-    const res = await axios.post(`${Nodeapi}/addDetails`, ContactForm);
+    const res = await axios.post(`${Nodeapi}/addDetails`, ContactForm,{
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
     if (res.data) {
       if (res.data.code == 200) {
         return res;
@@ -96,5 +100,37 @@ export const UpdateDetails = async (ContactForm) => {
     }
   } catch (error) {
     return "Error Updateing Data";
+  }
+};
+
+
+export const Edit_Home_Data = async (ContactForm) => {
+  try {
+    const res = await axios.post(`${Nodeapi}/HmApplianceData`, ContactForm);
+    if (res.data) {
+      if (res.data.code == 200) {
+        return res;
+      } else {
+        return null;
+      }
+    }
+  } catch (error) {
+    return null;
+  }
+};
+
+
+export const Update_Home_Data = async (ContactForm) => {
+  try {
+    const res = await axios.post(`${Nodeapi}/HmApplianceData`, ContactForm);
+    if (res.data) {
+      if (res.data.code == 200) {
+        return res;
+      } else {
+        return null;
+      }
+    }
+  } catch (error) {
+    return null;
   }
 };

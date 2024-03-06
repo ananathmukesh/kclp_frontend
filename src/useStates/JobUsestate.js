@@ -5,7 +5,7 @@ import { useState } from "react";
 const Jobusestates = () => {
   const [ContactForm, setContactForm] = useState({
     userid: "",
-    phoneNumber1: "99367763563",
+    plotnumber: "99367763563",
     Street: "",
     place: "",
     taluk: "",
@@ -85,18 +85,92 @@ const Jobusestates = () => {
   const [personaldetails, setPersonaldetails] = useState("");
   const [Jobdetails, setJobdetails] = useState("");
   const [EducationalDetails, setEducationalDetails] = useState("");
+  const [HomeApplianceDetails, setHomeApplianceDetails] = useState("");
   const [personalformGender, setPersonalformGender] = useState("");
   const [ErrorValidYear, setValidYear] = useState('');
   const [PreferedRole, setPreferedRole] = useState('');
   const [UserRole, setUserrole] = useState('');
   const [FormType, setFormType] = useState('save');
   const [resumedata, setResumedata] = useState('');
+  const [UpdateButton, setUpdateButton] = useState('Add');
+  const [VehicleUpdateButton, setVehicleUpdateButton] = useState('Add');
+  const [GadgetUpdateButton, setGadgetUpdateButton] = useState('Add');
+  const [PropertyUpdateButton, setPropertyUpdateButton] = useState('Add');
+  const [VehicleDetails, setVehicleDetails] = useState('');
+  const [GadgetDetails, setGadgetDetails] = useState('');
+  const [PropertyDetails, setPropertyDetails] = useState('');
+  const [GadgetDetailsdata, setGadgetDetailsData] = useState([]);
+  const [Gender, setGender] = useState('');
+  const [JobSkillsarray, setJobSkillsarray] = useState('');
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [selectedImage1, setSelectedImage1] = useState('');
+
 
   const [DBskills, setDBskills] = useState({
     yearsOfExperience: "",
     currentRole: "",
     skills: Array(1).fill({ name: "", level: "" }),
   });
+
+
+
+  const [HomeApllianceDetailsForm, setHomeApllianceDetailsForm] = useState({
+    userid: "",
+    Appliance_type: "",
+    brand: "",
+    model: "",
+    start_period: "",
+    end_period: "",
+    description: "", 
+    date_of_purchase:""
+  });
+
+  const [EditHomeApllianceDetailsForm, EditsetHomeApllianceDetailsForm] = useState({
+    userid: "",
+    Appliance_type: "",
+    brand: "",
+    model: "",
+    start_period: "",
+    end_period: "",
+    description: "", 
+    date_of_purchase:""
+  });
+
+
+
+  const [VehicleDetailsForm, setVehicleDetailsForm] = useState({
+    userid: "",
+    model: "",
+    type: "",
+    vehicle_no: "",
+    dealer_agency: "",
+    description: "",
+    vehicle:"",
+    brand:""
+  });
+
+
+  const [GadgetDetailsForm, setGadgetDetailsForm] = useState({
+    userid: "",
+    gadget: "",
+    brand: "",
+    warranty: "",
+    purchase_date: "",
+    description: "",
+    model:""
+  });
+
+  const [PropertyDetailsForm, setPropertyDetailsForm] = useState({
+    userid: "",
+    property_types: "",
+    bhk_type: "",
+    property_description: "",
+    property_location: "",
+    property_status: "",
+    land_sqfit:"",
+    property_types_option:""
+  });
+
   return {
     ContactForm,
     setContactForm,
@@ -117,7 +191,27 @@ const Jobusestates = () => {
      PreferedRole, setPreferedRole,
      UserRole, setUserrole,
      DBskills, setDBskills,
-     resumedata, setResumedata
+     resumedata, setResumedata,
+     HomeApllianceDetailsForm, setHomeApllianceDetailsForm,
+     HomeApplianceDetails, setHomeApplianceDetails,
+     UpdateButton, setUpdateButton,
+     VehicleDetailsForm, setVehicleDetailsForm,
+     VehicleDetails, setVehicleDetails,
+     VehicleUpdateButton, setVehicleUpdateButton,
+
+     GadgetDetailsForm, setGadgetDetailsForm,
+     GadgetDetails, setGadgetDetails,
+     GadgetDetailsdata, setGadgetDetailsData,
+     GadgetUpdateButton, setGadgetUpdateButton,
+
+     PropertyUpdateButton, setPropertyUpdateButton,
+     PropertyDetailsForm, setPropertyDetailsForm,
+     PropertyDetails, setPropertyDetails,
+     Gender, setGender,
+     EditHomeApllianceDetailsForm, EditsetHomeApllianceDetailsForm,
+     JobSkillsarray, setJobSkillsarray,
+     selectedFile, setSelectedFile,
+     selectedImage1, setSelectedImage1
   };
 };
 
