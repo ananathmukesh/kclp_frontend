@@ -23,7 +23,7 @@ import { style } from '../../Styles/Jobformstyle'
 const VehicleDetailsFormPage = () => {
 
 
-    const authdata = useSelector((state) => state.auth.user.user);
+    const authdata = useSelector((state) => state.auth.user?.user.user);
     const [Vehicle, setVehicle] = React.useState(false);
     const handleVehicleOpen = () => setVehicle(true);
     const handleVehicleClose = () => setVehicle(false);
@@ -43,7 +43,7 @@ const VehicleDetailsFormPage = () => {
       useEffect(() => {
         const fetchVehicleDetails = async() => {
           const fetchVehicleDetails = await axios.post(`${Nodeapi}/FetchLoopDetails`,{
-            "id":authdata.id,
+            "id":authdata?.id,
               "table":"VehicleDetails"
         });
              if(fetchVehicleDetails){
@@ -127,7 +127,7 @@ const VehicleDetailsFormPage = () => {
         setVehicleDetailsForm({
           ...VehicleDetailsForm,
           [name]: value,
-          userid: authdata.id,
+          userid: authdata?.id,
         });
       };
 
@@ -192,7 +192,7 @@ const VehicleDetailsFormPage = () => {
   return (
     <div>
       <Toast ref={toast} />
-      <div className="card mt-4">
+      <div className="card mt-4"  style={{border:'3px solid #1877f2'}} >
         <div className="d-flex justify-content-between align-items-center">
           <h5>Vehicle Details</h5>
           <p>
@@ -324,7 +324,9 @@ const VehicleDetailsFormPage = () => {
         </div>
        
         <Box sx={{ height: 'auto',}}>
-      <DataGrid
+        {
+          VehicleDetails && (
+            <DataGrid
         rows={VehicleDetails}
         columns={Vehiclecolumns}
         initialState={{
@@ -338,6 +340,9 @@ const VehicleDetailsFormPage = () => {
         checkboxSelection
         disableRowSelectionOnClick
       />
+          )
+        }
+     
     </Box>
 
 

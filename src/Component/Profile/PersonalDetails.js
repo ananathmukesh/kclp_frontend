@@ -17,7 +17,7 @@ import { style } from '../../Styles/Jobformstyle'
 
 
 const PersonalDetailsForm1 = () => {
-    const authdata = useSelector((state) => state.auth.user.user);
+    const authdata = useSelector((state) => state.auth.user?.user.user);
   const toast = useRef(null);
 
  
@@ -34,7 +34,7 @@ const PersonalDetailsForm1 = () => {
 
   useEffect(() => {
     const fetchPersonalInformation = async () => {
-        const fetchPersonalDetails = await FetchDetails(authdata.id,'PersonalDetails');
+        const fetchPersonalDetails = await FetchDetails(authdata?.id,'PersonalDetails');
         if(fetchPersonalDetails){
           setPersonaldetails(fetchPersonalDetails);
         }
@@ -45,7 +45,7 @@ const PersonalDetailsForm1 = () => {
 
   const addEditValues = async (e, table) => {
     e.preventDefault();
-    const fetchPersonalDetails = await FetchDetails(authdata.id, table);
+    const fetchPersonalDetails = await FetchDetails(authdata?.id, table);
     if (fetchPersonalDetails) {
       setPersonalDetailsForm(fetchPersonalDetails);
     } else {
@@ -59,7 +59,7 @@ const PersonalDetailsForm1 = () => {
     const updatedForm = {
       ...PersonalDetailsForm,
       [name]: value,
-      userid: authdata.id,
+      userid: authdata?.id,
       gender: gender, // Use the parameter 'gender', not 'Gender'
     };
     const cleanedForm = removeEmptyStrings(updatedForm);
@@ -140,7 +140,7 @@ const PersonalDetailsForm1 = () => {
   return (
     <div>
       <Toast ref={toast} />
-      <div className="card mt-4">
+      <div className="card mt-4" style={{border:'3px solid #1877f2'}} >
         <div className="d-flex justify-content-between align-items-center">
           <h5>Personal Details</h5>
           <p>
@@ -434,6 +434,9 @@ const PersonalDetailsForm1 = () => {
             </Modal>
           </p>
         </div>
+       {
+        personaldetails && authdata && (
+        <>
         <div className="expand">
           <div className="row">
             <div className="col-md-2">
@@ -529,6 +532,14 @@ const PersonalDetailsForm1 = () => {
             </p>
           </div>
         </div>
+        </>
+        )
+       }
+
+
+       
+
+
       </div>
     </div>
   )

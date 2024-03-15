@@ -25,7 +25,7 @@ const HomeApplianceFormPage = () => {
   const handleHomeOpen = () => setHome(true);
   const handleHomeClose = () => setHome(false);
 
-  const authdata = useSelector((state) => state.auth.user.user);
+  const authdata = useSelector((state) => state.auth.user?.user.user);
   const toast = useRef(null);
 
   const {
@@ -46,7 +46,7 @@ const HomeApplianceFormPage = () => {
   useEffect(() => {
     const fetchHomeAppliance = async() => {
         const fetchHomeDetails = await axios.post(`${Nodeapi}/FetchLoopDetails`,{
-            "id":authdata.id,
+            "id":authdata?.id,
             "table":"HomeApplianceDetails"
         });
          if(fetchHomeDetails){
@@ -70,7 +70,7 @@ const HomeApplianceFormPage = () => {
     setHomeApllianceDetailsForm({
       ...HomeApllianceDetailsForm,
       [name]: value,
-      userid: authdata.id,
+      userid: authdata?.id,
     });
   };
   console.log(HomeApllianceDetailsForm);
@@ -205,7 +205,7 @@ const HomeApplianceFormPage = () => {
 
   return (
     <div>
-      <div className="card mt-4">
+      <div className="card mt-4"  style={{border:'3px solid #1877f2'}} >
         <div className="d-flex justify-content-between align-items-center">
           <h5>Home Appliance Details</h5>
           <p>
@@ -353,7 +353,9 @@ const HomeApplianceFormPage = () => {
         </div>
 
         <Box sx={{ height: "auto" }}>
-          <DataGrid
+        {
+          HomeApplianceDetails && (
+            <DataGrid
             rows={HomeApplianceDetails}
             columns={columns}
             initialState={{
@@ -367,6 +369,9 @@ const HomeApplianceFormPage = () => {
             checkboxSelection
             disableRowSelectionOnClick
           />
+          )
+        }
+         
         </Box>
       </div>
     </div>

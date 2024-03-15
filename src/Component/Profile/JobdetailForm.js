@@ -15,7 +15,7 @@ import { useRef } from "react";
 import Work from "../../layouts/work2";
 import { modaljob } from '../../Styles/Jobformstyle'
 const JobdetailForm = () => {
-    const authdata = useSelector((state) => state.auth.user.user);
+    const authdata = useSelector((state) => state.auth.user?.user.user);
 
     const [Job, setJob] = React.useState(false);
   const handleJobOpen = () => setJob(true);
@@ -43,7 +43,7 @@ const JobdetailForm = () => {
 
   const edit_jobdetails = async (e, table) => {
     e.preventDefault();
-    const fetchDetails = await FetchDetails(authdata.id, table);
+    const fetchDetails = await FetchDetails(authdata?.id, table);
     if(fetchDetails[1]){
         setDBskills(fetchDetails[1]);
     }
@@ -62,7 +62,7 @@ const JobdetailForm = () => {
   
    useEffect(() => {
    const fetchJobdetails = async() => {
-    const fetchJobDetails = await FetchDetails(authdata.id,'JobDetails');
+    const fetchJobDetails = await FetchDetails(authdata?.id,'JobDetails');
     const skillsArray = (fetchJobDetails && fetchJobDetails[1]) ? fetchJobDetails[1].map(item => item.skills) : [];
     setJobSkillsarray(skillsArray);
     setJobdetails(fetchJobDetails);
@@ -89,7 +89,7 @@ const JobdetailForm = () => {
       if(JobDetails){
         setJob(false);
        
-        const fetchDetails = await FetchDetails(authdata.id,'JobDetails');
+        const fetchDetails = await FetchDetails(authdata?.id,'JobDetails');
         if(fetchDetails){
           setJobdetails(fetchDetails);
          }
@@ -110,7 +110,7 @@ const JobdetailForm = () => {
       
       if(addjobdetailsdata){
         setJob(false);
-        const fetchDetails = await FetchDetails(authdata.id,'JobDetails');
+        const fetchDetails = await FetchDetails(authdata?.id,'JobDetails');
         if(fetchDetails){
           setJobdetails(fetchDetails);
         }
@@ -127,7 +127,7 @@ const JobdetailForm = () => {
     setJobDetailsForm({
       ...JobDetailsForm,
       [name]: value,
-      userid: authdata.id,
+      userid: authdata?.id,
       user_role: UserRole ? UserRole : JobDetailsForm.user_role,
   
       
@@ -164,7 +164,7 @@ const JobdetailForm = () => {
   return (
     <div>
      <Toast ref={toast} />
-      <div className="card mt-4">
+      <div className="card mt-4"  style={{border:'3px solid #1877f2'}} >
         <div className="d-flex justify-content-between align-items-center">
           <h5>Job Details</h5>
           <p>

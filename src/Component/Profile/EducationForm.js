@@ -14,13 +14,21 @@ import { Toast } from "primereact/toast";
 import { useRef } from "react";
 import { allDegrees,Specializations,allUniversities,schoolQualificationList,academicDisciplines } from "../../Data/JobJson";
 import { style } from '../../Styles/Jobformstyle'
+import CollageForm from "../AddEducationDetails/CollageForm";
+import SchoolForm from "../AddEducationDetails/SchoolForm";
+import axios from "axios";
+import { Nodeapi } from "../../config/serverUrl";
+import '../../Styles/HtmlTable.css'
+import { format } from 'date-fns';
 
 const EducationForm = () => {
-  const authdata = useSelector((state) => state.auth.user.user);
-
+  const authdata = useSelector((state) => state.auth.user?.user.user);
+  console.log('authdata',authdata);
   const [Education, setEducation] = React.useState(false);
   const handleEducationOpen = () => setEducation(true);
   const handleEducationClose = () => setEducation(false);
+  const [schooldetails,setSchooldetails] = React.useState([]);
+  const [collagedetails,setCollagedetails] = React.useState([]);
 
   const {
     EducationalDetails,
@@ -29,10 +37,8 @@ const EducationForm = () => {
     setEducationalDetailsForm,
   } = Jobusestates();
 
-  const [validStartYear, setValidStartYear] = useState("");
-  const [validEndYear, setValidEndYear] = useState("");
-  const [validSclStart, setValidSclStart] = useState("");
-  const [validSclEnd, setValidSclEnd] = useState("");
+  
+  
 
   const toast = useRef(null);
 
@@ -41,50 +47,86 @@ const EducationForm = () => {
     setEducationalDetailsForm({
       ...EducationalDetailsForm,
       [name]: value,
-      userid: authdata.id,
+      userid: authdata?.id,
     });
 
     const isValidYear = /^\d{4}$/.test(value);
 
-    if (name.trim() === "start_year") {
-      isValidYear
-        ? setValidStartYear("")
-        : setValidStartYear("Please enter a valid four-digit year.");
-    } else if (name.trim() === "end_year") {
-      isValidYear
-        ? setValidEndYear("")
-        : setValidEndYear("Please enter a valid four-digit year.");
-    } else if (name.trim() === "scl_start") {
-      isValidYear
-        ? setValidSclStart("")
-        : setValidSclStart("Please enter a valid four-digit year.");
-    } else if (name.trim() === "scl_end") {
-      isValidYear
-        ? setValidSclEnd("")
-        : setValidSclEnd("Please enter a valid four-digit year.");
-    }
+  
   };
 
+
  
 
-  const educational_edutvalue = async (e,table) => {
-    e.preventDefault();
-    const fetchDetails = await FetchDetails(authdata.id,table);
+
+
+
+  const [tableData, setTableData] = useState([
+    // Initial table data
+    {
+      id: 1,
+      scl_qualification: "",
+      scl_specialization: "",
+      scl_start: "",
+      scl_end: "",
+      scl_name: "",
+      scl_percentage: "",
+    },
+  ]);
+
+
+
+  const handleAddInputField = () => {
+    // Add a new row with empty input fields
+    setTableData((prevData) => [
+      ...prevData,
+      { id: prevData.length + 1, scl_qualification: "",
+      scl_specialization: "",
+      scl_start: "",
+      scl_end: "",
+      scl_name: "",
+      scl_percentage: "", },
+    ]);
+  };
+
+  const handleRemoveRow = (index) => {
+    // Remove the row at the specified index
+    setTableData((prevData) => prevData.filter((row, i) => i !== index));
+  };
+
+  const handleInputChange = (index, fieldName, value) => {
+    // Update the value of the input field in the specified row
+    setTableData((prevData) =>
+      prevData.map((row, i) =>
+        i === index ? { ...row, [fieldName]: value } : row
+      )
+    );
+    setTableData((prevData) =>
+      prevData.map((row, i) =>
+        i === index ? { ...row, [fieldName]: value } : row
+      )
+    );
+  };
+
+
+
+
+  
+
+
+
  
-      if(fetchDetails){  
-        setEducationalDetailsForm(fetchDetails);
-      }else{
-        setEducationalDetailsForm(null);
-      }
-  }
 
   useEffect(() => {
-    const fetchEducationalInformation = async () => {
-        const fetchEducationalDetails = await FetchDetails(authdata.id,'EducationalDetails');
-      setEducationalDetails(fetchEducationalDetails);
+    const fetchInformation = async () => {
+        const fetchSchoolDetails = await axios.post(`${Nodeapi}/fetch_Clg_Scl_details`,{ id:authdata?.id });
+        setSchooldetails(fetchSchoolDetails.data.data.schooldata);
+        setCollagedetails(fetchSchoolDetails.data.data.collagedata);
+
+     
     };
 
-    fetchEducationalInformation();
+    fetchInformation();
   }, []);
 
 
@@ -94,33 +136,44 @@ const EducationForm = () => {
     const action = e.nativeEvent.submitter.value; 
 
     if(action.trim() == 'update'){
-      const educationalUpdatedetails = {
-        insertdata : EducationalDetailsForm,
-        "table":"EducationalDetails",
-        "insertMessage":"Educational Details Updated Successfully"
+      const details = {
+        "schoolDetails" : tableData,
+        "collageDetails" : clgtableData,
+        "authid":authdata?.id,
       }
-      const EducationalDetails = await UpdateDetails(educationalUpdatedetails);
-      if(EducationalDetails){
-          setEducation(false);
-          setEducationalDetails(EducationalDetails.data.data.response[0]);
-          toast.current.show({severity:'success', summary: 'Success', detail:EducationalDetails.data.data.message, life: 3000});
+      const headers = {
+        'Content-Type': 'application/json', // Adjust the content type based on your API requirements
+      };
+      const updateEducationaldetailsdata = await axios.post(`${Nodeapi}/UpdateclgSclDeatils`,details,{headers});
+      console.log('update query',updateEducationaldetailsdata.data.data.schooldata);
+      setSchooldetails(updateEducationaldetailsdata.data.data.schooldata);
+      setCollagedetails(updateEducationaldetailsdata.data.data.collagedata);
+      setEducation(false);
+      if(updateEducationaldetailsdata){
+          
+      
+        // setCollagedetails([updateEducationaldetailsdata.data.data.schooldata]);
+          toast.current.show({severity:'success', summary: 'Success', detail:updateEducationaldetailsdata.data.data.message, life: 3000});
       }else{
-        toast.current.show({severity:'success', summary: 'Success', detail:EducationalDetails.data.data.message, life: 3000});
+        toast.current.show({severity:'error', summary: 'Error', detail:updateEducationaldetailsdata.data.data.message, life: 3000});
     }
     }else{
-      const educationaldetails = {
-        insertdata : EducationalDetailsForm,
-        "table":"EducationalDetails",
-        "insertMessage":"Educational Details Inserted Successfully"
+      const details = {
+        "schoolDetails" : tableData,
+        "collageDetails" : clgtableData,
+        "authid":authdata?.id,
       }
-      const addEducationaldetailsdata = await AddDetails(educationaldetails);
-     
+      const headers = {
+        'Content-Type': 'application/json', // Adjust the content type based on your API requirements
+      };
+      const addEducationaldetailsdata = await axios.post(`${Nodeapi}/addsclClg`,details,{headers});
+      console.log(addEducationaldetailsdata.data.data);
       if(addEducationaldetailsdata){
         setEducation(false);
         setEducationalDetails(addEducationaldetailsdata.data.data.response);
         toast.current.show({severity:'success', summary: 'Success', detail:addEducationaldetailsdata.data.data.message, life: 3000});
       }else{
-        toast.current.show({severity:'success', summary: 'Success', detail:addEducationaldetailsdata, life: 3000});
+        toast.current.show({severity:'error', summary: 'Error', detail:addEducationaldetailsdata, life: 3000});
     }
     }
     
@@ -135,12 +188,69 @@ const EducationForm = () => {
       university: "",
     },
   ]);
+
+
+  const [clgtableData, setclgTableData] = useState([
+    // Initial table data
+    {
+      id: 1,
+      clg_course: "",
+      clg_specialization: "",
+      start_year: "",
+      end_year: "",
+      university: "",
+      collage: "",
+      clg_percentage: "",
+    },
+  ]);
+
+  const handleAddclgInputField = () => {
+    // Add a new row with empty input fields
+    setclgTableData((prevData) => [
+      ...prevData,
+      {
+        id: prevData.length + 1,
+        clg_course: "",
+        clg_specialization: "",
+        start_year: "",
+        end_year: "",
+        university: "",
+        collage: "",
+        clg_percentage: "",
+      },
+    ]);
+  };
+  const handleRemoveclgRow = (index) => {
+    // Remove the row at the specified index
+    setclgTableData((prevData) => prevData.filter((row, i) => i !== index));
+  };
+
+
+  const clghandleInputChange = (index, fieldName, value) => {
+    // Update the value of the input field in the specified row
+    setclgTableData((prevData) =>
+      prevData.map((row, i) =>
+        i === index ? { ...row, [fieldName]: value } : row
+      )
+    );
+  
+  };
+
+  const educational_edutvalue = async (e,table) => {
+    e.preventDefault();
+    const fetchSchoolDetails = await axios.post(`${Nodeapi}/fetch_Clg_Scl_details`,{ id:authdata?.id });
+    setTableData(fetchSchoolDetails.data.data.schooldata);
+    setclgTableData(fetchSchoolDetails.data.data.collagedata);
+
+  }
+
+  console.log('insert after the data',schooldetails);
   return (
     <div>
       <Toast ref={toast} />
-      <div className="card mt-4">
+      <div className="card mt-4" style={{border:'3px solid #1877f2'}} >
         <div className="d-flex justify-content-between align-items-center">
-          <h5>Education</h5>
+          <h5>Education Details</h5>
           <p>
             <Button
               onClick={(e) => {
@@ -148,7 +258,7 @@ const EducationForm = () => {
                 educational_edutvalue(e, "EducationalDetails");
               }}
             >
-              {EducationalDetails ? (
+              {schooldetails || collagedetails ? (
                 <i className="fi fi-rr-file-edit ms-2"></i>
               ) : (
                 <i className="fi fi-rr-layer-plus"></i>
@@ -164,304 +274,32 @@ const EducationForm = () => {
                 style={{
                   overflowY: "scroll",
                   height: "90vh",
+                  width:"95%"
                 }}
               >
-                <form onSubmit={HandleAddEducationDetails}>
-                  <div className="row">
-                    {educationDetails.map((education, index) => (
-                      <div key={index}>
-                        {education.highestQualification && (
-                          <div>
-                            <h5 className="labels mb-2">Education Details:</h5>
-                            <div className="row pb-4">
-                              <h2 className="labels px-3">College Details:</h2>
-                              <div className="col-6 my-2">
-                                <label className="form-label">
-                                  Select Course:
-                                </label>
-                                <select
-                                  className="form-control"
-                                  onChange={handleEducationalDetails}
-                                  name="clg_course"
-                                  id="clg_course"
-                                  value={
-                                    EducationalDetailsForm
-                                      ? EducationalDetailsForm.clg_course
-                                      : ""
-                                  } // Make sure to use the value attribute here
-                                >
-                                  <option value="">Select Degree</option>
-                                  {allDegrees.map((degree, index) => (
-                                    <option
-                                      selected={
-                                        EducationalDetailsForm?.clg_course ===
-                                        degree
-                                      }
-                                      key={index}
-                                      value={degree}
-                                    >
-                                      {degree}
-                                    </option>
-                                  ))}
-                                </select>
-                              </div>
-                              <div className="col-6 my-2">
-                                <label className="form-label">
-                                  Select Specialization:
-                                </label>
-                                <select
-                                  className="form-control"
-                                  onChange={handleEducationalDetails}
-                                  name="clg_specialization"
-                                  id="clg_specialization"
-                                  value={
-                                    EducationalDetailsForm?.clg_specialization
-                                  }
-                                >
-                                  <option value="">
-                                    Select Specialization
-                                  </option>
-                                  {Specializations.map((course, index) => (
-                                    <option
-                                      selected={
-                                        EducationalDetailsForm?.clg_specialization ==
-                                        course
-                                      }
-                                      key={index}
-                                      value={course}
-                                    >
-                                      {course}
-                                    </option>
-                                  ))}
-                                </select>
-                              </div>
-                              <div className="col-6 my-2">
-                                <label className="form-label">
-                                  Start Year:
-                                </label>
-                                <input
-                                  type="number"
-                                  className="form-control"
-                                  placeholder="start year"
-                                  name="start_year"
-                                  id="start_year"
-                                  value={EducationalDetailsForm?.start_year}
-                                  onChange={handleEducationalDetails}
-                                />
-                                {/** Conditionally render the error message */}
-                                {validStartYear && (
-                                  <p style={{ color: "red", marginTop: "5px" }}>
-                                    {validStartYear}
-                                  </p>
-                                )}
-                              </div>
+                 <form onSubmit={HandleAddEducationDetails}>
+                 <div> 
+                  <h2>School Details</h2>
+                  <SchoolForm 
+                  setSchooldetails={setSchooldetails}
+                  handleAddInputField={handleAddInputField}
+                  handleRemoveRow={handleRemoveRow}
+                  handleInputChange={handleInputChange}
+                  tableData={tableData}
+                  />
+                  </div>
 
-                              <div className="col-6 my-2">
-                                <label className="form-label">End Year:</label>
-                                <input
-                                  type="number"
-                                  className="form-control"
-                                  placeholder="end year"
-                                  name="end_year"
-                                  id="end_year"
-                                  value={EducationalDetailsForm?.end_year}
-                                  onChange={handleEducationalDetails}
-                                />
-
-                                {validEndYear && (
-                                  <p style={{ color: "red", marginTop: "5px" }}>
-                                    {validEndYear}
-                                  </p>
-                                )}
-                              </div>
-                              <div className="col-6 my-2">
-                                <label className="form-label">
-                                  Select University:
-                                </label>
-                                <select
-                                  className="form-control"
-                                  onChange={handleEducationalDetails}
-                                  name="university"
-                                  id="university"
-                                  value={EducationalDetailsForm?.university}
-                                >
-                                  <option value="">Select University</option>
-                                  {allUniversities.map((university, index) => (
-                                    <option
-                                      selected={
-                                        EducationalDetailsForm?.university ==
-                                        university
-                                      }
-                                      key={index}
-                                      value={university}
-                                    >
-                                      {university}
-                                    </option>
-                                  ))}
-                                </select>
-                              </div>
-                              <div className="col-6 my-2">
-                                <label className="form-label">
-                                  Enter College Name:
-                                </label>
-                                <input
-                                  type="text"
-                                  className="form-control"
-                                  name="collage"
-                                  id="collage"
-                                  value={EducationalDetailsForm?.collage}
-                                  onChange={handleEducationalDetails}
-                                />
-                              </div>
-                              <div className="col-6 my-2">
-                                <label className="form-label">
-                                  Enter Collage Percentage:
-                                </label>
-                                <input
-                                  type="text"
-                                  className="form-control"
-                                  name="scl_percentage"
-                                  id="scl_percentage"
-                                  value={EducationalDetailsForm?.scl_percentage}
-                                  onChange={handleEducationalDetails}
-                                />
-                              </div>
-                            </div>
-
-                            <div className="row">
-                              <h5 className="labels">School Details:</h5>
-                              <div className="col-6 my-2">
-                                <label className="form-label">
-                                  Qualification:
-                                </label>
-                                <select
-                                  className="form-select"
-                                  name="scl_qualification"
-                                  id="scl_qualification"
-                                  onChange={handleEducationalDetails}
-                                  value={
-                                    EducationalDetailsForm?.scl_qualification
-                                  }
-                                >
-                                  <option value="">
-                                    Select School Qualification
-                                  </option>
-                                  {schoolQualificationList.map(
-                                    (qualification, index) => (
-                                      <option
-                                        selected={
-                                          EducationalDetailsForm?.scl_qualification ==
-                                          qualification
-                                        }
-                                        key={index}
-                                        value={qualification}
-                                      >
-                                        {qualification}
-                                      </option>
-                                    )
-                                  )}
-                                </select>
-                              </div>
-                              <div className="col-6 my-2">
-                                <label className="form-label">
-                                  Specialization:
-                                </label>
-                                <select
-                                  className="form-select"
-                                  name="scl_specialization"
-                                  id="scl_specialization"
-                                  onChange={handleEducationalDetails}
-                                  value={
-                                    EducationalDetailsForm?.scl_specialization
-                                  }
-                                >
-                                  <option value="">
-                                    Select Specialization
-                                  </option>
-                                  {academicDisciplines.map(
-                                    (discipline, index) => (
-                                      <option
-                                        selected={
-                                          EducationalDetailsForm?.scl_specialization ==
-                                          discipline
-                                        }
-                                        key={index}
-                                        value={discipline}
-                                      >
-                                        {discipline}
-                                      </option>
-                                    )
-                                  )}
-                                </select>
-                              </div>
-                              <div className="col-6 my-2">
-                                <label className="form-label">
-                                  Start Year:
-                                </label>
-                                <input
-                                  type="text"
-                                  className="form-control"
-                                  placeholder="Enter Start Year"
-                                  name="scl_start"
-                                  id="scl_start"
-                                  value={EducationalDetailsForm?.scl_start}
-                                  onChange={handleEducationalDetails}
-                                />
-                                {validSclStart && (
-                                  <p style={{ color: "red", marginTop: "5px" }}>
-                                    {validSclStart}
-                                  </p>
-                                )}
-                              </div>
-                              <div className="col-6 my-2">
-                                <label className="form-label">End Year:</label>
-                                <input
-                                  type="text"
-                                  className="form-control"
-                                  placeholder="Enter End Year"
-                                  name="scl_end"
-                                  id="scl_end"
-                                  value={EducationalDetailsForm?.scl_end}
-                                  onChange={handleEducationalDetails}
-                                />
-                                {validSclEnd && (
-                                  <p style={{ color: "red", marginTop: "5px" }}>
-                                    {validSclEnd}
-                                  </p>
-                                )}
-                              </div>
-                              <div className="col-6 my-2">
-                                <label className="form-label">
-                                  Enter School Name:
-                                </label>
-                                <input
-                                  type="text"
-                                  className="form-control"
-                                  name="scl_name"
-                                  id="scl_name"
-                                  value={EducationalDetailsForm?.scl_name}
-                                  onChange={handleEducationalDetails}
-                                />
-                              </div>
-
-                              <div className="col-6 my-2">
-                                <label className="form-label">
-                                  Enter School Percentage:
-                                </label>
-                                <input
-                                  type="text"
-                                  className="form-control"
-                                  name="scl_percentage"
-                                  id="scl_percentage"
-                                  value={EducationalDetailsForm?.scl_percentage}
-                                  onChange={handleEducationalDetails}
-                                />
-                              </div>
-                            </div>
-                          </div>
-                        )}
-                      </div>
-                    ))}
+                  <div style={{
+                    marginTop:"30px"
+                  }}> 
+                  <h2>Collage Details</h2>
+                  <CollageForm
+                  setCollagedetails={setCollagedetails}
+                  clgtableData={clgtableData}
+                  handleAddclgInputField={handleAddclgInputField}
+                  handleRemoveclgRow={handleRemoveclgRow}
+                  clghandleInputChange={clghandleInputChange}
+                   />
                   </div>
                   <div className="mt-2 text-center">
                     <button
@@ -472,7 +310,7 @@ const EducationForm = () => {
                       Cancel
                     </button>
 
-                    {EducationalDetails ? (
+                    {schooldetails || collagedetails ? (
                       <button
                         type="submit"
                         value="update"
@@ -490,54 +328,107 @@ const EducationForm = () => {
                       </button>
                     )}
                   </div>
-                </form>
+                 </form>
+                
+                  
+               
               </Box>
             </Modal>
           </p>
         </div>
         <div className="row">
-          {EducationalDetails && (
-            <div className="col-md-6">
-              <p>
-                School -
-                <span>
-                  {EducationalDetails ? EducationalDetails.scl_name : ""}
-                </span>
-              </p>
-              <p>
-                {EducationalDetails ? EducationalDetails.scl_qualification : ""}{" "}
-                -{" "}
-                <span>
-                  {" "}
-                  {EducationalDetails
-                    ? `${EducationalDetails.scl_percentage}`
-                    : ""}
-                </span>
-              </p>
-              <p>
-                <span>
-                  {EducationalDetails
-                    ? `${EducationalDetails.scl_start} - ${EducationalDetails.scl_end}`
-                    : ""}
-                </span>
-              </p>
-            </div>
-          )}
+        {
+          schooldetails && (
+            <table className="GeneratedTable">
+      <thead style={{
+        color:"white"
+      }}>
+        <tr>
+          <th>Id</th>
+          <th>School Qualification</th>
+          <th>School specialization</th>
+          <th>School Start Year</th>
+          <th>School End Year</th>
+          <th>School Percentage</th>
+          <th>School Name</th>
+          <th 
+          style={{
+            width:"10%"
+          }}
+          >Created At</th>
+        </tr>
+      </thead>
+      <tbody>
+        {
+          schooldetails.map((data)=>(
+            <tr>
+              <td>{data.id}</td>
+              <td>{data.scl_qualification}</td>
+              <td>{data.scl_specialization}</td>
+              <td>{data.scl_start}</td>
+              <td>{data.scl_end}</td>
+              <td>{data.scl_percentage}</td>
+              <td>{data.scl_name}</td>
+              <td>{format(data.created_at, 'yyyy-MM-dd')}</td>
+              
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+          )
+        }
+      
+        </div>
 
-          {EducationalDetails && (
-            <div className="col-md-6">
-              <p>
-                Collage -<span>{EducationalDetails.collage}</span>
-              </p>
-              <p>
-                {EducationalDetails.clg_specialization} -{" "}
-                <span> {EducationalDetails.clg_percentage}</span>
-              </p>
-              <p>
-                <span>{`${EducationalDetails.start_year} - ${EducationalDetails.end_year}`}</span>
-              </p>
-            </div>
-          )}
+
+        <div className="row" style={{
+          marginTop:"20px"
+        }}>
+        {
+          collagedetails && (
+            <table className="GeneratedTable">
+      <thead style={{
+        color:"white"
+      }}>
+        <tr>
+          <th>Id</th>
+          <th>Collage Course</th>
+          <th>Collage specialization</th>
+          <th>Collage Start Year</th>
+          <th>Collage End Year</th>
+          <th>Collage Percentage</th>
+          <th>Collage Name</th>
+          <th>University</th>
+          <th 
+          style={{
+            width:"10%"
+          }}
+          >Created At</th>
+        </tr>
+      </thead>
+      <tbody>
+        {
+          collagedetails.map((data)=>(
+            <tr>
+              <td>{data.id}</td>
+              <td>{data.clg_course}</td>
+              <td>{data.clg_specialization}</td>
+              <td>{data.start_year}</td>
+              <td>{data.end_year}</td>
+              <td>{data.clg_percentage}</td>
+              <td>{data.collage}</td>
+              <td>{data.university}</td>
+              <td>{format(data.created_at, 'yyyy-MM-dd')}</td>
+              
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+          )
+        }
+      
         </div>
       </div>
     </div>

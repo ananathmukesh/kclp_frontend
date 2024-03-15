@@ -3,10 +3,15 @@
   import {
     CaretLeft,
     Phone,
+    Users ,
     UserCircle,
     GitFork,
     Envelope,
     LockOpen,
+    CalendarBlank
+   
+
+
   } from "@phosphor-icons/react";
   import axios from "axios";
   import { toast } from "react-toastify";
@@ -17,6 +22,7 @@ import pt from "react-phone-input-2/lang/pt.json";
 // import { PhoneInput } from 'react-international-phone';
 // import 'react-international-phone/style.css';
 import { authapi } from "../config/serverUrl";
+import { Calendar } from 'primereact/calendar';
 
   import "./login.css";
   import { useNavigate } from 'react-router-dom';
@@ -67,7 +73,8 @@ import { authapi } from "../config/serverUrl";
     const [arrowbutton, setarrowbutton] = useState(false);
     const  navigate = useNavigate()
 
-   
+    const [date, setDate] = useState(new Date());
+
 
     useEffect(() => {
       setInputRefs((inputRefs) =>
@@ -392,7 +399,7 @@ import { authapi } from "../config/serverUrl";
         <h4 className="">Step 1</h4>
         <p>Add your basic details</p>
         <div className="row gx-0 in-father">
-          <div className="col-md-6 col-12">
+          <div className="col-md-6 col-12 p-0" >
           <div className="">
             <div className="input-group mt-4 me-2">
               <div className="input-group-prepend">
@@ -427,10 +434,48 @@ import { authapi } from "../config/serverUrl";
             )}
           </div>
           </div>
-          <div className="col-md-6 col-12">
+
+          <div className="col-md-6 col-12 p-0" >
+          <div className="">
+            <div className="input-group mt-4 me-2">
+              <div className="input-group-prepend">
+                <span
+                  className="input-group-text"
+                  style={{
+                    borderColor:
+                      touchedFields.name && formErrors.name
+                        ? "red"
+                        : "",
+                  }}
+                >
+                   <CalendarBlank size={28} />
+                </span>
+              </div>
+              <Calendar
+  id="buttondisplay"
+  value={date}
+  showIcon={false} 
+  onChange={(e) => setDate(e.value)}
+  name="dateOfBirth"
+  monthNavigator
+  yearNavigator
+  yearRange="1990:2024"
+  dateFormat="dd/mm/yy"
+  inputId="in"
+  style={{ width: '430px',height:"42px" }} // Set the width to 300px
+/>
+
+            </div>
+            {formErrors.name && (
+              <p style={{ color: "red" }}>{formErrors.name}</p>
+            )}
+          </div>
+          </div>
+
+          <div className="col-md-6 col-12 p-0">
             
           <div className="">
-            <div className="input-group mt-4 ms-md-2">
+            <div className="input-group mt-4">
               <div className="input-group-prepend">
                 <span
                   className="input-group-text"
@@ -441,9 +486,10 @@ import { authapi } from "../config/serverUrl";
                         : "",
                   }}
                 >
-                  <UserCircle size={28} />
+                  <Users  size={28} />
                 </span>
               </div>
+              
               <input
                 type="text"
                 className="form-control"
@@ -537,7 +583,7 @@ import { authapi } from "../config/serverUrl";
                     required: true,
                   }}
                 /> */}
-                <div className="input-group mt-3">
+                <div className="input-group mt-4">
                 <div className="input-group-prepend">
                   <span className="input-group-text">
                     <Phone size={28} />

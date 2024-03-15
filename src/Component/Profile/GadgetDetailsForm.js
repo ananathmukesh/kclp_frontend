@@ -20,7 +20,9 @@ import { style } from '../../Styles/Jobformstyle'
 
 
 const GadgetDetailsFormPage = () => {
-  const authdata = useSelector((state) => state.auth.user.user);
+  const authdata = useSelector((state) => state.auth.user?.user.user);
+  const token = useSelector((state) => state.auth.user?.user.token);
+
   const toast = useRef(null);
 
   const [Gadget, setGadget] = React.useState(false);
@@ -32,7 +34,7 @@ const GadgetDetailsFormPage = () => {
     setGadgetDetailsForm({
       ...GadgetDetailsForm,
       [name]: value,
-      userid: authdata.id,
+      userid: authdata?.id,
     });
   };
   const {
@@ -48,7 +50,7 @@ const GadgetDetailsFormPage = () => {
   useEffect(() => {
     const fetchGadgetDetails = async() => {
         const GadgetDetails_datarows = await axios.post(`${Nodeapi}/FetchLoopDetails`,{
-            "id":authdata.id,
+            "id":authdata?.id,
             "table":"GadgetDetails"
         });
         
@@ -170,8 +172,8 @@ const GadgetDetailsFormPage = () => {
       };
 
       try {
-        const addDetailsResult = await AddDetails(json_data);
-
+        const addDetailsResult = await AddDetails(json_data,token);
+        console.log('addDetailsResult',addDetailsResult);
         if (addDetailsResult) {
           setGadget(false);
           setGadgetDetailsData(addDetailsResult.data.data.response);
@@ -192,7 +194,7 @@ const GadgetDetailsFormPage = () => {
   return (
     <div>
       <Toast ref={toast} />
-      <div className="card mt-4">
+      <div className="card mt-4" style={{border:'3px solid #1877f2'}} >
         <div className="d-flex justify-content-between align-items-center">
           <h5>Gadget Details</h5>
           <p>
@@ -323,7 +325,9 @@ const GadgetDetailsFormPage = () => {
           </p>
         </div>
         <Box sx={{ height: "auto" }}>
-          <DataGrid
+        {
+          GadgetDetailsdata && (
+            <DataGrid
             rows={GadgetDetailsdata}
             columns={Gadgetscolumns}
             initialState={{
@@ -337,6 +341,9 @@ const GadgetDetailsFormPage = () => {
             checkboxSelection
             disableRowSelectionOnClick
           />
+          )
+        }
+         
         </Box>
       </div>
     </div>

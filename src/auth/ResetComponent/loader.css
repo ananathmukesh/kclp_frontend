@@ -1,0 +1,30 @@
+.loader {
+    width: 28px;
+    height: 28px;
+    border: 5px solid #FFF;
+    border-bottom-color: transparent;
+    border-radius: 50%;
+    display: inline-block;
+    box-sizing: border-box;
+    animation: rotation 1s linear infinite;
+    }
+
+    @keyframes rotation {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+    } 
+
+    .has-error::after {
+        content: url('../../assets/images/mark.png'); /* Replace 'path/to/error-icon.png' with your actual path */
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+      }
+      .has-error {
+        position: relative;
+      }

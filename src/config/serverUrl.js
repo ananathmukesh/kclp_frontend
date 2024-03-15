@@ -8,5 +8,6 @@ module.exports = {
   Nodeapi,
   ResumeApi,
   authapi,
-  ProfileImgApi
+  ProfileImgApi,
+  
 };

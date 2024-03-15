@@ -18,13 +18,13 @@ import { DataGrid } from "@mui/x-data-grid";
 import EditIcon from "@mui/icons-material/Edit";
 const PropertyDetailFormPage = () => {
 
-    const authdata = useSelector((state) => state.auth.user.user);
+    const authdata = useSelector((state) => state.auth.user?.user.user);
     const toast = useRef(null);
 
     useEffect(() => {
         const fetchPropertyDetails = async() => {
             const PropertyDetails = await axios.post(`${Nodeapi}/FetchLoopDetails`,{
-                "id":authdata.id,
+                "id":authdata?.id,
                 "table":"PropertyDetails"
             });
             
@@ -213,7 +213,7 @@ const PropertyDetailFormPage = () => {
         setPropertyDetailsForm({
           ...PropertyDetailsForm,
           [name]: value,
-          userid: authdata.id,
+          userid: authdata?.id,
           property_types_option:propertyTypes[0]
         });
       };
@@ -254,7 +254,7 @@ const PropertyDetailFormPage = () => {
   return (
     <div>
        <Toast ref={toast} />
-       <div className="card mt-4">
+       <div className="card mt-4"  style={{border:'3px solid #1877f2'}} >
         <div className="d-flex justify-content-between align-items-center">
           <h5>Property Details</h5>
           <p>
@@ -595,7 +595,10 @@ const PropertyDetailFormPage = () => {
           </p>
         </div>
         <Box sx={{ height: 'auto',}}>
-      <DataGrid
+
+        {
+          PropertyDetails && (
+            <DataGrid
         rows={PropertyDetails}
         columns={Propertyscolumns}
         initialState={{
@@ -609,6 +612,9 @@ const PropertyDetailFormPage = () => {
         checkboxSelection
         disableRowSelectionOnClick
       />
+          )
+        }
+      
     </Box>
       </div>
     </div>

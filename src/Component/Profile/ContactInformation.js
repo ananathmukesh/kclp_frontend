@@ -24,11 +24,12 @@ const ContactInformationForm = () => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const authdata = useSelector((state) => state.auth.user.user);
+  const authdata = useSelector((state) => state.auth.user?.user.user);
+  const token = useSelector((state) => state.auth.user?.user.token);
   const [data, setData] = useState("");
   useEffect(() => {
     const fetchContactInformation = async () => {
-      const contact = await ContactInformation(authdata.id);
+      const contact = await ContactInformation(authdata?.id);
       if (contact) {
         setData(contact);
       }
@@ -42,19 +43,21 @@ const ContactInformationForm = () => {
     setContactForm({
       ...ContactForm,
       [name]: value,
-      userid: authdata.id,
+      userid: authdata?.id,
     });
   };
 
   const addContactValue = async (e) => {
     e.preventDefault();
-    const contact = await ContactInformation(1);
+    const contact = await ContactInformation(authdata?.id);
     if (contact) {
       setContactForm(contact);
     } else {
       setContactForm(null);
     }
   };
+
+   console.log('contact form',ContactForm);
 
   const areAllFieldsEmpty = (formData) => {
     if (!formData || typeof formData !== "object") {
@@ -74,10 +77,11 @@ const ContactInformationForm = () => {
     const action = e.nativeEvent.submitter.value;
 
     if (action.trim() == "update") {
-      const addcontact = await UpdateContactForm(ContactForm);
-
-      if (addcontact) {
-        setOpen(false);
+      const addcontact = await UpdateContactForm(ContactForm,token);
+       console.log(addcontact.data.data.message);
+       setOpen(false);
+      if (addcontact.data.code == 200) {
+       
         toast.current.show({
           severity: "success",
           summary: "Success",
@@ -87,15 +91,15 @@ const ContactInformationForm = () => {
         setData(addcontact.data.data.response[0]);
       } else {
         toast.current.show({
-          severity: "success",
-          summary: "Success",
+          severity: "error",
+          summary: "Error",
           detail: addcontact.data.data.message,
           life: 3000,
         });
       }
     } else {
-      const addcontact = await AddContactForm(ContactForm);
-
+      const addcontact = await AddContactForm(ContactForm,token);
+         console.log('ContactForm add data',ContactForm);
       setOpen(false);
       toast.current.show({
         severity: "success",
@@ -103,6 +107,7 @@ const ContactInformationForm = () => {
         detail: addcontact.data.data.message,
         life: 3000,
       });
+      console.log(addcontact);
       setData(addcontact.data.data.response[0]);
     }
   };
@@ -110,7 +115,7 @@ const ContactInformationForm = () => {
   return (
   <>
   <Toast ref={toast} />
-    <div className="card mt-4">
+    <div className="card mt-4" style={{border:'3px solid #1877f2'}} >
       <div className="d-flex justify-content-between align-items-center">
         <h5>Contact Information</h5>
         <p>
@@ -352,7 +357,9 @@ const ContactInformationForm = () => {
           </Box>
         </Modal>
       </div>
-      <div className="expand">
+      {
+        authdata && data && (
+          <div className="expand">
         <div className="row">
           <div className="col-md-4">
             <p>
@@ -409,6 +416,9 @@ const ContactInformationForm = () => {
           </div>
         </div>
       </div>
+        )
+      }
+     
     </div>
   </>
   );

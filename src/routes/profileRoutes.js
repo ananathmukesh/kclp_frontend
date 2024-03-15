@@ -38,14 +38,19 @@ export const ContactInformation = async (id) => {
   }
 };
 
-export const AddContactForm = async (ContactForm) => {
+export const AddContactForm = async (ContactForm,token) => {
   try {
-    const res = await axios.post(`${Nodeapi}/contactinformation`, ContactForm);
+    const headers = {
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json', // Adjust the content type based on your API requirements
+    };
+    
+    const res = await axios.post(`${Nodeapi}/contactinformation`, ContactForm,{headers});
     if (res.data) {
       if (res.data.code == 200) {
         return res;
       } else {
-        return null;
+        return res;
       }
     }
   } catch (error) {
@@ -53,18 +58,22 @@ export const AddContactForm = async (ContactForm) => {
   }
 };
 
-export const UpdateContactForm = async (ContactForm) => {
+export const UpdateContactForm = async (ContactForm,token) => {
+  const headers = {
+    'Authorization': `Bearer ${token}`,
+    'Content-Type': 'application/json', // Adjust the content type based on your API requirements
+  };
   try {
-    const res = await axios.post(`${Nodeapi}/updateContact`, ContactForm);
+    const res = await axios.post(`${Nodeapi}/updateContact`, ContactForm,{headers});
     if (res.data) {
       if (res.data.code == 200) {
         return res;
       } else {
-        return null;
+        return res;
       }
     }
   } catch (error) {
-    return null;
+    return error;
   }
 };
 

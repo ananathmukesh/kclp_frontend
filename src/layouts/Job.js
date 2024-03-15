@@ -23,8 +23,10 @@ import {style} from '../Styles/Jobformstyle';
 
 
 function Job() {
-  const authdata = useSelector((state) => state.auth.user.user);
+  const authdata = useSelector((state) => state.auth.user?.user);
+  const token = useSelector((state) => state.auth.user?.user.token);
   console.log("redux state", authdata);
+  console.log("token", token);
   const { selectedImage1, setSelectedImage1 } = Jobusestates();
   const fileInputRef = useRef(null);
 
@@ -43,14 +45,14 @@ function Job() {
 
   const handleProfileFileChange = async (e) => {
     const selectedFile = e.target.files[0];
-
+   console.log(selectedFile);
     const reader = new FileReader();
     reader.onload = (event) => {
       setSelectedImage1(event.target.result);
     };
     reader.readAsDataURL(selectedFile);
     const imgData = {
-      id: authdata.id,
+      id: authdata?.id,
       profile_image: selectedFile,
     };
     const res = await axios.post(`${Nodeapi}/upload_profile_img`, imgData, {
@@ -82,7 +84,7 @@ function Job() {
   return (
     <>
       <Toast ref={toast} />
-      <div className="job">
+      <div className="job" style={{height:"93vh"}}>
         <div className="card mt-4" style={{ position: "relative" }}>
           <div className="profile">
             <div
@@ -109,7 +111,7 @@ function Job() {
                     src={
                       selectedImage1
                         ? `${ProfileImgApi}${selectedImage1}`
-                        : `${ProfileImgApi}/${authdata.profile_image}` || bird
+                        : `${ProfileImgApi}/${authdata?.profile_image}` || bird
                     }
                     alt="Selected Image"
                     className="img-fluid"
@@ -150,14 +152,7 @@ function Job() {
                 <h5 className=" text-center mt-2">
                   {authdata ? authdata.name : "Profile"}
                   <sup>
-                    <Button
-                      onClick={handleNameOpen}
-                      style={{
-                        position: "absolute",
-                        top: "-7rem",
-                        right: " -33rem",
-                      }}
-                    ></Button>
+                   
                     <Modal
                       open={Name}
                       aria-labelledby="modal-modal-title"
@@ -175,7 +170,7 @@ function Job() {
           </div>
         </div>
 
-        <div>
+        <div >
           <ContactInformationForm />
         </div>
 

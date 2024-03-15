@@ -17,7 +17,14 @@
   background-color: white;
 }
 .Auth-forms {
-  width: 45%;
+  width:45%;
+  box-shadow: rgb(145 145 145 / 16%) 1px 1px 10px;
+  border-radius: 8px;
+  background-color: white;
+}
+
+.Auth-formss {
+  width:60%;
   box-shadow: rgb(145 145 145 / 16%) 1px 1px 10px;
   border-radius: 8px;
   background-color: white;
@@ -44,17 +51,17 @@
   background: #fff;
   color: #bbb9b9;
   border-bottom-right-radius: 0px;
-  border-color: #bbb9b9;
-  border-top: 2px solid #bbb9b9;
-  border-left: 2px solid #bbb9b9;
-  border-bottom: 2px solid #bbb9b9;
+  border-color: #e6e6e6;
+  border-top: 2px solid #e6e6e6;
+  border-left: 2px solid #e6e6e6;
+  border-bottom: 2px solid #e6e6e6;
 }
 .Auth-form-content .form-control {
   border-left: 0px;
-  border-color: #bbb9b9;
-  border-top: 2px solid #bbb9b9;
-  border-right: 2px solid #bbb9b9;
-  border-bottom: 2px solid #bbb9b9;
+  border-color: #e6e6e6;
+  border-top: 2px solid #e6e6e6;
+  border-right: 2px solid #e6e6e6;
+  border-bottom: 2px solid #e6e6e6;
 }
 .Auth-form-content .form-control::placeholder {
   color: #bbb9b9;
@@ -101,8 +108,15 @@
 .Auth-forms .content h4 {
   color: #2196f3;
   font-size: 18px;
-  margin-bottom: 20px;
+  /* margin-bottom: 20px; */
 }
+
+.Auth-formss .content h4 {
+  color: #2196f3;
+  font-size: 18px;
+  /* margin-bottom: 20px; */
+}
+
 .outlined {
   border: 1px solid #ced4da; /* Change the color and thickness according to your design */
   border-radius: 4px; /* Optional: Add rounded corners */
@@ -112,15 +126,15 @@
 .react-tel-input .form-control {
   width: 100% !important;
   height: 40px !important;
-  border: 2px solid #bbb9b9 !important;
+  border: 2px solid #e6e6e6 !important;
 }
 /* .react-tel-input .flag-dropdown{
   border: none;
 } */
 .react-tel-input .selected-flag {
-  border-left: 2px solid #bbb9b9 !important ;
-  border-top: 2px solid #bbb9b9 !important ;
-  border-bottom: 2px solid #bbb9b9 !important ;
+  border-left: 2px solid #e6e6e6 !important ;
+  border-top: 2px solid #e6e6e6 !important ;
+  border-bottom: 2px solid #e6e6e6 !important ;
   border-right: none !important;
   background-color: #fff !important;
 }
@@ -301,3 +315,8 @@
 } */
 
 
+.p-datepicker-trigger{
+  background: #2196f3;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+}

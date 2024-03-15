@@ -12,6 +12,9 @@ import handleloginresponse from '../react-redux/actions'
 import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
 import { authapi } from "../config/serverUrl";
+
+
+
 const Login = () => {
   const initialValue = { email: '', password: '' };
   const [value, setValue] = useState(initialValue);
@@ -53,7 +56,7 @@ const Login = () => {
         // const response = await axios.post('http://192.168.1.17:8080/auth/signin', value);
         const response = await axios.post(`${authapi}/auth/signin`, value);
         const data = response.data;
-        console.log('signin_data', data);
+        console.log('signin_data', response);
        
 
         if(data.code == 200){
@@ -77,7 +80,7 @@ const Login = () => {
         }
 
       if (data.code == 200){
-        navigate('/main')
+        navigate('/')
       }
 
       
@@ -113,7 +116,7 @@ const Login = () => {
   };
 
   const dispatch = useDispatch();
-  const auth = useSelector(state => state.auth);
+
 
   return (
     <div className="Auth-form-container">

@@ -18,6 +18,14 @@ import 'primereact/resources/primereact.css';
 import 'primereact/resources/themes/lara-light-indigo/theme.css';
 import DynamicInputFields from "./utils/appenform";
 import PropertyDetailFormPage from "./Component/Profile/PropertyDetailForm";
+import About from "./layouts/About";
+import ContactUs from "./layouts/ContactUs";
+import TermsPolicy from "./layouts/TermsPolicy";
+import Maintainence from "./layouts/Maintainence";
+import ResetPassword from '../src/auth/ResetPassword'
+import ResetPasswordChange from "./auth/PasswordChange";
+import MyFormData from "./Component/Profile/TestFormPage";
+import SendOtpMobile from "./auth/ResetComponent/SendOtpMobile";
 
 
 function App() {
@@ -28,16 +36,25 @@ function App() {
      
       <Router>
         <Routes>
-          <Route path="/" element={<Login />} />
+        <Route path="/" element={<Maintainence />} />
           <Route path="/login" element={<Login />} />
           <Route path="/ap" element={<DynamicInputFields />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/main" element={<Main />}>
+          <Route path="/resetpassword" element={<ResetPassword />} />
+          <Route path="/resetchange" element={<ResetPasswordChange />} />
+          <Route path="/" element={<Main />}>
+         
+          <Route index element={<Maintainence />} />
             <Route path="/main/jobs" element={<Job />} />
+            <Route path="/main/ContactUs" element={<ContactUs />} />
+            <Route path="/main/About" element={<About />} />
+            <Route path="/main/Terms" element={<TermsPolicy />} />
             <Route path="/main/vehicle" element={<Vehicle />} />
             <Route path="/main/demo" element={<Demo />} />
             <Route path="/main/form" element={<MyForm />} />
-            <Route path="/main/form1" element={<PropertyDetailFormPage />} />
+            <Route path="/main/form1" element={<MyFormData />} />
+            <Route path="/main/otp" element={<SendOtpMobile />} />
+           
           </Route>
         </Routes>
       </Router>
