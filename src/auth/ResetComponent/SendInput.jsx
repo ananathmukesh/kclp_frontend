@@ -19,7 +19,7 @@ import { useRef } from "react";
 import { IoMdCheckmarkCircle } from "react-icons/io";
 import "./loader.css";
 
-const SendOtpField = ({ mobile, setMobileTimeHider,setformikMOtpErrors }) => {
+const SendOtpField = ({ mobile, setMobileTimeHider,setformikMOtpErrors,setTimerStatem,disableMobileOtp }) => {
   const toast = useRef(null);
 
   const schema = yup.object().shape({
@@ -52,6 +52,7 @@ const SendOtpField = ({ mobile, setMobileTimeHider,setformikMOtpErrors }) => {
             detail: res.data.data.message,
             life: 3000,
           });
+          setTimerStatem(false)
           setMobileTimeHider(true);
           setHasLoader(false);
           setafterRes(1);
@@ -105,6 +106,7 @@ const SendOtpField = ({ mobile, setMobileTimeHider,setformikMOtpErrors }) => {
                       if (e.target.value.length > 6) {
                         e.target.value = e.target.value.slice(0, 6); // Limit the input to 6 characters
                       }
+                      e.target.value = e.target.value.replace(/[^0-9]/g, '');
                     }}
                   />
                 </div>
@@ -112,6 +114,7 @@ const SendOtpField = ({ mobile, setMobileTimeHider,setformikMOtpErrors }) => {
                   <div className="">
                     {!hasLoader ? (
                       <button
+                      disabled={disableMobileOtp}
                         className="btn btn-verify px-4"
                         type="submit"
                         style={{

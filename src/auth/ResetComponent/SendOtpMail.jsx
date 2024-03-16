@@ -22,7 +22,7 @@ import { useEffect } from "react";
 import TimerNew from "../../utils/Timmernew";
 import Timer from "../../utils/Timer";
 
-const SendOtpMail = ({setEmail,setTimer,email,TimeHider,setFormikErrors,formikErrors,setTimerState}) => {
+const SendOtpMail = ({setEmail,setTimer,email,TimeHider,setFormikErrors,formikErrors,setTimerState,setDisableEmail}) => {
 
   
 
@@ -69,6 +69,7 @@ const SendOtpMail = ({setEmail,setTimer,email,TimeHider,setFormikErrors,formikEr
             detail: res.data.data.message,
             life: 3000,
           });
+          setDisableEmail(false);
           setTimerState(true);
           setHasLoader(false);
           setafterRes(1);

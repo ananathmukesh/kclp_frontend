@@ -21,7 +21,7 @@ import { IoMdCheckmarkCircle } from "react-icons/io";
 import "./loader.css";
 import MobileNumberTimer from "../../utils/MobileTimer";
 
-const SendOtpPhone = ({ email, setMobile, mobile, MobileTimeHider,setformikMobileErrors,setTimerStatem }) => {
+const SendOtpPhone = ({ email, setMobile, mobile, MobileTimeHider,setformikMobileErrors,setTimerStatem,disableEmailOtp,setDisableMobileOtp }) => {
   const [showhider, setShowhider] = useState(null);
 
   const [showResendButtoon, setshowResendButtoon] = useState(null);
@@ -57,6 +57,7 @@ const SendOtpPhone = ({ email, setMobile, mobile, MobileTimeHider,setformikMobil
             detail: res.data.data.message,
             life: 3000,
           });
+          setDisableMobileOtp(false);
           setTimerStatem(true);
           setshowResendButtoon(true);
           setHasLoader(false);
@@ -117,6 +118,7 @@ const SendOtpPhone = ({ email, setMobile, mobile, MobileTimeHider,setformikMobil
 
                 {!hasLoader ? (
                   <button
+                  disabled={disableEmailOtp}
                     className="btn btn-verify btn-verify"
                     value="sendmailotp"
                     type="submit"
@@ -169,16 +171,7 @@ const SendOtpPhone = ({ email, setMobile, mobile, MobileTimeHider,setformikMobil
           
         </Formik>
       </div>
-      {!MobileTimeHider && (
-        <MobileNumberTimer
-          email={email}
-          mobile={mobile}
-          setShowhider={setShowhider}
-          showhider={showhider}
-          showResendButtoon={showResendButtoon}
-          setshowResendButtoon={setshowResendButtoon}
-        />
-      )}
+      
     </>
   );
 };

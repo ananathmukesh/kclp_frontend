@@ -1,9 +1,14 @@
 import React, { useState, useEffect } from 'react';
+import { Toast } from "primereact/toast";
+import { useRef } from "react";
+import axios from 'axios';
+import { authapi } from '../config/serverUrl';
 
-const TimerZoneMobile = () => {
+const TimerZoneMobile = ({email,mobile}) => {
   const [seconds, setSeconds] = useState(120);
   const [running, setRunning] = useState(true); // Initially start the timer
   const [rerunning, setRErunning] = useState(false); // Initially start the timer
+  const toast = useRef(null);
 
   useEffect(() => {
     let intervalId;
@@ -11,7 +16,7 @@ const TimerZoneMobile = () => {
     if (running && seconds > 0) {
       intervalId = setInterval(() => {
         setSeconds(prevSeconds => prevSeconds - 1);
-      }, 100);
+      }, 1000);
     }
 
     // Clear the interval when the timer completes or when running is false
@@ -33,17 +38,49 @@ const TimerZoneMobile = () => {
   };
 
 
+  
+
   const handleResend = async() => {
+    const res = await axios.post(`${authapi}/auth/sendMobile`,{
+      email:email,
+      mobile:mobile
+    });
+    console.log(res);
+    if (res.data) {
+      if (res.data.code == 200) {
+     
+        toast.current.show({
+          severity: "success",
+          summary: "Success",
+          detail: res.data.data.message,
+          life: 3000,
+        });
+        setSeconds(120);
+        setRunning(true);
+        setRErunning(false);
+      } else {
+        
+        toast.current.show({
+          severity: "error",
+          summary: "Error",
+          detail: res.data.data.message,
+          life: 3000,
+        });
+      }
+    }
     
+   
   }
+
 
   return (
     <div>
+       <Toast ref={toast} />
       {running && <p>Timer: {formatTime(seconds)}</p>}
 
       {rerunning && <a
           className="mt-3"
-         
+          onClick={handleResend}
           style={{
             fontSize: "14px",
             fontWeight: 500,

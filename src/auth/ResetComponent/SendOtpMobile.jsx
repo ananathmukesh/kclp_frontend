@@ -19,7 +19,7 @@ import { useRef } from "react";
 import axios from "axios";
 import { authapi } from "../../config/serverUrl";
 
-const SendOtpMobile = ({ email, setTimeHider,setFormikmailOtpErrors }) => {
+const SendOtpMobile = ({ email, setTimeHider,setFormikmailOtpErrors,setTimerState,disableEmail,setDisableEmailOtp }) => {
   const toast = useRef(null);
   const schema = yup.object().shape({
     otp: yup
@@ -31,6 +31,7 @@ const SendOtpMobile = ({ email, setTimeHider,setFormikmailOtpErrors }) => {
   const [otpresponse, setOtpresponse] = useState(0);
   const [afterRes, setafterRes] = useState(0);
   const [hasLoader, setHasLoader] = useState(false);
+  const [otpvalue, setOtp] = useState('');
 
   const initialValues = {
     otp: "",
@@ -52,6 +53,8 @@ const SendOtpMobile = ({ email, setTimeHider,setFormikmailOtpErrors }) => {
             detail: res.data.data.message,
             life: 3000,
           });
+          setDisableEmailOtp(false);
+          setTimerState(false);
           setHasLoader(false);
           setTimeHider(true);
           setafterRes(1);
@@ -68,6 +71,8 @@ const SendOtpMobile = ({ email, setTimeHider,setFormikmailOtpErrors }) => {
     }
   };
 
+  
+  const regex = /^[0-9]*$/;
   return (
     <>
       <Toast ref={toast} />
@@ -94,7 +99,7 @@ const SendOtpMobile = ({ email, setTimeHider,setFormikmailOtpErrors }) => {
               <div className="row align-items-center mt-2">
                 <div className="col-lg-8 col-md-4">
                   <Field
-                    type="number"
+                    type="text"
                     name="otp"
                     placeholder="Enter OTP"
                     style={{ borderLeft: "2px solid #e6e6e6", padding: "9px" }}
@@ -104,18 +109,26 @@ const SendOtpMobile = ({ email, setTimeHider,setFormikmailOtpErrors }) => {
                         : ""
                     }`}
                     {...(afterRes === 1 ? { readOnly: true } : {})}
+                    {...(disableEmail ? { readOnly: true } : {})}
                     maxLength={6}
                     onInput={(e) => {
                       if (e.target.value.length > 6) {
                         e.target.value = e.target.value.slice(0, 6); // Limit the input to 6 characters
                       }
+                      e.target.value = e.target.value.replace(/[^0-9]/g, '');
                     }}
+                  
                   />
+
+
+
+
                 </div>
                 <div className="col-lg-2 col-md-4">
                   <div className="">
                     {!hasLoader ? (
                       <button
+                      disabled={disableEmail}
                         className="btn btn-verify px-4"
                         type="submit"
                         style={{
@@ -143,7 +156,7 @@ const SendOtpMobile = ({ email, setTimeHider,setFormikmailOtpErrors }) => {
                         {otpresponse == 1 ? (
                           <span class="loader"></span>
                         ) : (
-                          "Verify"
+                          "Verifyas"
                         )}
                       </button>
                     )}

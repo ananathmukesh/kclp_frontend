@@ -29,8 +29,11 @@ const ResetPassword = () => {
   const [formikMOtpErrors, setformikMOtpErrors] = useState({});
 
   // Resend OTP Usestate
-  const [resendLoading, setResendLoading] = useState(false);
-  const [resendOtpSent, setResendOtpSent] = useState(false);
+  
+
+  const [disableEmail,setDisableEmail] = useState(true);
+  const [disableEmailOtp,setDisableEmailOtp] = useState(true);
+  const [disableMobileOtp,setDisableMobileOtp] = useState(true);
 
   const [TimeHider, setTimeHider] = useState(null);
   const [MobileTimeHider, setMobileTimeHider] = useState(null);
@@ -82,16 +85,27 @@ const ResetPassword = () => {
                   setFormikErrors={setFormikErrors}
                   formikErrors={formikErrors}
                   setTimerState={setTimerState}
+                  setDisableEmail={setDisableEmail}
                 />
               </div>
-              <div className="col-lg-5 col-md-4">
-                <SendOtpMobile email={email} setTimeHider={setTimeHider} setFormikmailOtpErrors={setFormikmailOtpErrors}/>
+              <div className="col-lg-5 col-md-4" style={{
+                marginBottom:"8px"
+              }}>
+                <SendOtpMobile 
+                email={email}
+                 setTimeHider={setTimeHider}
+                  setFormikmailOtpErrors={setFormikmailOtpErrors} 
+                  setTimerState={setTimerState}
+                  disableEmail={disableEmail}
+                  setDisableEmailOtp={setDisableEmailOtp}
+                  />
+                  
               </div>
               <div className="row">
                 <div className="col-7 py-0 ps-3" >
                 {
                   TimerState && (
-                    <TimerZone />
+                    <TimerZone  setTimerState={setTimerState} email={email}/>
                   )
                 }
                   {formikErrors && <p style={{ color: "red" }}>{formikErrors.email}</p>}
@@ -118,21 +132,27 @@ const ResetPassword = () => {
                   MobileTimeHider={MobileTimeHider}
                   setformikMobileErrors={setformikMobileErrors}
                   setTimerStatem={setTimerStatem}
+                  disableEmailOtp={disableEmailOtp}
+                  setDisableMobileOtp={setDisableMobileOtp}
                 />
               </div>
 
-              <div className="col-lg-5 col-md-4">
+              <div className="col-lg-5 col-md-4" style={{
+                marginBottom:"8px"
+              }}>
                 <SendOtpField
                   mobile={mobile}
                   setMobileTimeHider={setMobileTimeHider}
                   setformikMOtpErrors={setformikMOtpErrors}
+                  setTimerStatem={setTimerStatem}
+                  disableMobileOtp={disableMobileOtp}
                 />
               </div>
             </div>
             <div className="row">
             {
               TimerStatem && (
-                 <TimerZoneMobile />
+                 <TimerZoneMobile email={email} mobile={mobile} />
               )
             }
               <div className="col-7 py-0 ps-3">{  formikMobileErrors && (<p style={{ color: "red" }}>{formikMobileErrors.mobileNumber}</p>) }</div>
