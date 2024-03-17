@@ -3,8 +3,9 @@ import { Toast } from "primereact/toast";
 import { useRef } from "react";
 import axios from 'axios';
 import { authapi } from '../config/serverUrl';
+import '../auth/ResetComponent/loader.css'
 
-const TimerZoneMobile = ({email,mobile}) => {
+const TimerZoneMobile = ({email,mobile,setResendLoaderMObile}) => {
   const [seconds, setSeconds] = useState(120);
   const [running, setRunning] = useState(true); // Initially start the timer
   const [rerunning, setRErunning] = useState(false); // Initially start the timer
@@ -41,6 +42,7 @@ const TimerZoneMobile = ({email,mobile}) => {
   
 
   const handleResend = async() => {
+    setResendLoaderMObile(true);
     const res = await axios.post(`${authapi}/auth/sendMobile`,{
       email:email,
       mobile:mobile
@@ -48,7 +50,7 @@ const TimerZoneMobile = ({email,mobile}) => {
     console.log(res);
     if (res.data) {
       if (res.data.code == 200) {
-     
+        setResendLoaderMObile(false);
         toast.current.show({
           severity: "success",
           summary: "Success",
@@ -88,6 +90,7 @@ const TimerZoneMobile = ({email,mobile}) => {
         >
           Resend OTP
         </a>}
+        
     </div>
   );
 };

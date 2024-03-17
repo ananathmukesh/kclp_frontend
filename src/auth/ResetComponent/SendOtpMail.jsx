@@ -22,7 +22,7 @@ import { useEffect } from "react";
 import TimerNew from "../../utils/Timmernew";
 import Timer from "../../utils/Timer";
 
-const SendOtpMail = ({setEmail,setTimer,email,TimeHider,setFormikErrors,formikErrors,setTimerState,setDisableEmail}) => {
+const SendOtpMail = ({setEmail,setTimer,email,TimeHider,setFormikErrors,formikErrors,setTimerState,setDisableEmail,ResendLoader,setResendLoader}) => {
 
   
 
@@ -52,6 +52,7 @@ const SendOtpMail = ({setEmail,setTimer,email,TimeHider,setFormikErrors,formikEr
 
   const handleSubmit = async(values, { setSubmitting }) => {
     if(afterRes == 0){
+      
       setHasLoader(true);
       console.log(values.email);
       const res = await axios.post(`${authapi}/auth/updatemailotp`, {
@@ -122,11 +123,11 @@ const SendOtpMail = ({setEmail,setTimer,email,TimeHider,setFormikErrors,formikEr
                     type="submit"
                     style={{
                       backgroundColor: "#2196f3",
-                      color: "white",
+                      color: "white",  
                       width: "113px",
                     }}
                   >
-                    {afterRes === 0 ? (<span>GET OTP</span>) : (<IoMdCheckmarkCircle style={{ width: "30px", height: "30px" }} />)}
+                    {afterRes === 0 ? (<span>GET OTP</span>) : (ResendLoader ? (<span className="loader"></span>) :(<IoMdCheckmarkCircle style={{ width: "30px", height: "30px" }} />)  )}
                   </button>
                 ) : (
                   <button

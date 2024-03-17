@@ -115,7 +115,7 @@ const ContactInformationForm = () => {
   return (
   <>
   <Toast ref={toast} />
-    <div className="card mt-4" style={{border:'3px solid #1877f2'}} >
+    <div className="card mt-4">
       <div className="d-flex justify-content-between align-items-center">
         <h5>Contact Information</h5>
         <p>

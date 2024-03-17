@@ -21,7 +21,7 @@ import { IoMdCheckmarkCircle } from "react-icons/io";
 import "./loader.css";
 import MobileNumberTimer from "../../utils/MobileTimer";
 
-const SendOtpPhone = ({ email, setMobile, mobile, MobileTimeHider,setformikMobileErrors,setTimerStatem,disableEmailOtp,setDisableMobileOtp }) => {
+const SendOtpPhone = ({ email, setMobile, mobile, MobileTimeHider,setformikMobileErrors,setTimerStatem,disableEmailOtp,setDisableMobileOtp,ResendLoaderMObile }) => {
   const [showhider, setShowhider] = useState(null);
 
   const [showResendButtoon, setshowResendButtoon] = useState(null);
@@ -131,9 +131,12 @@ const SendOtpPhone = ({ email, setMobile, mobile, MobileTimeHider,setformikMobil
                     {afterRes == 0 ? (
                       <span>GET OTP</span>
                     ) : (
-                      <IoMdCheckmarkCircle
+                      ResendLoaderMObile ? ( <span class="loader"></span>) : (
+                        <IoMdCheckmarkCircle
                         style={{ width: "30px", height: "30px" }}
                       />
+                      )
+                      
                     )}
                   </button>
                 ) : (

@@ -12,10 +12,15 @@ import handleloginresponse from '../react-redux/actions'
 import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
 import { authapi } from "../config/serverUrl";
-
+import { useLocation } from "react-router-dom";
+import Alert from '@mui/material/Alert';
 
 
 const Login = () => {
+  const location = useLocation();
+  const { state } = location;
+
+  console.log('state',state);
   const initialValue = { email: '', password: '' };
   const [value, setValue] = useState(initialValue);
   const [formErrors, setFormErrors] = useState({});
@@ -119,8 +124,19 @@ const Login = () => {
 
 
   return (
+   <>
+    
+    
     <div className="Auth-form-container">
+      
       <form className="Auth-form" onSubmit={handleSubmit}>
+      {
+      state && (
+        <Alert variant="filled" severity="success">
+        Password Reset Successfully...!
+      </Alert>
+      )
+    }
         <div className="Auth-form-content">
           <div className="head ">
             <h5 className="text-center" style={{ color: "#4A4A4A" }}>
@@ -207,7 +223,7 @@ const Login = () => {
           </div>
         </div>
       </form>
-    </div>
+    </div></>
   );
 };
 

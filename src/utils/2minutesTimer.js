@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { authapi } from '../config/serverUrl';
 import { Toast } from "primereact/toast";
 import { useRef } from "react";
-const TimerZone = ({email}) => {
+const TimerZone = ({email,setResendLoader}) => {
   const [seconds, setSeconds] = useState(120);
   const [running, setRunning] = useState(true); // Initially start the timer
   const [rerunning, setRErunning] = useState(false); // Initially start the timer
@@ -37,13 +37,14 @@ const TimerZone = ({email}) => {
   };
 
   const handleResend = async() => {
+    setResendLoader(true);
     const res = await axios.post(`${authapi}/auth/sendMail`,{
       email:email
     });
     console.log(res);
     if (res.data) {
       if (res.data.code == 200) {
-     
+        setResendLoader(false);
         toast.current.show({
           severity: "success",
           summary: "Success",

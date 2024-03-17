@@ -31,6 +31,9 @@ const ResetPassword = () => {
   // Resend OTP Usestate
   
 
+  const [ResendLoader,setResendLoader] = useState(false);
+  const [ResendLoaderMObile,setResendLoaderMObile] = useState(false);
+
   const [disableEmail,setDisableEmail] = useState(true);
   const [disableEmailOtp,setDisableEmailOtp] = useState(true);
   const [disableMobileOtp,setDisableMobileOtp] = useState(true);
@@ -86,6 +89,8 @@ const ResetPassword = () => {
                   formikErrors={formikErrors}
                   setTimerState={setTimerState}
                   setDisableEmail={setDisableEmail}
+                  ResendLoader={ResendLoader}
+                  setResendLoader={setResendLoader}
                 />
               </div>
               <div className="col-lg-5 col-md-4" style={{
@@ -105,7 +110,7 @@ const ResetPassword = () => {
                 <div className="col-7 py-0 ps-3" >
                 {
                   TimerState && (
-                    <TimerZone  setTimerState={setTimerState} email={email}/>
+                    <TimerZone  setTimerState={setTimerState} email={email}  setResendLoader={setResendLoader} />
                   )
                 }
                   {formikErrors && <p style={{ color: "red" }}>{formikErrors.email}</p>}
@@ -134,6 +139,7 @@ const ResetPassword = () => {
                   setTimerStatem={setTimerStatem}
                   disableEmailOtp={disableEmailOtp}
                   setDisableMobileOtp={setDisableMobileOtp}
+                  ResendLoaderMObile={ResendLoaderMObile}
                 />
               </div>
 
@@ -150,12 +156,14 @@ const ResetPassword = () => {
               </div>
             </div>
             <div className="row">
-            {
+            
+              <div className="col-7 py-0 ps-3">
+              {
               TimerStatem && (
-                 <TimerZoneMobile email={email} mobile={mobile} />
+                 <TimerZoneMobile email={email} mobile={mobile} setResendLoaderMObile={setResendLoaderMObile} />
               )
             }
-              <div className="col-7 py-0 ps-3">{  formikMobileErrors && (<p style={{ color: "red" }}>{formikMobileErrors.mobileNumber}</p>) }</div>
+                {  formikMobileErrors && (<p style={{ color: "red" }}>{formikMobileErrors.mobileNumber}</p>) }</div>
               <div style={{ color: "red" }} className="col-5 py-0 ps-3">{ formikMOtpErrors && (<p style={{ color: "red" }}>{formikMOtpErrors.otp}</p>)  } </div>
             </div>
 

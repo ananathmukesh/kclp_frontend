@@ -69,7 +69,8 @@ const ChangePassword = ({
               life: 3000,
             });
             setHasLoader(false);
-            navigate('/login');
+            
+            navigate('/login', { state: { reset: 'success' } });
           } else {
             setHasLoader(false);
             toast.current.show({
