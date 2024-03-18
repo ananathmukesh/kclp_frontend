@@ -104,7 +104,7 @@ const ChangePassword = ({
               Date Of Birth
             </p>
             <div className="row">
-              <div className="col-6">
+              <div className="col-md-6 col-12">
            
               <Calendar
         id="buttondisplay"
@@ -129,7 +129,7 @@ const ChangePassword = ({
             </div>
 
             <div className="row">
-              <div className="col-6">
+              <div className="col-md-6 col-12">
                 <Field
                   className={`form-control${errors.password ? '  is-invalid' : ''}`}
                   type="password"
@@ -139,7 +139,7 @@ const ChangePassword = ({
                 />
                 <ErrorMessage style={{ color: 'red' }} name="password" component="div" />
               </div>
-              <div className="col-6">
+              <div className="col-md-6 col-12">
                 <Field
                   className={`form-control${errors.confirmPassword ? '  is-invalid' : ''}`}
                   type="password"

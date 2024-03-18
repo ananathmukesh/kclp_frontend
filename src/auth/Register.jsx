@@ -34,7 +34,7 @@ import { Calendar } from 'primereact/calendar';
       fathername: "",
       familyname: "",
       confrim_password: "",
-    
+      dob:""
     };
     const [data, setdata] = useState(inintalvalue);
     const [formErrors, setFormErrors] = useState({});
@@ -55,7 +55,8 @@ import { Calendar } from 'primereact/calendar';
       fathername: false,
       familyname: false,
       email: false,
-      mobile_no:false
+      mobile_no:false,
+      dob:false
     });
     // OTP useState
     const [otp, setOTP] = useState(["", "", "", "", "", ""]);
@@ -83,6 +84,9 @@ import { Calendar } from 'primereact/calendar';
           .map((_, i) => inputRefs[i] || React.createRef())
       );
     }, []);
+
+
+      console.log('set data',data);
 
     const handleChange = (index, event) => {
       const value = event.target.value;
@@ -278,6 +282,7 @@ import { Calendar } from 'primereact/calendar';
         familyname: true,
         email: true,
         mobile_no:true,
+        dob:true
       });
 
       // setFormErrors(validate(data));
@@ -436,7 +441,7 @@ import { Calendar } from 'primereact/calendar';
           </div>
 
           <div className="col-md-6 col-12 p-0" >
-          <div className="">
+        
             <div className="input-group mt-4 me-2">
               <div className="input-group-prepend">
                 <span
@@ -452,24 +457,24 @@ import { Calendar } from 'primereact/calendar';
                 </span>
               </div>
               <Calendar
-  id="buttondisplay"
-  value={date}
+  id="dob"
+  className="datebirth"
   showIcon={false} 
-  onChange={(e) => setDate(e.value)}
+  onChange={handlesignup}
   name="dateOfBirth"
   monthNavigator
+  placeholder="Date of birth"
   yearNavigator
   yearRange="1990:2024"
   dateFormat="dd/mm/yy"
   inputId="in"
-  style={{ width: '430px',height:"42px" }} // Set the width to 300px
+  style={{ width: '88%',height:"42px" , borderTopRightRadius:"4px" ,borderBottomRightRadius:"4px" , border:"none" }} // Set the width to 300px
 />
 
             </div>
             {formErrors.name && (
               <p style={{ color: "red" }}>{formErrors.name}</p>
             )}
-          </div>
           </div>
 
           <div className="col-md-6 col-12 p-0">

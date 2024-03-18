@@ -107,7 +107,7 @@ const ResetPassword = () => {
                   
               </div>
               <div className="row">
-                <div className="col-7 py-0 ps-3" >
+                <div className="col-7 py-0 ps-3 d-none d-md-block" >
                 {
                   TimerState && (
                     <TimerZone  setTimerState={setTimerState} email={email}  setResendLoader={setResendLoader} />
@@ -115,7 +115,7 @@ const ResetPassword = () => {
                 }
                   {formikErrors && <p style={{ color: "red" }}>{formikErrors.email}</p>}
                 </div>
-                <div className="col-5 py-0 ps-3">
+                <div className="col-5 py-0 ps-3 d-none d-md-block">
                {
                 formikmailOtpErrors && <p style={{ color: "red" }}>{formikmailOtpErrors.otp}</p>
                }
@@ -155,7 +155,7 @@ const ResetPassword = () => {
                 />
               </div>
             </div>
-            <div className="row">
+            <div className="row d-none d-md-block">
             
               <div className="col-7 py-0 ps-3">
               {

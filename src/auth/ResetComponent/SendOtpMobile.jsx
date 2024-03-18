@@ -119,13 +119,20 @@ const SendOtpMobile = ({ email, setTimeHider,setFormikmailOtpErrors,setTimerStat
                     }}
                   
                   />
+             
 
 
+             <div className="d-md-none d-block">
 
-
+<ErrorMessage
+  style={{ color: "red" }}
+  name="otp"
+  component="div"
+/>
+</div>
                 </div>
                 <div className="col-lg-2 col-md-4">
-                  <div className="">
+                  <div className="mt-md-0 mt-2">
                     {!hasLoader ? (
                       <button
                       disabled={disableEmail}
@@ -156,18 +163,14 @@ const SendOtpMobile = ({ email, setTimeHider,setFormikmailOtpErrors,setTimerStat
                         {otpresponse == 1 ? (
                           <span class="loader"></span>
                         ) : (
-                          "Verifyas"
+                          "Verify"
                         )}
                       </button>
                     )}
                   </div>
                 </div>
               </div>
-              {/* <ErrorMessage
-                style={{ color: "red" }}
-                name="otp"
-                component="div"
-              /> */}
+             
             </Form>
           </>
         );

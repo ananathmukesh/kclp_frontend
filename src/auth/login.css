@@ -6,7 +6,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100vw;
+  width: 100%;
   height: 100vh;
 }
 
@@ -17,10 +17,11 @@
   background-color: white;
 }
 .Auth-forms {
-  width:45%;
+  width:95%;
   box-shadow: rgb(145 145 145 / 16%) 1px 1px 10px;
   border-radius: 8px;
   background-color: white;
+  height: 90%;
 }
 
 .Auth-formss {
@@ -170,14 +171,23 @@
 
 /* Mobile */
 @media only screen and (min-width: 320px) and (max-width: 767px) {
+  .datebirth {
+    width: 83%!important;
+  }
   .otperror{
     font-size: 12px;
   }
   .Auth-forms {
     width: 92%;
+
   }
   .Auth-form {
     width: 92%;
+  }
+  .Auth-formss {
+    width: 92%;
+    margin-top: 100px!important;
+
   }
   .Auth-form-content .content {
     padding: 40px 20px;

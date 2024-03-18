@@ -4,31 +4,25 @@ import { IoHeartOutline } from "react-icons/io5";
 import { GoBell } from "react-icons/go";
 import { FaRegUserCircle } from "react-icons/fa";
 import { IoPowerOutline } from "react-icons/io5";
-import { TbCaretDownFilled, TbCaretUpFilled } from "react-icons/tb";
-import { MdBusinessCenter } from "react-icons/md";
-import { MdElectricRickshaw } from "react-icons/md";
-import { FaLandmark } from "react-icons/fa";
-import { BiCategory } from "react-icons/bi";
 import { MdInfoOutline } from "react-icons/md";
 import { FiPhoneCall } from "react-icons/fi";
-import { IoMdLogIn } from "react-icons/io";
-import { useMediaQuery } from '@mui/material';
-import { BiLogOutCircle } from "react-icons/bi";
-import { loginUser } from "../../react-redux/actions";
-import { useDispatch } from 'react-redux';
-import { RiLoginCircleLine } from "react-icons/ri";
-import { useSelector } from "react-redux";
-
+import { useMediaQuery } from "@mui/material";
 import { Link } from "react-router-dom";
+import { useDispatch } from 'react-redux';
+import { loginUser } from "../../react-redux/actions";
+import { RiLoginCircleLine } from "react-icons/ri";
+import { BiLogOutCircle } from "react-icons/bi";
+import { useSelector } from "react-redux";
+import { IoCloseSharp } from "react-icons/io5";
+
 
 import "./Side.css";
 
-const Sidebar = ({setSidebarOpen}) => {
+const Sidebar = ({ setSidebarOpen , toggleDrawer }) => {
   const authdata = useSelector((state) => state.auth.user?.user.user);
+
   const [isDropdownOpen, setDropdownOpen] = useState(false);
-
-  const isSmallScreen = useMediaQuery('(max-width:768px)');
-
+  const isSmallScreen = useMediaQuery("(max-width:768px)");
 
   const toggleDropdown = () => {
     setDropdownOpen(!isDropdownOpen);
@@ -50,12 +44,21 @@ const Sidebar = ({setSidebarOpen}) => {
           <div className="topside d-flex align-items-center justify-content-between">
             <img src={logo} className="logo" alt="logo" />
             <div className="ts-icons">
-              <IoHeartOutline className="ts-icon" />
+              {/* <IoHeartOutline className="ts-icon" /> */}
               <GoBell className="ts-icon" />
+              {/* <Link to="/main/jobs"> */}
               <Link to="/main/jobs">
-              <FaRegUserCircle className="ts-icon text-white" />
-              </Link> 
-             
+              
+              <FaRegUserCircle className="ts-icon text-white" onClick={toggleDrawer(false)}/>
+              </Link>
+              <Link to="/main/jobs">
+              
+              <IoCloseSharp className="ts-icon text-white d-md-none" onClick={toggleDrawer(false)}/>
+              </Link>
+              {/* </Link> */}
+            
+                {/* <IoCloseSharp className="ts-icon text-white d-md-none d-block"/> */}
+            
             </div>
           </div>
           {/* <div className="ts-middle mt-4">
@@ -147,15 +150,7 @@ const Sidebar = ({setSidebarOpen}) => {
                 borderRadius: "8px",
               }}
             >
-              <Link
-                to="/main/About"
-                style={{ color: "#fff", textDecoration: "none" }}
-              >
-                <div className="d-flex mt-2 align-items-center">
-                  <i class="fi fi-rr-building"></i>
-                  <p  onClick={ isSmallScreen ? () => setSidebarOpen(false) :  undefined} className="mb-0 ms-4 cate-text text-wrap"> About Us </p>
-                </div>
-              </Link>
+            
             </li>
             <li
               className="d-flex justify-content-between align-items-center category"
@@ -164,19 +159,7 @@ const Sidebar = ({setSidebarOpen}) => {
                 borderRadius: "8px",
               }}
             >
-              <Link
-                to="/main/Terms"
-                style={{ color: "#fff", textDecoration: "none" }}
-              >
-                <div className="d-flex mt-2 align-items-center">
-                  <MdInfoOutline className="icon" />
-                  <p   onClick={ isSmallScreen ? () => setSidebarOpen(false) :  undefined}
-                 
-                   className="mb-0 ms-4 cate-text text-wrap">
-                    Terms & Condition
-                  </p>
-                </div>
-              </Link>
+            
             </li>
             <li
               className="d-flex mt-2 justify-content-between align-items-center category"
@@ -191,7 +174,12 @@ const Sidebar = ({setSidebarOpen}) => {
               >
                 <div className="d-flex align-items-center">
                   <FiPhoneCall className="icon" />
-                  <p  onClick={ isSmallScreen ? () => setSidebarOpen(false) :  undefined} className="mb-0 ms-4 cate-text">Contact Us</p>
+                  <p
+                    onClick={toggleDrawer(false) }
+                    className="mb-0 ms-4 cate-text"
+                  >
+                    Contact Us
+                  </p>
                 </div>
               </Link>
             </li>
@@ -202,7 +190,7 @@ const Sidebar = ({setSidebarOpen}) => {
                 borderRadius: "8px",
               }}
             >
-            {
+             {
               authdata ? (
                 <Link
                 style={{ color: "#fff", textDecoration: "none" }}
@@ -225,7 +213,6 @@ const Sidebar = ({setSidebarOpen}) => {
               </Link>
               )
             }
-             
             </li>
           </ul>
         </div>

@@ -116,6 +116,7 @@ const SendOtpMail = ({setEmail,setTimer,email,TimeHider,setFormikErrors,formikEr
                     errors.email ? "  is-invalid" : ""
                   }`}
                 />
+                
                 {!hasLoader ? (
                   <button
                     className="btn btn-verify btn-verify"
@@ -146,13 +147,13 @@ const SendOtpMail = ({setEmail,setTimer,email,TimeHider,setFormikErrors,formikEr
                 )}
               </div>
             </Form>
-            {/* <div>
+            <div className="d-md-none d-block">
               <ErrorMessage
                 style={{ color: "red" }}
                 name="email"
                 component="div"
               />
-            </div> */}
+            </div>
           </>
         );
       }}

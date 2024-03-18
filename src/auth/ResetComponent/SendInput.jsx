@@ -109,9 +109,15 @@ const SendOtpField = ({ mobile, setMobileTimeHider,setformikMOtpErrors,setTimerS
                       e.target.value = e.target.value.replace(/[^0-9]/g, '');
                     }}
                   />
+                                <div className="d-md-none d-block">
+              <ErrorMessage
+                style={{ color: "red" }}
+                name="otp"
+                component="div"
+              /></div>
                 </div>
                 <div className="col-lg-2 col-md-4">
-                  <div className="">
+                  <div className="mt-md-0 mt-2">
                     {!hasLoader ? (
                       <button
                       disabled={disableMobileOtp}
@@ -149,11 +155,7 @@ const SendOtpField = ({ mobile, setMobileTimeHider,setformikMOtpErrors,setTimerS
                   </div>
                 </div>
               </div>
-              {/* <ErrorMessage
-                style={{ color: "red" }}
-                name="otp"
-                component="div"
-              /> */}
+
             </Form>
           </>
         );

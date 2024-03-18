@@ -119,7 +119,7 @@ const SendOtpPhone = ({ email, setMobile, mobile, MobileTimeHider,setformikMobil
                 {!hasLoader ? (
                   <button
                   disabled={disableEmailOtp}
-                    className="btn btn-verify btn-verify"
+                    className="btn btn-verify btn-verify "
                     value="sendmailotp"
                     type="submit"
                     style={{
@@ -155,11 +155,13 @@ const SendOtpPhone = ({ email, setMobile, mobile, MobileTimeHider,setformikMobil
                   </button>
                 )}
               </div>
-              {/* <ErrorMessage
+              <div className="d-md-none d-block">
+              <ErrorMessage
                 style={{ color: "red" }}
                 name="mobileNumber"
                 component="div"
-              /> */}
+              />
+              </div>
             </Form>
           </>
         );

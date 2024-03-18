@@ -26,6 +26,7 @@ import ResetPassword from '../src/auth/ResetPassword'
 import ResetPasswordChange from "./auth/PasswordChange";
 import MyFormData from "./Component/Profile/TestFormPage";
 import SendOtpMobile from "./auth/ResetComponent/SendOtpMobile";
+import DemoRegister from "./auth/DemoRegister";
 
 
 function App() {
@@ -40,6 +41,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/ap" element={<DynamicInputFields />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/demoregister" element={<DemoRegister />} />
           <Route path="/resetpassword" element={<ResetPassword />} />
           <Route path="/resetchange" element={<ResetPasswordChange />} />
           <Route path="/" element={<Main />}>
