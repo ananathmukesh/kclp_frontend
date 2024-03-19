@@ -13,6 +13,7 @@ import Modal from "@mui/material/Modal";
 import { Toast } from "primereact/toast";
 import { useRef } from "react";
 import { style } from '../../Styles/Jobformstyle'
+import { IoMdAddCircle } from "react-icons/io";
 
 
 
@@ -128,7 +129,7 @@ const ContactInformationForm = () => {
             {data.userid ? (
               <i className="fi fi-rr-file-edit ms-2"></i>
             ) : (
-              <i className="fi fi-rr-layer-plus"></i>
+              <IoMdAddCircle />
             )}
           </Button>
         </p>
