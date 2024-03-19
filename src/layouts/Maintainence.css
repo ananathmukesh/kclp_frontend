@@ -1,0 +1,21 @@
+
+.img-under{
+    width: 40rem;
+}
+
+.text-kod{
+    font-style: 90px;
+}
+
+@media only screen and (max-width: 768px) {
+    .img-under{
+        width: 15rem;
+    }
+    .text-kod{
+        font-size: 60px;
+    }
+    .Maintain{
+        margin-top: 60px !important;
+    }
+    
+}

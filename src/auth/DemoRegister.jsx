@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import {
   CaretLeft,
@@ -13,6 +13,8 @@ import {
 
 
 } from "@phosphor-icons/react";
+import * as yup from "yup";
+
 import axios from "axios";
 import { toast } from "react-toastify";
 import PhoneInput from "react-phone-input-2";
@@ -23,10 +25,23 @@ import pt from "react-phone-input-2/lang/pt.json";
 // import 'react-international-phone/style.css';
 import { authapi } from "../config/serverUrl";
 import { Calendar } from 'primereact/calendar';
-
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import { IoMdCheckmarkCircle } from "react-icons/io";
+import SignUpTimer from "../utils/signupTimer";
 import "./login.css";
 import { useNavigate } from 'react-router-dom';
+import { Toast } from "primereact/toast";
+import { useRef } from "react";
+import { loginUser } from "../react-redux/actions";
+import { useDispatch } from 'react-redux';
+
 const DemoRegister = () => {
+  const toast = useRef(null);
+  const dispatch = useDispatch();
+
+  const [DisableSubmit,setDisableSubmit] = useState(null);
+  const [TimerStart,setTimerStart] = useState(null);
+
   const inintalvalue = {
     email: "",
     password: "",
@@ -42,6 +57,8 @@ const DemoRegister = () => {
   const [error, setError] = useState("");
   const [valid, setvalid] = useState(true);
   const [iserror, setIserror] = useState(false);
+  const [afterRes, setafterRes] = useState(0);
+  const [otpresponse, setOtpresponse] = useState(0);
 
   // Mobile useState
   const [mobile_no, setmobile_no] = useState("");
@@ -76,6 +93,7 @@ const DemoRegister = () => {
 
   const [date, setDate] = useState(new Date());
 
+  const [hasLoader, setHasLoader] = useState(false);
 
   useEffect(() => {
     setInputRefs((inputRefs) =>
@@ -305,6 +323,7 @@ const DemoRegister = () => {
     console.log("value1:", value1);
 
     if (! mobileError && Object.keys(errors).length === 0) {
+      setHasLoader(true);
       setarrowbutton(true)
       try {
         const res = await axios.post(`${authapi}/auth/signup`, {
@@ -315,30 +334,15 @@ const DemoRegister = () => {
         const data1 = res.data;
         console.log("Data1:", data1);
         settimeOTP(true);
-
-        // setTimeout(() => {
-        //   setLoading(false);
-        //   setOtpSent(true);
-        // }, 2000);
         if (data1.code == 200) {
-          //showToast("Registered Successfully");
-          // setdata({
-          //   password: "",
-          //   confirm_password: "",
-          //   name: "",
-          //   fathername: "",
-          //   familyname: "",
-          //   email: "",
-          // });
-          // setOTP(["", "", "", "", "", ""]);
-          // setmobile_no("");
-          // setVerified(false);
-          // setOtpSent(false);
-          handleNextClick()
-          
-
+          setTimerStart(true);
+          setafterRes(1);
+          setHasLoader(false);
+          setDisableSubmit(true);
+          setError("");
         } else if (data1.code == 409) {
           setError("User already exists");
+          setHasLoader(false);
         }
       } catch (error) {
         if (error.response) {
@@ -350,6 +354,18 @@ const DemoRegister = () => {
         }
       }
     }
+  };
+
+
+  const schema = yup.object().shape({
+    otp: yup
+      .string()
+      .matches(/^[0-9]{6}$/, "Invalid OTP. Must be 6 digits.")
+      .required("OTP is required"),
+  });
+
+const initialValues = {
+    otp: "",
   };
 
   let isToastDisplayed = false;
@@ -397,6 +413,42 @@ const DemoRegister = () => {
     return errors;
   };
 
+
+  
+
+
+   const handleVerifys = async (values, { setSubmitting }) => {
+      console.log(values);
+      const res = await axios.post(`${authapi}/auth/verifyOtp`,{
+        email:data.email,
+        otp:values.otp
+      });
+     console.log('final response',res.data.data.user);
+      if(res.data){
+        if (res.data) {
+          if (res.data.code == 200) {
+            toast.current.show({
+              severity: "success",
+              summary: "Success",
+              detail: res.data.data.message,
+              life: 3000,
+            });
+            dispatch(loginUser(res.data.data.user));
+            navigate('/verify',{ state: { signup: 'success' } });
+            
+          } else {
+            console.log(res);
+            toast.current.show({
+              severity: "error",
+              summary: "Error",
+              detail: res.data.data.message,
+              life: 3000,
+            });
+          }
+        }
+      }
+  };
+
   const [currentIndex, setCurrentIndex] = useState(0);
   const paragraphs = [
     <div>
@@ -422,6 +474,7 @@ const DemoRegister = () => {
               </span>
             </div>
             <input
+            {...(DisableSubmit ? { readOnly: true } : {})}
               type="text"
               className="form-control"
               id="name"
@@ -461,6 +514,7 @@ const DemoRegister = () => {
               </span>
             </div>
             <input
+              {...(DisableSubmit ? { readOnly: true } : {})}
               type="text"
               className="form-control"
               id="name"
@@ -500,6 +554,7 @@ const DemoRegister = () => {
             </div>
             
             <input
+              {...(DisableSubmit ? { readOnly: true } : {})}
               type="text"
               className="form-control"
               id="fathername"
@@ -543,6 +598,7 @@ const DemoRegister = () => {
             </span>
           </div>
           <input
+            {...(DisableSubmit ? { readOnly: true } : {})}
             type="text"
             className="form-control"
             id="familyname"
@@ -578,6 +634,7 @@ const DemoRegister = () => {
             </span>
           </div>
           <input
+            {...(DisableSubmit ? { readOnly: true } : {})}
             type="text"
             className="form-control"
             id="email"
@@ -619,6 +676,7 @@ const DemoRegister = () => {
                   }}
                 /> */}
                 <input
+                  {...(DisableSubmit ? { readOnly: true } : {})}
                     type="tel"
                     className="form-control"
                     value={mobile_no}
@@ -668,6 +726,7 @@ const DemoRegister = () => {
             </span>
           </div>
           <input
+            {...(DisableSubmit ? { readOnly: true } : {})}
             type="password"
             className="form-control"
             id="password"
@@ -704,6 +763,7 @@ const DemoRegister = () => {
             </span>
           </div>
           <input
+            {...(DisableSubmit ? { readOnly: true } : {})}
             type="password"
             className="form-control"
             id="confirm_password"
@@ -741,211 +801,46 @@ const DemoRegister = () => {
      
       
       <div className="d-flex justify-content-between mt-5">
-        <Link to="/login" style={{ color: "#2196F3" }}>
-          <button className="btn btn-prime">
-            <span>
-              <CaretLeft size={28} />
-            </span>
-            Back
-          </button>
-        </Link>
-        <Link to="/login" style={{ color: "#fff" }}>
-          <button
-            className="btn btn-verify"
-            onClick={(e) => handlesubmit(e)}
-          >
-            Continue
-          </button>
-        </Link>
-      </div>
-    </div></div>,
-    <div>
-    <div className="top">
-    {/* <h4>Step1</h4>
-    <p>Add your mobile number to create an account</p>
-    <PhoneInput
-      country={"in"}
-      value={mobile_no}
-      onChange={handlemobileno}
-      inputProps={{
-        required: true,
-      }}
-    />
-    {mobileError && <p style={{ color: "red" }}>{mobileError}</p>} */}
-
-    {/* <div className="d-flex justify-content-between mt-2">
-      <div style={{ textAlign: "left" }}>
-        {!timeOTP && (
-          <p className="resend-message-disabled">
-            Didn't receive OTP?{" "}
-            <span className="resend-message-disabled">Resend</span>
-          </p>
-          <p>Didn't recieve OTP? <span onClick={handleresend}  style={{color:"#2196f3"}}>Resend</span></p>
-        )}
-
-        {timeOTP && (
-          <div>
-            {remainingTime > 0 && (
-              <p>Time remaining: {formatTime(remainingTime)}</p>
-            )}
-          </div>
-        )}
-
-        {timeOTP && remainingTime <= 0 && (
-          <p className="resend-message-enabled">
-            Didn't receive OTP?{" "}
-            <span
-              className="resend-message-enabled"
-              onClick={handleresend}
-              style={{ color: "#2196f3", cursor: "pointer" }}
-            >
-              Resend
-            </span>
-          </p>
-        )}
-      </div>
-
-      <button
-        className="btn btn-verify px-4"
-        onClick={handlephoneno}
-        disabled={loading || otpSent}
-        style={{
-          backgroundColor: otpSent ? "green" : "",
-          color: otpSent ? "white" : "",
-        }}
-      >
-        {loading ? (
-          <span>Loading...</span>
-        ) : otpSent ? (
-          <>
-            <span>OTP SENT</span> <span>&#10004;</span>
-          </>
-        ) : (
-          <span>SEND</span>
-        )}
-      </button>
-    </div> */}
-
-    <h4 className="mt-5">OTP Verification</h4>
-    <p style={{ color: "#8B8B8B" }}>
-      Enter the 6 digit code received on your Phone number
-      <span
-        className="ms-2"
-        style={{ color: "#030303", fontWeight: "500" }}
-      >
-        (+91 9000123456)
-      </span>
-      <div className="my-3 d-flex justify-content-center">
-        {otp.map((digit, index) => (
-          <input
-            key={index}
-            className="opt-box"
-            type="text"
-            maxLength="1"
-            value={digit}
-            onChange={(e) => handleChange(index, e)}
-            onPaste={handlePaste}
-            onKeyDown={(e) => handleBackspace(index, e)}
-            ref={inputRefs[index]}
-          />
-        ))}
-      </div>
-      {/* <div className="d-flex justify-content-between"> */}
-        {/* <div className="text-end mt-2"> */}
-          {/* <button className="btn btn-verify px-4" onClick={handleresend} disabled={resendloading || resendotpSent} style={{ backgroundColor: resendotpSent ? 'green' : '', color: resendotpSent ? 'white' : '' }}>
-        {resendloading ? <span>Loading...</span> : (resendotpSent ? <><span>OTP SENT</span> <span>&#10004;</span></> : <span style={{color:"#fff"}}>RESEND</span>)}
-        </button>  */}
-        {/* </div> */}
-        <div className="row">
-          <div className="col-12">
-          {otperror && <p className="otperror" style={{ color: "red" }}>{otperror}</p>}
-
-          </div>
-          <div className="col-12">
-
-          <div className="text-end mt-2">
-
-          <div className="d-flex justify-content-between mt-2">
-<div style={{ textAlign: "left" }}>
-  {/* {!timeOTP && (
-    <>
-      <p>Didn't receive OTP? <span onClick={handleresend} style={{ color: "#2196f3", cursor: "pointer" }}>Resend</span></p>
-    </>
-  )}
-
-  {timeOTP && (
-    <>
-      {remainingTime > 0 && (
-        <p>Time remaining: {formatTime(remainingTime)}</p>
-      )}
-
-      {timeOTP && remainingTime <= 0 && (
-        <p>Didn't receive OTP? <span onClick={handleresend} style={{ color: "#2196f3", cursor: "pointer" }}>Resend</span></p>
-      )}
-    </>
-  )} */}
+  <div style={{ color: "#fff" }} className="ml-auto">
 
 
-<div style={{ textAlign: 'right' }}>
-              {!timeOTP && (
-                <p className="resend-message-disabled">Didn't receive OTP? <span className="resend-message-disabled" >Resend</span></p>
-                // <p>Didn't recieve OTP? <span onClick={handleresend}  style={{color:"#2196f3"}}>Resend</span></p>
-              )}
-
-              {timeOTP && (
-                <div>
-                  {remainingTime > 0 && (
-                    <p>Time remaining: {formatTime(remainingTime)}</p>
-                  )}
-                </div>
-              )}
-              
-          {timeOTP && remainingTime <= 0 && (
-                <p className="resend-message-enabled">Didn't receive OTP? <span className="resend-message-enabled" onClick={handleresend} style={{color:"#2196f3", cursor: 'pointer'}} >Resend</span></p>
-              )}
-
-            </div>
-
-
-
-
+                    {!hasLoader ? (
+                      <button
+                      disabled={DisableSubmit}
+                      onClick={(e) => handlesubmit(e)}
+                        className="btn btn-verify px-4"
+                        type="submit"
+                        style={{
+                          backgroundColor: "#2196f3",
+                          color: "white",
+                        }}
+                      >
+                        {afterRes == 0 ? (
+                          "Continue"
+                        ) : (
+                          <IoMdCheckmarkCircle
+                            style={{ width: "30px", height: "30px" }}
+                          />
+                        )}
+                      </button>
+                    ) : (
+                      <button
+                        className="btn btn-verify px-4"
+                        type="submit"
+                        style={{
+                          backgroundColor: "#2196f3",
+                          color: "white",
+                        }}
+                      >
+                    <span class="loader"></span>
+                      </button>
+                    )}
+  </div>
 </div>
 
-
-
-          <button
-            className="btn btn-verify px-4"
-            onClick={handleVerify}
-            disabled={otploading || verified}
-            style={{
-              backgroundColor: verified ? "green" : "",
-              color: verified ? "white" : "",
-            }}
-          >
-            {otploading ? (
-              <span>Loading...</span>
-            ) : (
-              <>
-                {verified ? (
-                  <>
-                    <span style={{ color: "#Fff" }}>Verified</span>{" "}
-                    <span>&#10004;</span>
-                  </>
-                ) : (
-                  <span style={{ color: "#Fff" }}>Verify</span>
-                )}
-              </>
-            )}
-          </button>
-          {/* 
-        //<button className="btn btn-verify px-4" onClick={handleVerify}>Verify</button> */}
-        </div>
-          </div>
-        </div>
-        </div>
-      {/* </div> */}
-    </p>
-    </div>
+    </div></div>,
+    <div>
+    
     
     </div>  ];
 
@@ -959,8 +854,9 @@ const handlepreviousclick = () => {
 };
   return (
     <div>
+    <Toast ref={toast} />
       <div className="Auth-form-container">
-        <form className="Auth-forms">
+        <div className="Auth-forms">
           <div className="Auth-form-content">
             <div className="head d-flex">
 
@@ -991,9 +887,104 @@ const handlepreviousclick = () => {
             <p style={{ color: "#8B8B8B" }}>
               Please enter your Mobile Number to receive verification code
             </p>
+
+            <Formik
+          initialValues={initialValues}
+          validationSchema={schema}
+          onSubmit={handleVerifys}
+        >
+
+
+
+
+
+
+{({ errors }) => {
+  // Update formikErrors state with the current errors
+        return (
+          <>
+          <Form>
+              <div className="row align-items-center mt-2">
+                <div className="col-lg-3 col-md-4">
+                  <Field
+                    type="text"
+                    name="otp"
+                    placeholder="Enter OTP"
+                    style={{ borderLeft: "2px solid #e6e6e6", padding: "9px" }}
+                    className={`form-control${
+                      errors.otp && errors.otp
+                        ? "  is-invalid"
+                        : ""
+                    }`}
+                   
+                    maxLength={6}
+                    onInput={(e) => {
+                      if (e.target.value.length > 6) {
+                        e.target.value = e.target.value.slice(0, 6); // Limit the input to 6 characters
+                      }
+                      e.target.value = e.target.value.replace(/[^0-9]/g, '');
+                    }}
+                  
+                  />
+             
+
+
+             <div className="d-md-none d-block">
+
+            <ErrorMessage
+            style={{ color: "red" }}
+            name="otp"
+           component="div"
+            />
+</div>
+                </div>
+                <div className="col-lg-2 col-md-4">
+                  <div className="mt-md-0 mt-2">
+                  <button
+                      
+                        className="btn btn-verify px-4"
+                        type="submit"
+                        style={{
+                          backgroundColor: "#2196f3",
+                          color: "white",
+                        }}
+                      >
+                        Verify
+                      </button>
+                  </div>
+                </div>
+              </div>
+              <div>
+              {
+                TimerStart && (
+                <SignUpTimer  email={data.email} mobile={mobile_no}/>
+                )
+              }
+              <ErrorMessage
+  style={{ color: "red" }}
+  name="otp"
+  component="div"
+/>
+              </div>
+             
+            </Form>
+          </>
+        );
+      }}
+
+
+
+
+
+
+
+
+
+         
+        </Formik>
             </div>
           </div>
-        </form>
+        </div>
       </div>
     </div>
   );

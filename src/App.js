@@ -27,7 +27,7 @@ import ResetPasswordChange from "./auth/PasswordChange";
 import MyFormData from "./Component/Profile/TestFormPage";
 import SendOtpMobile from "./auth/ResetComponent/SendOtpMobile";
 import DemoRegister from "./auth/DemoRegister";
-
+import Verified from "./auth/Verified";
 
 function App() {
   const toast = useRef(null);
@@ -41,6 +41,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/ap" element={<DynamicInputFields />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/verify" element={<Verified />} />
           <Route path="/demoregister" element={<DemoRegister />} />
           <Route path="/resetpassword" element={<ResetPassword />} />
           <Route path="/resetchange" element={<ResetPasswordChange />} />
@@ -56,6 +57,7 @@ function App() {
             <Route path="/main/form" element={<MyForm />} />
             <Route path="/main/form1" element={<MyFormData />} />
             <Route path="/main/otp" element={<SendOtpMobile />} />
+           
            
           </Route>
         </Routes>

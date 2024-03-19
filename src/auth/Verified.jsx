@@ -1,17 +1,23 @@
 import React, { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import "./login.css"; // Assuming you have some CSS styles defined here
+import { useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+
 
 const Verified = () => {
+  const navigate = useNavigate();
   const textRef = useRef(null);
+  const location = useLocation();
+  const { state } = location;
 
+  console.log('state',state);
   useEffect(() => {
-    gsap.from(textRef.current, {
-      scale: 0.5,
-      opacity: 0,
-      duration: 3,
-      ease: "back.out(1.7)",
-    });
+     if(state && state.signup=="success"){
+       setTimeout(()=>{
+        navigate('/');
+       },5000)
+     }
   }, []);
 
   return (
