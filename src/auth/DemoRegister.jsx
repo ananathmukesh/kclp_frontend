@@ -14,6 +14,7 @@ import {
 
 } from "@phosphor-icons/react";
 import * as yup from "yup";
+import { IoChevronBackCircleSharp } from "react-icons/io5";
 
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -861,11 +862,9 @@ const handlepreviousclick = () => {
           <div className="Auth-form-content">
             <div className="head d-flex">
 
-                {arrowbutton && (
-                    <Link onClick={handlepreviousclick} style={{ color: "#4A4A4A" }}>
-                      <CaretLeft size={28} /> 
+               <Link to='/login' style={{ color: "#4A4A4A" }}>
+                      <IoChevronBackCircleSharp size={28} /> 
                     </Link>
-                  )}
 
            
              
