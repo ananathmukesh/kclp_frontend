@@ -14,6 +14,7 @@ import { Toast } from "primereact/toast";
 import { useRef } from "react";
 import { style } from '../../Styles/Jobformstyle'
 import { IoMdAddCircle } from "react-icons/io";
+import { FaEdit } from "react-icons/fa";
 
 
 
@@ -127,7 +128,7 @@ const ContactInformationForm = () => {
             }}
           >
             {data.userid ? (
-              <i className="fi fi-rr-file-edit ms-2"></i>
+              <FaEdit />
             ) : (
               <IoMdAddCircle />
             )}
