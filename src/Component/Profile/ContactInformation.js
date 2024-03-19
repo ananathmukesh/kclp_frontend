@@ -128,9 +128,9 @@ const ContactInformationForm = () => {
             }}
           >
             {data.userid ? (
-              <FaEdit size={30} />
+              <FaEdit size={22} />
             ) : (
-              <IoMdAddCircle size={30} />
+              <IoMdAddCircle size={22} />
             )}
           </Button>
         </p>
