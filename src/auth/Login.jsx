@@ -140,7 +140,7 @@ const Login = () => {
         <div className="Auth-form-content">
           <div className="head ">
             <h5 className="text-center" style={{ color: "#4A4A4A" }}>
-              Log in or Sign up
+              Log in
             </h5>
           </div>
           <div className="content">
