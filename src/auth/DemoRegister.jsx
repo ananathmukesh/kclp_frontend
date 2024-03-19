@@ -499,38 +499,39 @@ const initialValues = {
 
         <div className="col-md-4">
         <div className="">
-          <div className="input-group mt-4 me-2">
-            <div className="input-group-prepend">
-              <span
-                className="input-group-text"
-                style={{
-                  borderColor:
-                    touchedFields.name && formErrors.name
-                      ? "red"
-                      : "",
-                }}
-              >
-                <UserCircle size={28} />
-              </span>
+        <div className="input-group mt-4 me-2">
+              <div className="input-group-prepend">
+                <span
+                  className="input-group-text"
+                  style={{
+                    borderColor:
+                      touchedFields.name && formErrors.name
+                        ? "red"
+                        : "",
+                  }}
+                >
+                   <CalendarBlank size={28} />
+                </span>
+              </div>
+              <Calendar
+  id="dob"
+  className="datebirth"
+  showIcon={false} 
+  onChange={handlesignup}
+  name="dateOfBirth"
+  monthNavigator
+  placeholder="Date of birth"
+  yearNavigator
+  yearRange="1990:2024"
+  dateFormat="dd/mm/yy"
+  inputId="in"
+  style={{ width: '88%',height:"42px" , borderTopRightRadius:"4px" ,borderBottomRightRadius:"4px" , border:"none" }} // Set the width to 300px
+/>
+
             </div>
-            <input
-              {...(DisableSubmit ? { readOnly: true } : {})}
-              type="text"
-              className="form-control"
-              id="name"
-              placeholder="Name"
-              onChange={handlesignup}
-              value={data.name}
-              // style={{ borderColor: formErrors.name ? 'red' : '' }}
-              style={{
-                borderColor:
-                  touchedFields.name && formErrors.name ? "red" : "",
-              }}
-            />
-          </div>
-          {formErrors.name && (
-            <p style={{ color: "red" }}>{formErrors.name}</p>
-          )}
+            {formErrors.name && (
+              <p style={{ color: "red" }}>{formErrors.name}</p>
+            )}
         </div>
         </div>
 
