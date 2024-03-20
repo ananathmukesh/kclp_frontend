@@ -18,7 +18,8 @@ import { DataGrid } from "@mui/x-data-grid";
 import EditIcon from "@mui/icons-material/Edit"; // Import the Edit icon from Material-UI icons
 import { style } from '../../Styles/Jobformstyle'
 
-
+import { MdModeEdit } from "react-icons/md";
+import { MdAdd } from "react-icons/md";
 
 const HomeApplianceFormPage = () => {
   const [Home, setHome] = React.useState(false);
@@ -190,7 +191,8 @@ const HomeApplianceFormPage = () => {
       sortable: false,
       renderCell: (params) => (
         <strong>
-          <EditIcon
+          <MdModeEdit
+          size={22}
             style={{ cursor: "pointer" }}
             onClick={(e) => {
               handleHomeOpen();
@@ -207,7 +209,7 @@ const HomeApplianceFormPage = () => {
     <div>
       <div className="card mt-4">
         <div className="d-flex justify-content-between align-items-center">
-          <h5>Home Appliance Details</h5>
+          <h5>Electrical and Electronics Gadget</h5>
           <p>
             <Button
               onClick={(e) => {
@@ -215,7 +217,7 @@ const HomeApplianceFormPage = () => {
                 handleaddHomeDetails(e);
               }}
             >
-              <i className="fi fi-rr-layer-plus"></i>
+             <MdAdd size={22} />
             </Button>
             <Modal
               open={Home}

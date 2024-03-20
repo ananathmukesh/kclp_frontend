@@ -21,6 +21,10 @@ import { Nodeapi } from "../../config/serverUrl";
 import '../../Styles/HtmlTable.css'
 import { format } from 'date-fns';
 
+import { MdModeEdit } from "react-icons/md";
+import { MdAdd } from "react-icons/md";
+
+
 const EducationForm = () => {
   const authdata = useSelector((state) => state.auth.user?.user.user);
   console.log('authdata',authdata);
@@ -255,9 +259,10 @@ const EducationForm = () => {
               }}
             >
               {schooldetails || collagedetails ? (
-                <i className="fi fi-rr-file-edit ms-2"></i>
+                <MdModeEdit size={22}/>  
               ) : (
-                <i className="fi fi-rr-layer-plus"></i>
+
+                <MdAdd size={22} />
               )}
             </Button>
             <Modal

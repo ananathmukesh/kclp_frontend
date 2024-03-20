@@ -16,6 +16,9 @@ import { style } from '../../Styles/Jobformstyle'
 import { IoMdAddCircle } from "react-icons/io";
 import { FaEdit } from "react-icons/fa";
 
+import { MdModeEdit } from "react-icons/md";
+import { MdAdd } from "react-icons/md";
+
 
 
 const ContactInformationForm = () => {
@@ -128,7 +131,7 @@ const ContactInformationForm = () => {
             }}
           >
             {data.userid ? (
-              <FaEdit size={22} />
+              <MdAdd size={22} />
             ) : (
               <IoMdAddCircle size={22} />
             )}
@@ -158,7 +161,7 @@ const ContactInformationForm = () => {
                     className="form-control mt-2"
                     placeholder="Enter your mobile no"
                     name="phoneNumber1"
-                    value="99367763563"
+                    value={authdata.mobile_no}
                     readOnly
                     onChange={handleInputChange}
                   />

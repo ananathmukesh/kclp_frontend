@@ -14,7 +14,8 @@ import { Toast } from "primereact/toast";
 import { useRef } from "react";
 import { style } from '../../Styles/Jobformstyle'
 
-
+import { MdModeEdit } from "react-icons/md";
+import { MdAdd } from "react-icons/md";
 
 const PersonalDetailsForm1 = () => {
     const authdata = useSelector((state) => state.auth.user?.user.user);
@@ -151,9 +152,9 @@ const PersonalDetailsForm1 = () => {
               }}
             >
               {personaldetails ? (
-                <i className="fi fi-rr-file-edit ms-2"></i>
+                <MdModeEdit size={22} />
               ) : (
-                <i className="fi fi-rr-layer-plus"></i>
+                <MdAdd size={22} />
               )}
             </Button>
             <Modal

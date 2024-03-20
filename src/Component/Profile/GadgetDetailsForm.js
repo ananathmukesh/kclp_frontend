@@ -18,6 +18,8 @@ import { DataGrid } from "@mui/x-data-grid";
 import EditIcon from "@mui/icons-material/Edit";
 import { style } from '../../Styles/Jobformstyle'
 
+import { MdModeEdit } from "react-icons/md";
+import { MdAdd } from "react-icons/md";
 
 const GadgetDetailsFormPage = () => {
   const authdata = useSelector((state) => state.auth.user?.user.user);
@@ -108,8 +110,10 @@ const GadgetDetailsFormPage = () => {
       width: 150,
       sortable: false,
       renderCell: (params) => (
+        
         <strong>
-          <EditIcon
+          <MdModeEdit
+          size={22}
             style={{ cursor: "pointer" }}
             onClick={(e) => {
               handleGadgetOpen();
@@ -204,7 +208,9 @@ const GadgetDetailsFormPage = () => {
                 handleaddGadgetDetails(e);
               }}
             >
-              <i className="fi fi-rr-layer-plus"></i>
+            
+             
+              <MdAdd size={22} />
             </Button>
             <Modal
               open={Gadget}

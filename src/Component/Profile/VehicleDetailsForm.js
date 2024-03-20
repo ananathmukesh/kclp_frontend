@@ -17,6 +17,7 @@ import { Nodeapi } from "../../config/serverUrl";
 import { DataGrid } from "@mui/x-data-grid";
 import EditIcon from "@mui/icons-material/Edit"; // Import the Edit icon from Material-UI icons
 import { style } from '../../Styles/Jobformstyle'
+import { MdAdd } from "react-icons/md";
 
 
 
@@ -197,7 +198,7 @@ const VehicleDetailsFormPage = () => {
           <h5>Vehicle Details</h5>
           <p>
             <Button onClick={(e)=>{handleVehicleOpen();handleaddVehicleDetails(e)}}>
-            <i className="fi fi-rr-layer-plus"></i>
+            <MdAdd size={22} />
             </Button>
             <Modal
               open={Vehicle}

@@ -16,6 +16,9 @@ import axios from "axios";
 import { Nodeapi } from "../../config/serverUrl";
 import { DataGrid } from "@mui/x-data-grid";
 import EditIcon from "@mui/icons-material/Edit";
+import { MdAdd } from "react-icons/md";
+
+
 const PropertyDetailFormPage = () => {
 
     const authdata = useSelector((state) => state.auth.user?.user.user);
@@ -259,7 +262,7 @@ const PropertyDetailFormPage = () => {
           <h5>Property Details</h5>
           <p>
             <Button onClick={(e)=>{handlePropertyOpen();handleaddpropertyDetails(e);}}>
-            <i className="fi fi-rr-layer-plus"></i>
+            <MdAdd size={22} />
             </Button>
             <Modal
               open={Property}
