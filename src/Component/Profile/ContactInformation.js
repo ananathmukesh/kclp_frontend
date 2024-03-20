@@ -15,6 +15,7 @@ import { useRef } from "react";
 import { style } from '../../Styles/Jobformstyle'
 import { IoMdAddCircle } from "react-icons/io";
 import { FaEdit } from "react-icons/fa";
+import { useMediaQuery } from "@mui/material";
 
 import { MdModeEdit } from "react-icons/md";
 import { MdAdd } from "react-icons/md";
@@ -28,7 +29,7 @@ const ContactInformationForm = () => {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-
+  const isSmallScreen = useMediaQuery("(max-width:768px)");
   const authdata = useSelector((state) => state.auth.user?.user.user);
   const token = useSelector((state) => state.auth.user?.user.token);
   const [data, setData] = useState("");
@@ -148,6 +149,7 @@ const ContactInformationForm = () => {
             style={{
               overflowY: "scroll",
               height: "90vh",
+              width:isSmallScreen ? '95%' : ''
             }}
           >
             <form onSubmit={handleContactForm}>
