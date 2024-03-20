@@ -18,10 +18,12 @@ import { DataGrid } from "@mui/x-data-grid";
 import EditIcon from "@mui/icons-material/Edit"; // Import the Edit icon from Material-UI icons
 import { style } from '../../Styles/Jobformstyle'
 import { MdAdd } from "react-icons/md";
+import { useMediaQuery } from "@mui/material";
 
 
 
 const VehicleDetailsFormPage = () => {
+  const isSmallScreen = useMediaQuery("(max-width:768px)");
 
 
     const authdata = useSelector((state) => state.auth.user?.user.user);
@@ -206,10 +208,14 @@ const VehicleDetailsFormPage = () => {
               aria-labelledby="modal-modal-title"
               aria-describedby="modal-modal-description"
             >
-              <Box sx={style}>
+              <Box sx={style} 
+              style={{
+                width:isSmallScreen ? '95%' : ''
+              }}
+              >
                 <form onSubmit={HandleVehicleDetails}>
                 <div className="row">
-                <div className="col-6 my-2">
+                <div className="col-md-6 my-2">
                     <label className="mb-1" htmlFor="vehicleNumber">
                       Vehicle :
                     </label>
@@ -222,7 +228,7 @@ const VehicleDetailsFormPage = () => {
                       value={VehicleDetailsForm?.vehicle}
                     />
                   </div>
-                  <div className="col-6 my-2">
+                  <div className="col-md-6 my-2">
                     <label className="mb-1" htmlFor="vehicleNumber">
                       Vehicle Number:
                     </label>
@@ -235,7 +241,7 @@ const VehicleDetailsFormPage = () => {
                       value={VehicleDetailsForm?.vehicle_no}
                     />
                   </div>
-                  <div className="col-6 my-2">
+                  <div className="col-md-6 my-2">
                     <label className="mb-1" htmlFor="brand">
                       Brand:
                     </label>
@@ -248,7 +254,7 @@ const VehicleDetailsFormPage = () => {
                       value={VehicleDetailsForm?.brand}
                     />
                   </div>
-                  <div className="col-6 my-2">
+                  <div className="col-md-6 my-2">
                     <label className="mb-1" htmlFor="model">
                       Model:
                     </label>
@@ -261,7 +267,7 @@ const VehicleDetailsFormPage = () => {
                       value={VehicleDetailsForm?.model}
                     />
                   </div>
-                  <div className="col-6 my-2">
+                  <div className="col-md-6 my-2">
                     <label className="mb-1" htmlFor="model">
                       Agency:
                     </label>
@@ -274,7 +280,7 @@ const VehicleDetailsFormPage = () => {
                       value={VehicleDetailsForm?.dealer_agency}
                     />
                   </div>
-                  <div className="col-6 my-2">
+                  <div className="col-md-6 my-2">
                     <label className="mb-1" htmlFor="model">
                       Type:
                     </label>
@@ -287,7 +293,7 @@ const VehicleDetailsFormPage = () => {
                       value={VehicleDetailsForm?.type}
                     />
                   </div>
-                  <div className="col-12 my-2">
+                  <div className="col-md-12 my-2">
                    <label htmlFor="agencyOrCompany" className="pb-2">
                      Description
                    </label>
