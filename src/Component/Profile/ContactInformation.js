@@ -161,7 +161,7 @@ const ContactInformationForm = () => {
                     className="form-control mt-2"
                     placeholder="Enter your mobile no"
                     name="phoneNumber1"
-                    value={authdata.mobile_no}
+                    value={authdata?.mobile_no}
                     readOnly
                     onChange={handleInputChange}
                   />
