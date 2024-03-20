@@ -62,18 +62,9 @@ const EducationForm = () => {
 
 
   const [tableData, setTableData] = useState([
-    // Initial table data
-    {
-      id: 1,
-      scl_qualification: "",
-      scl_specialization: "",
-      scl_start: "",
-      scl_end: "",
-      scl_name: "",
-      scl_percentage: "",
-      scl_section: ""
-    },
+    { id: 1, scl_qualification: "", scl_specialization: "", scl_start: "", scl_end: "", scl_name: "", scl_percentage: "", scl_section: "" }
   ]);
+  
 
 
 
