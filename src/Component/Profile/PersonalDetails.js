@@ -16,8 +16,11 @@ import { style } from '../../Styles/Jobformstyle'
 
 import { MdModeEdit } from "react-icons/md";
 import { MdAdd } from "react-icons/md";
+import { useMediaQuery } from "@mui/material";
 
 const PersonalDetailsForm1 = () => {
+  const isSmallScreen = useMediaQuery("(max-width:768px)");
+
     const authdata = useSelector((state) => state.auth.user?.user.user);
   const toast = useRef(null);
 
@@ -167,11 +170,12 @@ const PersonalDetailsForm1 = () => {
                 style={{
                   overflowY: "scroll",
                   height: "90vh",
+                  width:isSmallScreen ? '95%' : ''
                 }}
               >
                 <form onSubmit={HandleAddPersonalDetails}>
                   <div className="row">
-                    <div className="col-6 my-2">
+                    <div className="col-md-6 my-2">
                       <label className="labels mb-2 ">DOB</label>
                       <input
                         type="date"
@@ -184,7 +188,7 @@ const PersonalDetailsForm1 = () => {
                         }
                       />
                     </div>
-                    <div className="col-6 my-2">
+                    <div className="col-md-6 my-2">
                       <label className="labels mb-2">Age</label>
                       <input
                         type="number"
@@ -197,7 +201,7 @@ const PersonalDetailsForm1 = () => {
                         }
                       />
                     </div>
-                    <div className="col-7 my-2">
+                    <div className="col-md-7 my-2">
                       <label className="labels mb-2">Gender:</label>
                       <div className="flex">
                         <button
@@ -232,7 +236,7 @@ const PersonalDetailsForm1 = () => {
                         </button>
                       </div>
                     </div>
-                    <div className="col-5 my-2">
+                    <div className="col-md-5 my-2">
                       <label className="mb-1" htmlFor="mb-2">
                         Marital status
                       </label>
@@ -263,7 +267,7 @@ const PersonalDetailsForm1 = () => {
                         </option>
                       </select>
                     </div>
-                    <div className="col-6 my-2">
+                    <div className="col-md-6 my-2">
                       <label className="labels mb-2">Occupation</label>
                       <input
                         type="text"
@@ -279,7 +283,7 @@ const PersonalDetailsForm1 = () => {
                       />
                     </div>
                     <h6 className="mt-2">Disability Details :</h6>
-                    <div className="col-6 my-2">
+                    <div className="col-md-6 my-2">
                       <label htmlFor="">Disability</label>
                       <div className="d-flex my-2">
                         <div className="d-flex align-items-center">
@@ -317,7 +321,7 @@ const PersonalDetailsForm1 = () => {
                         </div>
                       </div>
                     </div>
-                    <div className="col-6 my-2">
+                    <div className="col-md-6 my-2">
                       <label className="labels mb-2">Description</label>
                       <input
                         type="text"
@@ -333,7 +337,7 @@ const PersonalDetailsForm1 = () => {
                       />
                     </div>
                     <h6 htmlFor="">Relationship Details :</h6>
-                    <div className="col-6 my-2">
+                    <div className="col-md-6 my-2">
                       <label htmlFor="" className="mb-1">
                         Name
                       </label>
@@ -351,7 +355,7 @@ const PersonalDetailsForm1 = () => {
                         }
                       />
                     </div>
-                    <div className="col-6 my-2">
+                    <div className="col-md-6 my-2">
                       <label htmlFor="" className="mb-1">
                         Dob
                       </label>
@@ -368,7 +372,7 @@ const PersonalDetailsForm1 = () => {
                         }
                       />
                     </div>
-                    <div className="col-6 my-2">
+                    <div className="col-md-6 my-2">
                       <label htmlFor="" className="mb-1">
                         Relation
                       </label>
@@ -386,7 +390,7 @@ const PersonalDetailsForm1 = () => {
                         }
                       />
                     </div>
-                    <div className="col-6 my-2">
+                    <div className="col-md-6 my-2">
                       <label htmlFor="" className="mb-1">
                         Age
                       </label>
