@@ -133,7 +133,7 @@ const ContactInformationForm = () => {
             {data.userid ? (
               <MdAdd size={22} />
             ) : (
-              <IoMdAddCircle size={22} />
+              <MdAdd size={22} />
             )}
           </Button>
         </p>
