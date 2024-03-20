@@ -84,7 +84,7 @@ function Job() {
   return (
     <>
       <Toast ref={toast} />
-      <div className="job" style={{height:"93vh",overflowY:"scroll"}}>
+      <div className="job">
         <div className="card mt-4" style={{ position: "relative" }}>
           <div className="profile">
             <div

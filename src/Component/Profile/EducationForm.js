@@ -71,6 +71,7 @@ const EducationForm = () => {
       scl_end: "",
       scl_name: "",
       scl_percentage: "",
+      scl_section: ""
     },
   ]);
 
@@ -85,7 +86,9 @@ const EducationForm = () => {
       scl_start: "",
       scl_end: "",
       scl_name: "",
-      scl_percentage: "", },
+      scl_percentage: "",
+      scl_section:""
+    },
     ]);
   };
 
@@ -123,7 +126,7 @@ const EducationForm = () => {
         setSchooldetails(fetchSchoolDetails.data.data.schooldata);
         setCollagedetails(fetchSchoolDetails.data.data.collagedata);
 
-     
+       console.log('collage detaila data',fetchSchoolDetails.data.data.schooldata);
     };
 
     fetchInformation();
@@ -201,6 +204,7 @@ const EducationForm = () => {
       university: "",
       collage: "",
       clg_percentage: "",
+      clg_section:""
     },
   ]);
 
@@ -217,6 +221,7 @@ const EducationForm = () => {
         university: "",
         collage: "",
         clg_percentage: "",
+        clg_section:""
       },
     ]);
   };
@@ -351,11 +356,8 @@ const EducationForm = () => {
           <th>School End Year</th>
           <th>School Percentage</th>
           <th>School Name</th>
-          <th 
-          style={{
-            width:"10%"
-          }}
-          >Created At</th>
+          <th>School Section</th>
+          
         </tr>
       </thead>
       <tbody>
@@ -369,7 +371,8 @@ const EducationForm = () => {
               <td>{data.scl_end}</td>
               <td>{data.scl_percentage}</td>
               <td>{data.scl_name}</td>
-              <td>{format(data.created_at, 'yyyy-MM-dd')}</td>
+              <td>{data.scl_section}</td>
+
               
             </tr>
           ))
@@ -399,6 +402,7 @@ const EducationForm = () => {
           <th>Collage End Year</th>
           <th>Collage Percentage</th>
           <th>Collage Name</th>
+          <th>Collage Section</th>
           <th>University</th>
           <th 
           style={{
@@ -418,6 +422,7 @@ const EducationForm = () => {
               <td>{data.end_year}</td>
               <td>{data.clg_percentage}</td>
               <td>{data.collage}</td>
+              <td>{data.clg_section}</td>
               <td>{data.university}</td>
               <td>{format(data.created_at, 'yyyy-MM-dd')}</td>
               

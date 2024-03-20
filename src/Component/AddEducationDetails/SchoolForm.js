@@ -59,6 +59,7 @@ function SchoolForm({
             <th>Start Year</th>
             <th>End Year</th>
             <th>Enter School Name</th>
+            <th>School Section</th>
             <th>Enter School Percentage</th>
             <th>
               <AddCircleIcon
@@ -148,6 +149,18 @@ function SchoolForm({
                   value={tableData[index].scl_name}
                   onChange={(e) =>
                     handleInputChange(index, "scl_name", e.target.value)
+                  }
+                />
+              </td>
+              <td>
+                <input
+                  type="text"
+                  className="form-control"
+                  name="scl_section"
+                  id="scl_section"
+                  value={tableData[index]?.scl_section}
+                  onChange={(e) =>
+                    handleInputChange(index, "scl_section", e.target.value)
                   }
                 />
               </td>

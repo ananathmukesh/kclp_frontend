@@ -1,4 +1,4 @@
-// in a file named apiConfig.js
+// // in a file named apiConfig.js
 
 // const Nodeapi = 'http://localhost:8001/api';
 // const ResumeApi = 'http://localhost:8001/assets/UserResume/';

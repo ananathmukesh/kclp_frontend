@@ -149,7 +149,7 @@ const ContactInformationForm = () => {
           >
             <form onSubmit={handleContactForm}>
               <div className="row">
-                <div className="col-6 my-2">
+                <div className="col-md-6 col-12 my-2">
                   <label className="mb-1" htmlFor="">
                     Phone Number
                   </label>
@@ -166,7 +166,7 @@ const ContactInformationForm = () => {
 
                 <div className="col-6"></div>
                 <label className="mt-3">Address</label>
-                <div className="col-6 my-2">
+                <div className="col-md-6 col-12  my-2">
                   <input
                     type="text"
                     className="form-control col-12 col-md-3"
@@ -177,7 +177,7 @@ const ContactInformationForm = () => {
                   />
                 </div>
 
-                <div className="col-6 my-2">
+                <div className="col-md-6 col-12  my-2">
                   <input
                     type="text"
                     className="form-control col-12 col-md-3"
@@ -187,7 +187,7 @@ const ContactInformationForm = () => {
                     value={ContactForm ? ContactForm.plotname : ""}
                   />
                 </div>
-                <div className="col-6 my-2">
+                <div className="col-md-6 col-12  my-2">
                   <input
                     type="text"
                     className="form-control col-12 col-md-3"
@@ -197,7 +197,7 @@ const ContactInformationForm = () => {
                     value={ContactForm ? ContactForm.Street : ""}
                   />
                 </div>
-                <div className="col-6 my-2">
+                <div className="col-md-6 col-12  my-2">
                   <input
                     type="text"
                     className="form-control"
@@ -207,7 +207,7 @@ const ContactInformationForm = () => {
                     value={ContactForm ? ContactForm.place : ""}
                   />
                 </div>
-                <div className="col-6 my-2">
+                <div className="col-md-6 col-12  my-2">
                   <input
                     type="text"
                     className="form-control"
@@ -217,7 +217,7 @@ const ContactInformationForm = () => {
                     value={ContactForm ? ContactForm.taluk : ""}
                   />
                 </div>
-                <div className="col-6 my-2">
+                <div className="col-md-6 col-12  my-2">
                   <select
                     className="header_company form-control"
                     name="district"
@@ -230,7 +230,7 @@ const ContactInformationForm = () => {
                     <option value="tirunelveli">tirunelveli</option>
                   </select>
                 </div>
-                <div className="col-6 my-2">
+                <div className="col-md-6 col-12  my-2">
                   <input
                     type="number"
                     className="form-control"
@@ -242,7 +242,7 @@ const ContactInformationForm = () => {
                 </div>
                 <div className="col-6 my-2"></div>
                 {/* <label className="mt-3">Id Proof</label> */}
-                <div className="col-6 my-2">
+                <div className="col-md-6 col-12 my-2">
                   <label className="form-label" htmlFor="idNumber">
                     ID Prof:
                   </label>
@@ -279,7 +279,7 @@ const ContactInformationForm = () => {
                     </option>
                   </select>
                 </div>
-                <div className="col-6 my-2">
+                <div className="col-md-6 col-12  my-2">
                   <label className="form-label" htmlFor="idNumber">
                     ID Number:
                   </label>
@@ -292,7 +292,7 @@ const ContactInformationForm = () => {
                     name="idnumber"
                   />
                 </div>
-                <div className="col-6 my-2">
+                <div className="col-md-6 col-12  my-2">
                   <label className="form-label" htmlFor="issueDate">
                     Issue Date:
                   </label>
@@ -305,7 +305,7 @@ const ContactInformationForm = () => {
                     name="issueDate"
                   />
                 </div>
-                <div className="col-6 my-2">
+                <div className="col-md-6 col-12  my-2">
                   <label className="form-label" htmlFor="idNumber">
                     Country:
                   </label>
@@ -318,7 +318,7 @@ const ContactInformationForm = () => {
                     value={ContactForm ? ContactForm.country : ""}
                   />
                 </div>
-                <div className="col-6 my-2">
+                <div className="col-md-6 col-12  my-2">
                   <label className="form-label" htmlFor="issuingAuthority">
                     Issuing Authority:
                   </label>

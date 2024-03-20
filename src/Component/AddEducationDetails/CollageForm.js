@@ -196,6 +196,7 @@ function CollageForm({
                 width:"16%"
             }}>Select University</th>
             <th>Enter College Name</th>
+            <th>College Section</th>
             <th>Enter Collage Percentage</th>
             <th>
               <AddCircleIcon
@@ -321,7 +322,18 @@ function CollageForm({
                   }
                 />
               </td>
-
+              <td>
+                <input
+                  type="text"
+                  className="form-control"
+                  name="clg_section"
+                  id="clg_section"
+                  value={clgtableData[index]?.clg_section}
+                  onChange={(e) =>
+                    clghandleInputChange(index, "clg_section", e.target.value)
+                  }
+                />
+              </td>
               <td>
                 <input
                   type="text"
