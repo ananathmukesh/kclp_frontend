@@ -44,20 +44,20 @@ const JobdetailForm = () => {
   const edit_jobdetails = async (e, table) => {
     e.preventDefault();
     const fetchDetails = await FetchDetails(authdata?.id, table);
-    if(fetchDetails[1]){
-        setDBskills(fetchDetails[1]);
-    }
     if (fetchDetails) {
-      console.log('open model in job details edit form', fetchDetails[1]);
-      
-      setJobDetailsForm(fetchDetails[0]);
+        if (fetchDetails[1]) {
+            setDBskills(fetchDetails[1]);
+        }
+        console.log('open model in job details edit form', fetchDetails[1]);
+        setJobDetailsForm(fetchDetails[0]);
     } else {
-      // Handle the case when fetchDetails is null
-      console.log('No details found');
-      setJobDetailsForm(null);
-      setDBskills(null);
+        // Handle the case when fetchDetails is null
+        console.log('No details found');
+        setJobDetailsForm(null);
+        setDBskills(null);
     }
-  };
+};
+
   
   
    useEffect(() => {

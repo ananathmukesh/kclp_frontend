@@ -212,7 +212,7 @@ function CollageForm({
           </tr>
         </thead>
         <tbody>
-          {clgtableData.map((row, index) => (
+          {clgtableData && clgtableData.map((row, index) => (
             <tr key={row.id}>
               <td>{row.id}</td>
               <td>
