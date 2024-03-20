@@ -57,6 +57,7 @@ const EducationForm = () => {
 
 
  
+  const [prevData, setPrevData] = useState([]);
 
 
 
