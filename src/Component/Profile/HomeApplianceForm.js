@@ -227,7 +227,7 @@ const HomeApplianceFormPage = () => {
               <Box sx={style}>
                 <form onSubmit={HandleHomeApplianceDetails}>
                   <div className="row">
-                    <div className="col-6 my-2">
+                    <div className="col-md-6 my-2">
                       <label htmlFor="gadgetBrand" className="pb-2">
                         Appliance Type:
                       </label>
@@ -241,7 +241,7 @@ const HomeApplianceFormPage = () => {
                       />
                     </div>
 
-                    <div className="col-6 my-2">
+                    <div className="col-md-6 my-2">
                       <label htmlFor="gadgetBrand" className="pb-2">
                         Brand:
                       </label>
@@ -254,7 +254,7 @@ const HomeApplianceFormPage = () => {
                         value={HomeApllianceDetailsForm?.brand}
                       />
                     </div>
-                    <div className="col-6 my-2">
+                    <div className="col-md-6 my-2">
                       <label htmlFor="model" className="pb-2">
                         Model:
                       </label>
@@ -267,7 +267,7 @@ const HomeApplianceFormPage = () => {
                         value={HomeApllianceDetailsForm?.model}
                       />
                     </div>
-                    <div className="col-6 my-2">
+                    <div className="col-md-6 my-2">
                       <label htmlFor="purchaseDate" className="pb-2">
                         Date of Purchase:
                       </label>
@@ -281,7 +281,7 @@ const HomeApplianceFormPage = () => {
                       />
                     </div>
                     <label> Warranty Period:</label>
-                    <div className="col-6 my-2">
+                    <div className="col-md-6 my-2">
                       <label htmlFor="warrantyPeriod" className="pb-2">
                         Start Period:
                       </label>
@@ -294,7 +294,7 @@ const HomeApplianceFormPage = () => {
                         value={HomeApllianceDetailsForm?.start_period}
                       />
                     </div>
-                    <div className="col-6 my-2">
+                    <div className="col-md-6 my-2">
                       <label htmlFor="warrantyPeriod" className="pb-2">
                         End Period:
                       </label>
@@ -307,7 +307,7 @@ const HomeApplianceFormPage = () => {
                         value={HomeApllianceDetailsForm?.end_period}
                       />
                     </div>
-                    <div className="col-12 my-2">
+                    <div className="col-md-12 my-2">
                       <label htmlFor="agencyOrCompany" className="pb-2">
                         Description
                       </label>
