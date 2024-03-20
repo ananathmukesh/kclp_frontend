@@ -17,9 +17,11 @@ import { Nodeapi } from "../../config/serverUrl";
 import { DataGrid } from "@mui/x-data-grid";
 import EditIcon from "@mui/icons-material/Edit";
 import { MdAdd } from "react-icons/md";
+import { useMediaQuery } from "@mui/material";
 
 
 const PropertyDetailFormPage = () => {
+  const isSmallScreen = useMediaQuery("(max-width:768px)");
 
     const authdata = useSelector((state) => state.auth.user?.user.user);
     const toast = useRef(null);
@@ -270,13 +272,17 @@ const PropertyDetailFormPage = () => {
               aria-labelledby="modal-modal-title"
               aria-describedby="modal-modal-description"
             >
-              <Box sx={style}>
+              <Box sx={style}
+              style={{
+                width:isSmallScreen ? '95%' : ''
+              }}
+              >
               <form onSubmit={handleProperty}>
               <div className="row">
                   <h6 className="labels mb-2">Property Details:</h6>
                   {
                     PropertyUpdateButton == 'Add' ? (
-                      <div className="col-6 my-2Feduca">
+                      <div className="col-md-6 my-2Feduca">
                     <label className="pb-2">Property Types:</label>
                     <div>
                       <input
@@ -390,7 +396,7 @@ const PropertyDetailFormPage = () => {
                     </div>
                   </div>
                     ) : (
-                      <div className="col-6 my-2Feduca">
+                      <div className="col-md-6 my-2Feduca">
                     <label className="pb-2">Property Types:</label>
                     <div>
                       <input
@@ -510,7 +516,7 @@ const PropertyDetailFormPage = () => {
                     )
                   }
                   
-                  <div className="col-6 my-2Feduca">
+                  <div className="col-md-6 my-2Feduca">
                     <label className="mb-1">BHK Type:</label>
                     <select
                       onChange={handlePropertyDetails}
@@ -527,7 +533,7 @@ const PropertyDetailFormPage = () => {
                       <option value="4+bhk">4+ BHK</option>
                     </select>
                   </div>
-                  <div className="col-6 my-2Feduca">
+                  <div className="col-md-6 my-2Feduca">
                     <label className="mb-1">Property Description</label>
                     <textarea
                       className="form-control"
@@ -538,7 +544,7 @@ const PropertyDetailFormPage = () => {
                       value={PropertyDetailsForm?.property_description}
                     />
                   </div>
-                  <div className="col-6 my-2Feduca">
+                  <div className="col-md-6 my-2Feduca">
                     <label className="mb-1">Property Location:</label>
                     <input
                       className="form-control"
@@ -549,7 +555,7 @@ const PropertyDetailFormPage = () => {
                       value={PropertyDetailsForm?.property_location}
                     />
                   </div>
-                  <div className="col-6 my-2Feduca">
+                  <div className="col-md-6 my-2Feduca">
                     <label className="mb-1">property status</label>
                     <select
                       className="form-control"
@@ -563,7 +569,7 @@ const PropertyDetailFormPage = () => {
                       <option value="sale">Sale</option>
                     </select>
                   </div>
-                  <div className="col-6 my-2Feduca">
+                  <div className="col-md-6 my-2Feduca">
                     <label className="mb-1">Land Squarefit</label>
                     <input
                       className="form-control"
