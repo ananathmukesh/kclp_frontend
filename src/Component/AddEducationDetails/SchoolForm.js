@@ -73,7 +73,7 @@ function SchoolForm({
           </tr>
         </thead>
         <tbody>
-          {tableData.map((row, index) => (
+          {tableData && tableData.map((row, index) => (
             <tr key={row.id}>
               <td>{row.id}</td>
               <td>
