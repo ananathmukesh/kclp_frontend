@@ -31,3 +31,9 @@ h6 {
   font-size: 1.2rem;
   font-weight: 600;
 }
+
+@media screen and (max-width: 768px) {
+  h5 {
+    font-size: 22px !important;
+  }
+}
