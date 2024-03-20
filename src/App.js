@@ -28,6 +28,7 @@ import MyFormData from "./Component/Profile/TestFormPage";
 import SendOtpMobile from "./auth/ResetComponent/SendOtpMobile";
 import DemoRegister from "./auth/DemoRegister";
 import Verified from "./auth/Verified";
+import DatePickerWithLeftIcon from "./utils/DatePicker";
 
 function App() {
   const toast = useRef(null);
@@ -57,6 +58,7 @@ function App() {
             <Route path="/main/form" element={<MyForm />} />
             <Route path="/main/form1" element={<MyFormData />} />
             <Route path="/main/otp" element={<SendOtpMobile />} />
+            <Route path="/main/date" element={<DatePickerWithLeftIcon />} />
            
            
           </Route>
