@@ -17,11 +17,14 @@ import { Nodeapi } from "../../config/serverUrl";
 import { DataGrid } from "@mui/x-data-grid";
 import EditIcon from "@mui/icons-material/Edit"; // Import the Edit icon from Material-UI icons
 import { style } from '../../Styles/Jobformstyle'
+import { useMediaQuery } from "@mui/material";
 
 import { MdModeEdit } from "react-icons/md";
 import { MdAdd } from "react-icons/md";
 
 const HomeApplianceFormPage = () => {
+  const isSmallScreen = useMediaQuery("(max-width:768px)");
+
   const [Home, setHome] = React.useState(false);
   const handleHomeOpen = () => setHome(true);
   const handleHomeClose = () => setHome(false);
@@ -224,7 +227,11 @@ const HomeApplianceFormPage = () => {
               aria-labelledby="modal-modal-title"
               aria-describedby="modal-modal-description"
             >
-              <Box sx={style}>
+              <Box sx={style}
+              style={{
+                width:isSmallScreen ? '95%' : ''
+              }}
+              >
                 <form onSubmit={HandleHomeApplianceDetails}>
                   <div className="row">
                     <div className="col-md-6 my-2">
