@@ -17,9 +17,11 @@ import { modaljob } from '../../Styles/Jobformstyle'
 
 import { MdModeEdit } from "react-icons/md";
 import { MdAdd } from "react-icons/md";
+import { useMediaQuery } from "@mui/material";
 
 const JobdetailForm = () => {
     const authdata = useSelector((state) => state.auth.user?.user.user);
+    const isSmallScreen = useMediaQuery("(max-width:768px)");
 
     const [Job, setJob] = React.useState(false);
   const handleJobOpen = () => setJob(true);
@@ -42,7 +44,8 @@ const JobdetailForm = () => {
 
   const scroolcss = {
     overflowY:"scroll",
-    height:"90vh"
+    height:"90vh",
+    width:isSmallScreen ? '95%' : ''
   }
 
   const edit_jobdetails = async (e, table) => {
