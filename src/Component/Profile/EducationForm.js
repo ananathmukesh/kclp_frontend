@@ -61,6 +61,7 @@ const EducationForm = () => {
 
 
  
+  const [prevData, setPrevData] = useState([]);
 
 
 
@@ -74,18 +75,22 @@ const EducationForm = () => {
 
   const handleAddInputField = () => {
     // Add a new row with empty input fields
-    setTableData((prevData) => [
-      ...prevData,
-      { id: prevData.length + 1, scl_qualification: "",
-      scl_specialization: "",
-      scl_start: "",
-      scl_end: "",
-      scl_name: "",
-      scl_percentage: "",
-      scl_section:""
-    },
+    setTableData((prevTableData) => [
+      ...prevTableData,
+      { 
+        id: prevTableData.length + 1, 
+        scl_qualification: "",
+        scl_specialization: "",
+        scl_start: "",
+        scl_end: "",
+        scl_name: "",
+        scl_percentage: "",
+        scl_section:""
+      },
     ]);
   };
+  
+  
 
   const handleRemoveRow = (index) => {
     // Remove the row at the specified index
