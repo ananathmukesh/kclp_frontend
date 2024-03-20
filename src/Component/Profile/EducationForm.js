@@ -69,19 +69,38 @@ const EducationForm = () => {
 
 
   const handleAddInputField = () => {
+    // Check if prevData is an array
+    if (!Array.isArray(prevData)) {
+      // If not, initialize it as an empty array
+      setTableData([{ 
+        id: 1, 
+        scl_qualification: "",
+        scl_specialization: "",
+        scl_start: "",
+        scl_end: "",
+        scl_name: "",
+        scl_percentage: "",
+        scl_section:""
+      }]);
+      return; // Return early to avoid further execution
+    }
+  
     // Add a new row with empty input fields
     setTableData((prevData) => [
       ...prevData,
-      { id: prevData.length + 1, scl_qualification: "",
-      scl_specialization: "",
-      scl_start: "",
-      scl_end: "",
-      scl_name: "",
-      scl_percentage: "",
-      scl_section:""
-    },
+      { 
+        id: prevData.length + 1, 
+        scl_qualification: "",
+        scl_specialization: "",
+        scl_start: "",
+        scl_end: "",
+        scl_name: "",
+        scl_percentage: "",
+        scl_section:""
+      },
     ]);
   };
+  
 
   const handleRemoveRow = (index) => {
     // Remove the row at the specified index
