@@ -14,7 +14,6 @@ import { useNavigate } from 'react-router-dom';
 import { authapi } from "../config/serverUrl";
 import { useLocation } from "react-router-dom";
 import Alert from '@mui/material/Alert';
-import { loginUser } from "../react-redux/actions";
 
 
 const Login = () => {
