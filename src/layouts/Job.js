@@ -21,6 +21,7 @@ import GadgetDetailsFormPage from "../Component/Profile/GadgetDetailsForm";
 import PropertyDetailFormPage from "../Component/Profile/PropertyDetailForm";
 import {style} from '../Styles/Jobformstyle';
 import { useDispatch } from 'react-redux';
+import { loginUser } from "../react-redux/actions";
 
 
 function Job() {
