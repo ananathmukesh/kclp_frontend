@@ -124,22 +124,19 @@ function Job() {
                     }}
                     onClick={handleImageClick}
                   /> */}
-                  <img
-                    src={
-                      selectedImage1
-                        ? `${ProfileImgApi}${selectedImage1}`
-                        : `https://www.kodukku.com/assets/${authdata?.user?.profile_image}` || bird
-                    }
-                    alt="Selected Image"
-                    className="img-fluid"
-                    style={{
-                      height: "107px",
-                      width: "110px",
-                      borderRadius: "50%",
-                      boxShadow: "0px 4px 50px rgba(0, 0, 0, 0.09)",
-                    }}
-                    onClick={handleImageClick}
-                  />
+<img
+  src={`https://www.kodukku.com/assets/${authdata?.user?.profile_image ?? authdata?.id ?? bird}`}
+  alt="Selected Image"
+  className="img-fluid"
+  style={{
+    height: "107px",
+    width: "110px",
+    borderRadius: "50%",
+    boxShadow: "0px 4px 50px rgba(0, 0, 0, 0.09)",
+  }}
+  onClick={handleImageClick}
+/>
+
                   <div
                     className="camera-icon"
                     style={{
