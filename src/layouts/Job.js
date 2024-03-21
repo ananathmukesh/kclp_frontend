@@ -81,7 +81,7 @@ function Job() {
       });
     }
   };
-
+  console.log('profile image live url',`${ProfileImgApi}/${authdata?.user?.profile_image}`);
   return (
     <>
       <Toast ref={toast} />
