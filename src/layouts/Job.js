@@ -25,8 +25,8 @@ import {style} from '../Styles/Jobformstyle';
 function Job() {
   const authdata = useSelector((state) => state.auth.user?.user);
   const token = useSelector((state) => state.auth.user?.user.token);
-  console.log("redux state", authdata);
-  console.log("token", token);
+ 
+  console.log("token", authdata);
   const { selectedImage1, setSelectedImage1 } = Jobusestates();
   const fileInputRef = useRef(null);
 
@@ -52,15 +52,16 @@ function Job() {
     };
     reader.readAsDataURL(selectedFile);
     const imgData = {
-      id: authdata?.id,
+      id: authdata?.user?.id,
       profile_image: selectedFile,
+      token:token
     };
     const res = await axios.post(`${Nodeapi}/upload_profile_img`, imgData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
     });
-    console.log(res);
+    console.log('upload profile image',res.data.data.res);
     if (res.data) {
       if (res.data.code == 200) {
         toast.current.show({
@@ -107,6 +108,18 @@ function Job() {
                   className="pro-img-container"
                   style={{ position: "relative", display: "inline-block" }}
                 >
+                  {/* <img
+                    src={'https://img.freepik.com/free-photo/wide-angle-shot-single-tree-growing-clouded-sky-during-sunset-surrounded-by-grass_181624-22807.jpg?w=1060&t=st=1710938653~exp=1710939253~hmac=dcc38229fd6a46430bd29910e7e3b4f251f48bcd944543ff6a7f1a1cdff25bb3'}
+                    alt="Selected Image"
+                    className="img-fluid"
+                    style={{
+                      height: "107px",
+                      width: "110px",
+                      borderRadius: "50%",
+                      boxShadow: "0px 4px 50px rgba(0, 0, 0, 0.09)",
+                    }}
+                    onClick={handleImageClick}
+                  /> */}
                   <img
                     src={
                       selectedImage1
@@ -123,22 +136,6 @@ function Job() {
                     }}
                     onClick={handleImageClick}
                   />
-                  {/* <img
-                    src={
-                      selectedImage1
-                        ? `${ProfileImgApi}${selectedImage1}`
-                        : `${ProfileImgApi}/${authdata?.profile_image}` || bird
-                    }
-                    alt="Selected Image"
-                    className="img-fluid"
-                    style={{
-                      height: "107px",
-                      width: "110px",
-                      borderRadius: "50%",
-                      boxShadow: "0px 4px 50px rgba(0, 0, 0, 0.09)",
-                    }}
-                    onClick={handleImageClick}
-                  /> */}
                   <div
                     className="camera-icon"
                     style={{
