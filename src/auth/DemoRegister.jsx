@@ -388,7 +388,7 @@ const DemoRegister = () => {
       errors.password = "Password is required";
     } else if (values.password.length < 4) {
       errors.password = "Password must be more than 4 characters";
-    } else if (values.password.length > 10) {
+    } else if (values.password.length > 15) {
       errors.password = "Password cannot exceed more than 10 characters";
     }
     if (!values.confirm_password) {
