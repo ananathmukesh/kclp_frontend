@@ -20,9 +20,11 @@ import VehicleDetailsFormPage from "../Component/Profile/VehicleDetailsForm";
 import GadgetDetailsFormPage from "../Component/Profile/GadgetDetailsForm";
 import PropertyDetailFormPage from "../Component/Profile/PropertyDetailForm";
 import {style} from '../Styles/Jobformstyle';
+import { useDispatch } from 'react-redux';
 
 
 function Job() {
+  const dispatch = useDispatch();
   const authdata = useSelector((state) => state.auth.user?.user);
   const token = useSelector((state) => state.auth.user?.user.token);
  
@@ -70,7 +72,8 @@ function Job() {
           detail: res.data.data.message,
           life: 3000,
         });
-        setSelectedImage1(res.data.data.image);
+        dispatch(loginUser(res.data.data.user));
+       
       }
     } else {
       toast.current.show({
