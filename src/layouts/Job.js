@@ -125,7 +125,7 @@ function Job() {
                     onClick={handleImageClick}
                   /> */}
 <img
-  src={`https://www.kodukku.com/assets/${authdata?.user?.profile_image ?? authdata?.id ?? bird}`}
+  src={`https://www.kodukku.com/assets/${authdata?.user?.profile_image ?? authdata?.profile_image ?? bird}`}
   alt="Selected Image"
   className="img-fluid"
   style={{
