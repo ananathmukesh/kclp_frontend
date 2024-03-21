@@ -105,7 +105,7 @@ const ContactInformationForm = () => {
       }
     } else {
       const addcontact = await AddContactForm(ContactForm,token);
-         console.log('ContactForm add data',ContactForm);
+         console.log('ContactForm add data',addcontact);
       setOpen(false);
       toast.current.show({
         severity: "success",
