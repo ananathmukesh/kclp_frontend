@@ -108,7 +108,11 @@ function Job() {
                   style={{ position: "relative", display: "inline-block" }}
                 >
                   <img
-                    src={'https://img.freepik.com/free-photo/wide-angle-shot-single-tree-growing-clouded-sky-during-sunset-surrounded-by-grass_181624-22807.jpg?w=1060&t=st=1710938653~exp=1710939253~hmac=dcc38229fd6a46430bd29910e7e3b4f251f48bcd944543ff6a7f1a1cdff25bb3'}
+                    src={
+                      selectedImage1
+                        ? `${ProfileImgApi}${selectedImage1}`
+                        : `${ProfileImgApi}/${authdata?.user?.profile_image}` || bird
+                    }
                     alt="Selected Image"
                     className="img-fluid"
                     style={{
