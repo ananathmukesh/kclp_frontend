@@ -31,8 +31,8 @@ const EducationForm = () => {
   const [Education, setEducation] = React.useState(false);
   const handleEducationOpen = () => setEducation(true);
   const handleEducationClose = () => setEducation(false);
-  const [schooldetails,setSchooldetails] = React.useState([]);
-  const [collagedetails,setCollagedetails] = React.useState([]);
+  const [schooldetails,setSchooldetails] = useState([]);
+  const [collagedetails,setCollagedetails] = useState([]);
 
   const {
     EducationalDetails,
@@ -244,8 +244,14 @@ const EducationForm = () => {
   const educational_edutvalue = async (e,table) => {
     e.preventDefault();
     const fetchSchoolDetails = await axios.post(`${Nodeapi}/fetch_Clg_Scl_details`,{ id:authdata?.id });
-    setTableData(fetchSchoolDetails.data.data.schooldata);
-    setclgTableData(fetchSchoolDetails.data.data.collagedata);
+    
+    if(fetchSchoolDetails){
+      setTableData(fetchSchoolDetails.data.data.schooldata);
+      setclgTableData(fetchSchoolDetails.data.data.collagedata);
+    }else{
+      setTableData([]);
+    setclgTableData([]);
+    }
 
   }
 
