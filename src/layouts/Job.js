@@ -26,8 +26,8 @@ import { loginUser } from "../react-redux/actions";
 
 function Job() {
   const dispatch = useDispatch();
-  const authdata = useSelector((state) => state.auth.user?.user);
-  const token = useSelector((state) => state.auth.user?.user.token);
+  const authdata = useSelector((state) => state.auth.user);
+  
  
   console.log("token", authdata);
   const { selectedImage1, setSelectedImage1 } = Jobusestates();
@@ -55,37 +55,37 @@ function Job() {
     };
     reader.readAsDataURL(selectedFile);
     const imgData = {
-      id: authdata?.user?.id,
+      id: authdata?.id,
       profile_image: selectedFile,
-      token:token
+      token:authdata?.token
     };
     const res = await axios.post(`${Nodeapi}/upload_profile_img`, imgData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
     });
-    console.log('upload profile image',res.data.data.res);
+    console.log('upload profile image',authdata);
     if (res.data) {
       if (res.data.code == 200) {
         toast.current.show({
           severity: "success",
           summary: "Success",
-          detail: res.data.data.message,
+          detail: res.data.message,
           life: 3000,
         });
-        dispatch(loginUser(res.data.data.user));
+        dispatch(loginUser(res.data.user));
        
       }
     } else {
       toast.current.show({
         severity: "error",
         summary: "Error",
-        detail: res.data.data.message,
+        detail: res.data.message,
         life: 3000,
       });
     }
   };
-  console.log('profile image live url',`https://www.kodukku.com/assets/${authdata?.user?.profile_image}`);
+  console.log('profile image live url',`http://localhost:8001/assets/${authdata?.user?.profile_image}`);
   return (
     <>
       <Toast ref={toast} />
@@ -125,7 +125,7 @@ function Job() {
                     onClick={handleImageClick}
                   /> */}
 <img
-  src={`https://www.kodukku.com/assets/${authdata?.user?.profile_image ?? authdata?.profile_image ?? bird}`}
+  src={`http://localhost:8001/assets/${authdata?.user?.profile_image ?? authdata?.profile_image ?? bird}`}
   alt="Selected Image"
   className="img-fluid"
   style={{

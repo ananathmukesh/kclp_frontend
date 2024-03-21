@@ -21,7 +21,7 @@ import { useMediaQuery } from "@mui/material";
 const PersonalDetailsForm1 = () => {
   const isSmallScreen = useMediaQuery("(max-width:768px)");
 
-    const authdata = useSelector((state) => state.auth.user?.user.user);
+  const authdata = useSelector((state) => state.auth.user);
   const toast = useRef(null);
 
  

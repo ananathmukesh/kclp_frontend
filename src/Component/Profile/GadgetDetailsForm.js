@@ -22,8 +22,8 @@ import { MdModeEdit } from "react-icons/md";
 import { MdAdd } from "react-icons/md";
 
 const GadgetDetailsFormPage = () => {
-  const authdata = useSelector((state) => state.auth.user?.user.user);
-  const token = useSelector((state) => state.auth.user?.user.token);
+  const authdata = useSelector((state) => state.auth.user);
+  const token = authdata?.token;
 
   const toast = useRef(null);
 

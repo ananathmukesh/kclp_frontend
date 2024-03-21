@@ -26,7 +26,7 @@ import { MdAdd } from "react-icons/md";
 
 
 const EducationForm = () => {
-  const authdata = useSelector((state) => state.auth.user?.user.user);
+  const authdata = useSelector((state) => state.auth.user);
   console.log('authdata',authdata);
   const [Education, setEducation] = React.useState(false);
   const handleEducationOpen = () => setEducation(true);

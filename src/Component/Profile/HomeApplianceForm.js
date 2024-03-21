@@ -29,7 +29,7 @@ const HomeApplianceFormPage = () => {
   const handleHomeOpen = () => setHome(true);
   const handleHomeClose = () => setHome(false);
 
-  const authdata = useSelector((state) => state.auth.user?.user.user);
+  const authdata = useSelector((state) => state.auth.user);
   const toast = useRef(null);
 
   const {

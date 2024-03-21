@@ -61,7 +61,7 @@ const Login = () => {
         // const response = await axios.post('http://192.168.1.17:8080/auth/signin', value);
         const response = await axios.post(`${authapi}/auth/signin`, value);
         const data = response.data;
-        console.log('signin_data', response);
+        console.log('signin_data', response.data);
        
 
         if(data.code == 200){

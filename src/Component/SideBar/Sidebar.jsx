@@ -19,14 +19,15 @@ import { IoCloseSharp } from "react-icons/io5";
 import "./Side.css";
 
 const Sidebar = ({ setSidebarOpen , toggleDrawer }) => {
-  const authdata = useSelector(state => {
-    const user = state.auth.user;
-    if (user && user.user) {
-      return user.user.user;
-    } else {
-      return user;
-    }
-  });   console.log('authdata',authdata);
+  // const authdata = useSelector(state => {
+  //   const user = state.auth.user;
+  //   if (user && user.user) {
+  //     return user.user.user;
+  //   } else {
+  //     return user;
+  //   }
+  // });   console.log('authdata',authdata);
+  const authdata = useSelector((state) => state.auth.user);
   const [isDropdownOpen, setDropdownOpen] = useState(false);
   const isSmallScreen = useMediaQuery("(max-width:768px)");
 

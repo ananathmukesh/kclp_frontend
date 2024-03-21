@@ -41,7 +41,7 @@ function CollageForm({
 
   
 
-  const authdata = useSelector((state) => state.auth.user?.user.user);
+  const authdata = useSelector((state) => state.auth.user?.user);
 
   const [Education, setEducation] = React.useState(false);
   const handleEducationOpen = () => setEducation(true);

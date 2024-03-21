@@ -26,7 +26,7 @@ const VehicleDetailsFormPage = () => {
   const isSmallScreen = useMediaQuery("(max-width:768px)");
 
 
-    const authdata = useSelector((state) => state.auth.user?.user.user);
+  const authdata = useSelector((state) => state.auth.user);
     const [Vehicle, setVehicle] = React.useState(false);
     const handleVehicleOpen = () => setVehicle(true);
     const handleVehicleClose = () => setVehicle(false);

@@ -30,8 +30,8 @@ const ContactInformationForm = () => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const isSmallScreen = useMediaQuery("(max-width:768px)");
-  const authdata = useSelector((state) => state.auth.user?.user.user);
-  const token = useSelector((state) => state.auth.user?.user.token);
+  const authdata = useSelector((state) => state.auth.user);
+  const token = authdata?.token;
   const [data, setData] = useState("");
   useEffect(() => {
     const fetchContactInformation = async () => {
@@ -63,7 +63,7 @@ const ContactInformationForm = () => {
     }
   };
 
-   console.log('contact form',ContactForm);
+   console.log('contact form');
 
   const areAllFieldsEmpty = (formData) => {
     if (!formData || typeof formData !== "object") {

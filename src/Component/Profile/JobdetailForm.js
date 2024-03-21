@@ -20,7 +20,7 @@ import { MdAdd } from "react-icons/md";
 import { useMediaQuery } from "@mui/material";
 
 const JobdetailForm = () => {
-    const authdata = useSelector((state) => state.auth.user?.user.user);
+  const authdata = useSelector((state) => state.auth.user);
     const isSmallScreen = useMediaQuery("(max-width:768px)");
 
     const [Job, setJob] = React.useState(false);

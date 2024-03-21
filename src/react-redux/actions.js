@@ -1,5 +1,5 @@
 // actions.js
-export const loginUser = (userData) => ({
+   export const loginUser = (userData) => ({
     type: 'LOGIN_USER',
     payload: userData,
   });
