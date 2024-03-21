@@ -124,7 +124,7 @@ function Job() {
                     src={
                       selectedImage1
                         ? `${ProfileImgApi}${selectedImage1}`
-                        : `${ProfileImgApi}/${authdata?.user?.profile_image}` || bird
+                        : `www.kodukku.com/assets/${authdata?.user?.profile_image}` || bird
                     }
                     alt="Selected Image"
                     className="img-fluid"
