@@ -81,7 +81,7 @@ function Job() {
       });
     }
   };
-  console.log('profile image live url',`${ProfileImgApi}/${authdata?.user?.profile_image}`);
+  console.log('profile image live url',`https://www.kodukku.com/assets/${authdata?.user?.profile_image}`);
   return (
     <>
       <Toast ref={toast} />
@@ -124,7 +124,7 @@ function Job() {
                     src={
                       selectedImage1
                         ? `${ProfileImgApi}${selectedImage1}`
-                        : `www.kodukku.com/assets/${authdata?.user?.profile_image}` || bird
+                        : `https://www.kodukku.com/assets/${authdata?.user?.profile_image}` || bird
                     }
                     alt="Selected Image"
                     className="img-fluid"
