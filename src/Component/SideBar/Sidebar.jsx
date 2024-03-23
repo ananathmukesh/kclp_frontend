@@ -14,6 +14,7 @@ import { RiLoginCircleLine } from "react-icons/ri";
 import { BiLogOutCircle } from "react-icons/bi";
 import { useSelector } from "react-redux";
 import { IoCloseSharp } from "react-icons/io5";
+import { useNavigate } from 'react-router-dom';
 
 
 import "./Side.css";
@@ -30,17 +31,21 @@ const Sidebar = ({ setSidebarOpen , toggleDrawer }) => {
   const authdata = useSelector((state) => state.auth.user);
   const [isDropdownOpen, setDropdownOpen] = useState(false);
   const isSmallScreen = useMediaQuery("(max-width:768px)");
+  const navigate = useNavigate();
 
   const toggleDropdown = () => {
     setDropdownOpen(!isDropdownOpen);
   };
   const dispatch = useDispatch();
 
-  const logout = async() => {
+  const logout = async () => {
     dispatch(loginUser(null));
+   
+    await new Promise(resolve => setTimeout(resolve, 100));
     window.location.reload(true);
+    navigate('/');
   }
-
+  
   return (
     <div className="Sidebar p-4">
       <div
